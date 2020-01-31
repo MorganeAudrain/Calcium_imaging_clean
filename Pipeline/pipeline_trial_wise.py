@@ -101,7 +101,7 @@ c, dview, n_processes = cm.cluster.setup_cluster(backend='local',
                                                  single_thread=False)
 
 # %% Run for different session
-for session in [1, 2, 4]:
+for session in sessions:
     print(session)
     for parameters_cropping in parameters_cropping_list:
         for i in range(init_trial, end_trial):

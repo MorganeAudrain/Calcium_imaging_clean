@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25bccc4e-ed1b-4734-8005-829ad2bd59b4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/calcium_imaging_analysis-master.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/calcium_imaging_analysis-master.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Analysis_tools/figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/Analysis_tools/figures.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Analysis_tools/metrics.py" beforeDir="false" afterPath="$PROJECT_DIR$/Analysis_tools/metrics.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Analysis_tools/photobleaching.py" beforeDir="false" afterPath="$PROJECT_DIR$/Analysis_tools/photobleaching.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_trial_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_trial_wise.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -207,7 +200,7 @@
       <workItem from="1580309581724" duration="16000" />
       <workItem from="1580310510290" duration="451000" />
       <workItem from="1580314397943" duration="1207000" />
-      <workItem from="1580382620910" duration="30952000" />
+      <workItem from="1580382620910" duration="31231000" />
     </task>
     <task id="LOCAL-00001" summary="upgrade">
       <created>1580144691280</created>

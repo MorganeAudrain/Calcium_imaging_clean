@@ -12,21 +12,12 @@ import numpy as np
 import configuration
 import matplotlib.pyplot as plt
 from caiman.source_extraction.cnmf.cnmf import load_CNMF
-import mysql.connector
-import getpass
-
-database = mysql.connector.connect(
-  host="131.174.140.253",
-  user="morgane",
-  passwd=getpass.getpass(),
-    database="Calcium_imaging",
-    use_pure=True
-)
+from Database.database_connection import database
 
 mycursor = database.cursor()
 
 
-from steps.component_evaluation import run_component_evaluation as main_component_evaluation
+from Steps.component_evaluation import run_component_evaluation as main_component_evaluation
 
 
 #%%

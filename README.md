@@ -2,7 +2,7 @@ Radboud Memory Dynamics - Calcium Imaging Analysis
 ==============================
 This is the main calcium imaging analysis tool for the Radboud Memory Dynamics group. The project structure is based on Cookiecutter Data Science by Driven Data. The analysis tools are provided by CaImAn by Flatiron Institute. 
 
-This project is a joint work done by Melisa Maidana Capitan (m.maidanacapitan@donders.ru.nl), Casper ten Dam, Sebastian Tiesmeyer,  under the supervision of Francesco Battaglia. 
+This project is a joint work done by Melisa Maidana Capitan (m.maidanacapitan@donders.ru.nl), Casper ten Dam, Sebastian Tiesmeyer, Morgane Audrain  under the supervision of Francesco Battaglia. 
 
 Project Organization
 ------------

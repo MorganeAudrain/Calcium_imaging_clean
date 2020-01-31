@@ -11,7 +11,7 @@ Functions in this python file are related to plotting different stages of the ca
 Most of the save the result in the corresponding folder of the particular step.
 
 """
-
+# %% Importation
 
 import pylab as pl
 import caiman as cm
@@ -21,11 +21,11 @@ import numpy as np
 from caiman.motion_correction import high_pass_filter_space
 from caiman.source_extraction.cnmf.cnmf import load_CNMF
 
-import analysis.metrics as metrics
+import Analysis_tools.metrics as metrics
 import logging
 import os
 import datetime
-import analysis.analysis_files_manipulation as fm
+import Analysis_tools.analysis_files_manipulation as fm
 from caiman.source_extraction.cnmf.initialization import downscale
 from Database.database_connection import database
 
@@ -33,40 +33,30 @@ mycursor = database.cursor()
 
 
 def plot_movie_frame(decoded_file):
-
     """
-
     This function creates an image for visual inspection of cropping points.
-
     """
     m = cm.load(decoded_file)
-    pl.imshow(m[0,:,:],cmap='gray')
+    pl.imshow(m[0, :, :], cmap='gray')
     return
 
+
 def plot_movie_frame_cropped(cropped_file):
-
     """
-
     This function creates an image for visual inspections of cropped frame
-
     """
-
     m = cm.load(cropped_file)
-    pl.imshow(m[0,:,:],cmap='gray')
+    pl.imshow(m[0, :, :], cmap='gray')
     return
 
 
 def get_fig_gSig_filt_vals(cropped_file, gSig_filt_vals):
-
     """
-
     Plot original cropped frame and several versions of spatial filtering for comparison
     :param cropped_file
     :param gSig_filt_vals: array containing size of spatial filters that will be applied
     :return: figure
-
     """
-
     m = cm.load(cropped_file)
     temp = cm.motion_correction.bin_median(m)
     N = len(gSig_filt_vals)
@@ -86,13 +76,13 @@ def get_fig_gSig_filt_vals(cropped_file, gSig_filt_vals):
             axes.flatten()[i].axis('off')
 
     # Get output file paths
-    sql="SELECT mouse,session,trial,is_rest,cropping_v,decoding_v,motion_correction_v FROM Analysis WHERE cropping_main=%s "
-    val=[cropped_file,]
-    mycursor.execute(sql,val)
+    sql = "SELECT mouse,session,trial,is_rest,cropping_v,decoding_v,motion_correction_v FROM Analysis WHERE cropping_main=%s "
+    val = [cropped_file, ]
+    mycursor.execute(sql, val)
     myresult = mycursor.fetchall()
-    data=[]
+    data = []
     for x in myresult:
-        data+=x
+        data += x
 
     file_name = f"mouse_{data[0]}_session_{data[1]}_trial_{data[2]}.{data[3]}.v{data[5]}.{data[4]}.{data[6]}"
     data_dir = 'data/interim/motion_correction/'
@@ -102,49 +92,48 @@ def get_fig_gSig_filt_vals(cropped_file, gSig_filt_vals):
 
     return fig
 
-def plot_crispness_for_parameters(selected_rows = None):
-    '''
+
+def plot_crispness_for_parameters(selected_rows=None):
+    """
     This function plots crispness for all the selected rows motion correction states. The idea is to compare crispness results
-    :param selected_rows: analysis states for which crispness is required to be ploted
+    :param selected_rows: analysis states for which crispness is required to be plotted
     :return: figure that is also saved
-    '''
-    crispness_mean_original,crispness_corr_original, crispness_mean, crispness_corr = metrics.compare_crispness(selected_rows)
+    """
+    crispness_mean_original, crispness_corr_original, crispness_mean, crispness_corr = metrics.compare_crispness(
+        selected_rows)
     total_states_number = len(selected_rows)
 
-    fig, axes = plt.subplots(1,2)
+    fig, axes = plt.subplots(1, 2)
     axes[0].set_title('Summary image = Mean')
-    axes[0].plot(np.arange(1,total_states_number,1),crispness_mean_original)
-    axes[0].plot(np.arange(1,total_states_number,1),crispness_mean)
+    axes[0].plot(np.arange(1, total_states_number, 1), crispness_mean_original)
+    axes[0].plot(np.arange(1, total_states_number, 1), crispness_mean)
     axes[0].legend(('Original', 'Motion_corrected'))
     axes[0].set_ylabel('Crispness')
-    #axes[0].set_xlabel('#')
 
     axes[1].set_title('Summary image = Corr')
-    axes[1].plot(np.arange(1,total_states_number,1),crispness_corr_original)
-    axes[1].plot(np.arange(1,total_states_number,1),crispness_corr)
+    axes[1].plot(np.arange(1, total_states_number, 1), crispness_corr_original)
+    axes[1].plot(np.arange(1, total_states_number, 1), crispness_corr)
     axes[1].legend(('Original', 'Motion_corrected'))
     axes[1].set_ylabel('Crispness')
-    #axes[0].set_xlabel('#')
 
     # Get output file paths
     data_dir = 'data/interim/motion_correction/'
-    sql="SELECT mouse,session,trial,is_rest,cropping_v,decoding_v,motion_correction_v FROM Analysis WHERE motion_correction_main=%s "
-    val=[selected_rows,]
-    mycursor.execute(sql,val)
+    sql = "SELECT mouse,session,trial,is_rest,cropping_v,decoding_v,motion_correction_v FROM Analysis WHERE motion_correction_main=%s "
+    val = [selected_rows, ]
+    mycursor.execute(sql, val)
     myresult = mycursor.fetchall()
-    data=[]
+    data = []
     for x in myresult:
-        data+=x
-
+        data += x
     file_name = f"mouse_{data[0]}_session_{data[1]}_trial_{data[2]}.{data[3]}.v{data[5]}.{data[4]}.{data[6]}"
-
     output_meta_crispness = data_dir + f'meta/figures/crispness/{file_name}.png'
 
     fig.savefig(output_meta_crispness)
     return fig
 
+
 def plot_corr_pnr(mouse_row, parameters_source_extraction):
-    '''
+    """
     Plots the summary images correlation and pnr. Also the pointwise product between them (used in Caiman paper Zhou
     et al 2018)
     :param mouse_row:
@@ -152,7 +141,7 @@ def plot_corr_pnr(mouse_row, parameters_source_extraction):
     extraction. the relevant parameter here are min_corr and min_pnr because the source extraction algorithm is
     initialized (initial cell templates) in all values that surpasses that threshold
     :return:  figure
-    '''
+    """
 
     input_mmap_file_path = eval(mouse_row.loc['motion_correction_output'])['main']
 
@@ -195,32 +184,33 @@ def plot_corr_pnr(mouse_row, parameters_source_extraction):
     min_corr = round(parameters_source_extraction['min_corr'], 2)
     min_pnr = round(parameters_source_extraction['min_pnr'], 1)
     max_corr = round(cn_filter.max(), 2)
-    max_pnr= 20
+    max_pnr = 20
 
     # continuous
     cmap = 'viridis'
     fig, axes = plt.subplots(1, 3, sharex=True)
 
-    corr_fig = axes[0].imshow(np.clip(cn_filter,min_corr,max_corr), cmap=cmap)
+    corr_fig = axes[0].imshow(np.clip(cn_filter, min_corr, max_corr), cmap=cmap)
     axes[0].set_title('Correlation')
     fig.colorbar(corr_fig, ax=axes[0])
-    pnr_fig = axes[1].imshow(np.clip(pnr,min_pnr,max_pnr), cmap=cmap)
+    pnr_fig = axes[1].imshow(np.clip(pnr, min_pnr, max_pnr), cmap=cmap)
     axes[1].set_title('PNR')
     fig.colorbar(pnr_fig, ax=axes[1])
-    combined = cn_filter*pnr
+    combined = cn_filter * pnr
     max_combined = 10
     min_combined = np.min(combined)
-    corr_pnr_fig = axes[2].imshow(np.clip(cn_filter*pnr,min_combined,max_combined), cmap=cmap)
+    corr_pnr_fig = axes[2].imshow(np.clip(cn_filter * pnr, min_combined, max_combined), cmap=cmap)
     axes[2].set_title('Corr * PNR')
     fig.colorbar(corr_pnr_fig, ax=axes[2])
 
     fig_dir = 'data/interim/source_extraction/trial_wise/meta/'
-    fig_name= fig_dir + f'figures/corr_pnr/{db.create_file_name(3, mouse_row.name)}_gSig_{gSig}.png'
+    fig_name = fig_dir + f'figures/corr_pnr/{db.create_file_name(3, mouse_row.name)}_gSig_{gSig}.png'
     fig.savefig(fig_name)
 
     return fig
 
-def plot_corr_pnr_binary(mouse_row, corr_limits, pnr_limits, parameters_source_extraction, session_wise = False):
+
+def plot_corr_pnr_binary(mouse_row, corr_limits, pnr_limits, parameters_source_extraction, session_wise=False):
     '''
     Plot 2 matrix of binary selected and not selected seeds for different corr_min and pnr_min
     :param mouse_row: analysis states data
@@ -274,44 +264,42 @@ def plot_corr_pnr_binary(mouse_row, corr_limits, pnr_limits, parameters_source_e
     fig2, axes2 = plt.subplots(len(corr_limits), len(pnr_limits), sharex=True)
     fig3, axes3 = plt.subplots(len(corr_limits), len(pnr_limits), sharex=True)
 
-    ii=0
+    ii = 0
     for min_corr in corr_limits:
-        min_corr = round(min_corr,2)
-        jj=0
+        min_corr = round(min_corr, 2)
+        jj = 0
         for min_pnr in pnr_limits:
-            min_pnr = round(min_pnr,2)
+            min_pnr = round(min_pnr, 2)
             # binary
             limit = min_corr * min_pnr
-            axes1[ii, jj].imshow(combined_image> limit, cmap='binary')
+            axes1[ii, jj].imshow(combined_image > limit, cmap='binary')
             axes1[ii, jj].set_title(f'{min_corr}')
             axes1[ii, jj].set_ylabel(f'{min_pnr}')
             axes2[ii, jj].imshow(cn_filter > min_corr, cmap='binary')
             axes2[ii, jj].set_title(f'{min_corr}')
             axes2[ii, jj].set_ylabel(f'{min_pnr}')
-            axes3[ii, jj].imshow(pnr> min_pnr, cmap='binary')
+            axes3[ii, jj].imshow(pnr > min_pnr, cmap='binary')
             axes3[ii, jj].set_title(f'{min_corr}')
             axes3[ii, jj].set_ylabel(f'{min_pnr}')
-            jj=jj+1
-        ii=ii+1
+            jj = jj + 1
+        ii = ii + 1
 
     fig_dir = 'data/interim/source_extraction/trial_wise/meta/'
     if session_wise:
         fig_dir = 'data/interim/source_extraction/session_wise/meta/'
-    fig_name= fig_dir + f'figures/min_corr_pnr/{db.create_file_name(3, mouse_row.name)}_gSig_{gSig}_comb.png'
+    fig_name = fig_dir + f'figures/min_corr_pnr/{db.create_file_name(3, mouse_row.name)}_gSig_{gSig}_comb.png'
     fig1.savefig(fig_name)
 
-
-    fig_name= fig_dir + f'figures/min_corr_pnr/{db.create_file_name(3, mouse_row.name)}_gSig_{gSig}_corr.png'
+    fig_name = fig_dir + f'figures/min_corr_pnr/{db.create_file_name(3, mouse_row.name)}_gSig_{gSig}_corr.png'
     fig2.savefig(fig_name)
 
-    fig_name= fig_dir + f'figures/min_corr_pnr/{db.create_file_name(3, mouse_row.name)}_gSig_{gSig}_pnr.png'
+    fig_name = fig_dir + f'figures/min_corr_pnr/{db.create_file_name(3, mouse_row.name)}_gSig_{gSig}_pnr.png'
     fig3.savefig(fig_name)
 
-    return fig1,fig2,fig3
+    return fig1, fig2, fig3
 
 
-
-def plot_histogram(position, value , title = 'title', xlabel = 'x_label', ylabel = 'y_label'):
+def plot_histogram(position, value, title='title', xlabel='x_label', ylabel='y_label'):
     '''
     This function plots a histogram for...
     :param position: x marks
@@ -329,12 +317,12 @@ def plot_histogram(position, value , title = 'title', xlabel = 'x_label', ylabel
     axes.set_title(title)
     axes.set_xlabel(xlabel)
     axes.set_ylabel(ylabel)
-    axes.set_ylim(0, np.max(value/normalization) + 0.01 *np.max(value/normalization))
+    axes.set_ylim(0, np.max(value / normalization) + 0.01 * np.max(value / normalization))
 
     return fig
 
 
-def plot_multiple_contours(row, version = None , corr_array = None, pnr_array = None,session_wise = False):
+def plot_multiple_contours(row, version=None, corr_array=None, pnr_array=None, session_wise=False):
     '''
     Plots different versions of contour images that change the initialization parameters for source extraction.
     The idea is to see the impact of different seed selection in the final source extraction result.
@@ -352,9 +340,9 @@ def plot_multiple_contours(row, version = None , corr_array = None, pnr_array = 
 
     for ii in range(corr_array.shape[0]):
         for jj in range(pnr_array.shape[0]):
-            new_row = db.select(states_df,'component_evaluation',mouse =index[0],session = index[1],
-                                     trial = index[2], is_rest = index[3], cropping_v= index[5], motion_correction_v=index[6],
-                                     source_extraction_v = version[ii*len(pnr_array)+jj])
+            new_row = db.select(states_df, 'component_evaluation', mouse=index[0], session=index[1],
+                                trial=index[2], is_rest=index[3], cropping_v=index[5], motion_correction_v=index[6],
+                                source_extraction_v=version[ii * len(pnr_array) + jj])
             new_row = new_row.iloc[0]
 
             output = eval(new_row.loc['source_extraction_output'])
@@ -369,20 +357,20 @@ def plot_multiple_contours(row, version = None , corr_array = None, pnr_array = 
                 c['bbox'] = [np.floor(np.nanmin(v[:, 1])), np.ceil(np.nanmax(v[:, 1])),
                              np.floor(np.nanmin(v[:, 0])), np.ceil(np.nanmax(v[:, 0]))]
                 axes[ii, jj].plot(*v.T, c='w')
-            axes[ii, jj].set_title('min_corr = ' + f'{round(corr_array[ii],2)}')
-            axes[ii, jj].set_ylabel('min_pnr = ' + f'{round(pnr_array[jj],2)}')
-
+            axes[ii, jj].set_title('min_corr = ' + f'{round(corr_array[ii], 2)}')
+            axes[ii, jj].set_ylabel('min_pnr = ' + f'{round(pnr_array[jj], 2)}')
 
     fig_dir = 'data/interim/source_extraction/trial_wise/meta/figures/contours/'
     if session_wise:
         fig_dir = 'data/interim/source_extraction/session_wise/meta/figures/contours/'
-    fig_name = fig_dir + db.create_file_name(3, new_row.name)+'_corr_min' + f'{round(corr_array[0],1)}'+ '_pnr_min'+f'{round(pnr_array[0],1)}' + '_.png'
+    fig_name = fig_dir + db.create_file_name(3,
+                                             new_row.name) + '_corr_min' + f'{round(corr_array[0], 1)}' + '_pnr_min' + f'{round(pnr_array[0], 1)}' + '_.png'
     figure.savefig(fig_name)
 
     return figure
 
 
-def plot_session_contours(selected_rows, version = None , corr_array = None, pnr_array = None):
+def plot_session_contours(selected_rows, version=None, corr_array=None, pnr_array=None):
     '''
     Plots different versions of contour images that change the initialization parameters for source extraction.
     The idea is to see the impact of different seed selection in the final source extraction result.
@@ -403,9 +391,9 @@ def plot_session_contours(selected_rows, version = None , corr_array = None, pnr
             for i in range(len(selected_rows)):
                 row = selected_rows.iloc[i]
                 index = row.name
-                new_row = db.select(states_df,'component_evaluation',mouse =index[0],session = index[1],
-                                     trial = index[2], is_rest = index[3], cropping_v= index[5], motion_correction_v=index[6],
-                                     alignment_v= index[7], source_extraction_v = version[ii*len(pnr_array)+jj])
+                new_row = db.select(states_df, 'component_evaluation', mouse=index[0], session=index[1],
+                                    trial=index[2], is_rest=index[3], cropping_v=index[5], motion_correction_v=index[6],
+                                    alignment_v=index[7], source_extraction_v=version[ii * len(pnr_array) + jj])
                 new_row = new_row.iloc[0]
 
                 output = eval(new_row.loc['source_extraction_output'])
@@ -413,7 +401,7 @@ def plot_session_contours(selected_rows, version = None , corr_array = None, pnr
                 cnm = load_CNMF(db.get_file(cnm_file_path))
                 corr_path = output['meta']['corr']['main']
                 cn_filter = np.load(db.get_file(corr_path))
-                #axes[i].imshow(np.clip(cn_filter, min_corr, max_corr), cmap='viridis')
+                # axes[i].imshow(np.clip(cn_filter, min_corr, max_corr), cmap='viridis')
                 axes[i].imshow(cn_filter)
                 coordinates = cm.utils.visualization.get_contours(cnm.estimates.A, np.shape(cn_filter), 0.2, 'max')
                 for c in coordinates:
@@ -421,20 +409,21 @@ def plot_session_contours(selected_rows, version = None , corr_array = None, pnr
                     c['bbox'] = [np.floor(np.nanmin(v[:, 1])), np.ceil(np.nanmax(v[:, 1])),
                                  np.floor(np.nanmin(v[:, 0])), np.ceil(np.nanmax(v[:, 0]))]
                     axes[i].plot(*v.T, c='w')
-                axes[i].set_title('Trial = ' + f'{i+1}',fontsize=30)
-                axes[i].set_xlabel('#cells = ' + f'{cnm.estimates.A.shape[1]}',fontsize=30)
+                axes[i].set_title('Trial = ' + f'{i + 1}', fontsize=30)
+                axes[i].set_xlabel('#cells = ' + f'{cnm.estimates.A.shape[1]}', fontsize=30)
 
-            figure.suptitle('min_corr = ' + f'{round(corr_array[ii],2)}' + 'min_pnr = ' + f'{round(pnr_array[jj],2)}', fontsize=50)
+            figure.suptitle('min_corr = ' + f'{round(corr_array[ii], 2)}' + 'min_pnr = ' + f'{round(pnr_array[jj], 2)}',
+                            fontsize=50)
 
             fig_dir = 'data/interim/source_extraction/session_wise/meta/figures/contours/'
-            fig_name = fig_dir + db.create_file_name(3, new_row.name)+'_version_' + f'{version[ii*len(pnr_array)+jj]}'+'.png'
+            fig_name = fig_dir + db.create_file_name(3,
+                                                     new_row.name) + '_version_' + f'{version[ii * len(pnr_array) + jj]}' + '.png'
             figure.savefig(fig_name)
 
     return
 
 
-
-def plot_multiple_contours_session_wise(selected_rows, version = None , corr_array = None, pnr_array = None):
+def plot_multiple_contours_session_wise(selected_rows, version=None, corr_array=None, pnr_array=None):
     '''
     Plots different versions of contour images that change the initialization parameters for source extraction.
     The idea is to see the impact of different seed selection in the final source extraction result.
@@ -449,7 +438,7 @@ def plot_multiple_contours_session_wise(selected_rows, version = None , corr_arr
 
     figure, axes = plt.subplots(len(corr_array), len(pnr_array), figsize=(15, 15))
 
-    color = ['w','b','r','m','c']
+    color = ['w', 'b', 'r', 'm', 'c']
     for row in range(len(selected_rows)):
         mouse_row = selected_rows.iloc[row]
         index = mouse_row.name
@@ -471,20 +460,19 @@ def plot_multiple_contours_session_wise(selected_rows, version = None , corr_arr
                     v = c['coordinates']
                     c['bbox'] = [np.floor(np.nanmin(v[:, 1])), np.ceil(np.nanmax(v[:, 1])),
                                  np.floor(np.nanmin(v[:, 0])), np.ceil(np.nanmax(v[:, 0]))]
-                    axes[ii, jj].plot(*v.T, c = color[row])
-                axes[ii, jj].set_title('min_corr = ' + f'{round(corr_array[ii],2)}')
-                axes[ii, jj].set_ylabel('min_pnr = ' + f'{round(pnr_array[jj],2)}')
-
+                    axes[ii, jj].plot(*v.T, c=color[row])
+                axes[ii, jj].set_title('min_corr = ' + f'{round(corr_array[ii], 2)}')
+                axes[ii, jj].set_ylabel('min_pnr = ' + f'{round(pnr_array[jj], 2)}')
 
     fig_dir = 'data/interim/source_extraction/session_wise/meta/figures/contours/'
-    fig_name = fig_dir + db.create_file_name(3, new_row.name)+'_corr_min' + f'{round(corr_array[0],1)}'+ '_pnr_min'+f'{round(pnr_array[0],1)}' + '_all.png'
+    fig_name = fig_dir + db.create_file_name(3,
+                                             new_row.name) + '_corr_min' + f'{round(corr_array[0], 1)}' + '_pnr_min' + f'{round(pnr_array[0], 1)}' + '_all.png'
     figure.savefig(fig_name)
 
     return figure
 
 
 def plot_multiple_contours_session_wise_evaluated(selected_rows):
-
     ## IN DEVELOPMENT!!!!!!!
     '''
     Plots different versions of contour images that change the initialization parameters for source extraction.
@@ -501,9 +489,9 @@ def plot_multiple_contours_session_wise_evaluated(selected_rows):
         output = eval(mouse_row.loc['source_extraction_output'])
         corr_path = output['meta']['corr']['main']
         cn_filter = np.load(db.get_file(corr_path))
-        axes[0,row].imshow(cn_filter)
-        axes[1,row].imshow(cn_filter)
-        axes[2,row].imshow(cn_filter)
+        axes[0, row].imshow(cn_filter)
+        axes[1, row].imshow(cn_filter)
+        axes[2, row].imshow(cn_filter)
         output = eval(mouse_row.loc['source_extraction_output'])
         cnm_file_path = output['main']
         cnm = load_CNMF(db.get_file(cnm_file_path))
@@ -512,9 +500,9 @@ def plot_multiple_contours_session_wise_evaluated(selected_rows):
             v = c['coordinates']
             c['bbox'] = [np.floor(np.nanmin(v[:, 1])), np.ceil(np.nanmax(v[:, 1])),
                          np.floor(np.nanmin(v[:, 0])), np.ceil(np.nanmax(v[:, 0]))]
-            axes[0,row].plot(*v.T, c = 'w', linewidth=3)
-        axes[0,row].set_title('Trial = ' + f'{row}')
-        axes[0,row].set_ylabel('')
+            axes[0, row].plot(*v.T, c='w', linewidth=3)
+        axes[0, row].set_title('Trial = ' + f'{row}')
+        axes[0, row].set_ylabel('')
 
         output = eval(mouse_row.loc['component_evaluation_output'])
         cnm_file_path = output['main']
@@ -525,17 +513,16 @@ def plot_multiple_contours_session_wise_evaluated(selected_rows):
             v = c['coordinates']
             c['bbox'] = [np.floor(np.nanmin(v[:, 1])), np.ceil(np.nanmax(v[:, 1])),
                          np.floor(np.nanmin(v[:, 0])), np.ceil(np.nanmax(v[:, 0]))]
-            axes[1,row].plot(*v.T, c='b', linewidth=3)
+            axes[1, row].plot(*v.T, c='b', linewidth=3)
 
         idx_b = cnm.estimates.idx_components_bad
-        coordinates_b = cm.utils.visualization.get_contours(cnm.estimates.A[:,idx_b], np.shape(cn_filter), 0.2, 'max')
+        coordinates_b = cm.utils.visualization.get_contours(cnm.estimates.A[:, idx_b], np.shape(cn_filter), 0.2, 'max')
 
         for c in coordinates_b:
             v = c['coordinates']
             c['bbox'] = [np.floor(np.nanmin(v[:, 1])), np.ceil(np.nanmax(v[:, 1])),
                          np.floor(np.nanmin(v[:, 0])), np.ceil(np.nanmax(v[:, 0]))]
-            axes[2,row].plot(*v.T, c='r', linewidth=3)
-
+            axes[2, row].plot(*v.T, c='r', linewidth=3)
 
     source_extraction_parameters = eval(mouse_row['source_extraction_parameters'])
     corr_lim = source_extraction_parameters['min_corr']
@@ -546,13 +533,14 @@ def plot_multiple_contours_session_wise_evaluated(selected_rows):
     figure.suptitle('Corr = ' + f'{corr_lim}' + 'PNR = ' + f'{pnr_lim}' + 'PCC = ' + f'{pcc}' + 'SNR = ' + f'{SNR}',
                     fontsize=50)
     fig_dir = 'data/interim/component_evaluation/session_wise/meta/figures/contours/'
-    fig_name = fig_dir + db.create_file_name(3, index)+'_Corr = ' + f'{corr_lim}' + '_PNR = ' + f'{pnr_lim}' + '_PCC = ' + f'{pcc}' + '_SNR = ' + f'{SNR}' +'_.png'
+    fig_name = fig_dir + db.create_file_name(3,
+                                             index) + '_Corr = ' + f'{corr_lim}' + '_PNR = ' + f'{pnr_lim}' + '_PCC = ' + f'{pcc}' + '_SNR = ' + f'{SNR}' + '_.png'
     figure.savefig(fig_name)
 
     return figure
 
 
-def plot_traces_multiple(row, version = None , corr_array = None, pnr_array = None, session_wise = False):
+def plot_traces_multiple(row, version=None, corr_array=None, pnr_array=None, session_wise=False):
     '''
     Plots different versions of contour images that change the inicialization parameters for source extraccion.
     The idea is to see the impact of different seed selection in the final source extraction result.
@@ -572,7 +560,7 @@ def plot_traces_multiple(row, version = None , corr_array = None, pnr_array = No
             fig, ax = plt.subplots(1)
             new_row = db.select(states_df, 'component_evaluation', mouse=index[0], session=index[1],
                                 trial=index[2], is_rest=index[3], cropping_v=index[5], motion_correction_v=index[6],
-                                alignment_v= index[7], source_extraction_v=version[ii * len(pnr_array) + jj])
+                                alignment_v=index[7], source_extraction_v=version[ii * len(pnr_array) + jj])
             new_row = new_row.iloc[0]
 
             output = eval(new_row.loc['source_extraction_output'])
@@ -589,17 +577,17 @@ def plot_traces_multiple(row, version = None , corr_array = None, pnr_array = No
             ax.set_ylabel('activity')
             fig.set_size_inches([10., .3 * len(C)])
 
-
             fig_dir = 'data/interim/source_extraction/trial_wise/meta/figures/traces/'
             if session_wise:
                 fig_dir = 'data/interim/source_extraction/session_wise/meta/figures/traces/'
-            fig_name = fig_dir + db.create_file_name(3,new_row.name) + '_corr_min' + f'{round(corr_array[ii], 1)}' + '_pnr_min' + f'{round(pnr_array[jj], 1)}' + '_.png'
+            fig_name = fig_dir + db.create_file_name(3,
+                                                     new_row.name) + '_corr_min' + f'{round(corr_array[ii], 1)}' + '_pnr_min' + f'{round(pnr_array[jj], 1)}' + '_.png'
             fig.savefig(fig_name)
 
     return
 
 
-def plot_contours_evaluated(row = None):
+def plot_contours_evaluated(row=None):
     '''
     Plot contours for all cells, selected cells and non selected cells, and saves it in
     figure_path = '/data/interim/component_evaluation/trial_wise/meta/figures/contours/'
@@ -607,8 +595,8 @@ def plot_contours_evaluated(row = None):
     '''
     index = row.name
 
-    corr_min = round(eval(row['source_extraction_parameters'])['min_corr'],1)
-    pnr_min = round(eval(row['source_extraction_parameters'])['min_pnr'],1)
+    corr_min = round(eval(row['source_extraction_parameters'])['min_corr'], 1)
+    pnr_min = round(eval(row['source_extraction_parameters'])['min_pnr'], 1)
     r_min = eval(row['component_evaluation_parameters'])['rval_thr']
     snf_min = eval(row['component_evaluation_parameters'])['min_SNR']
 
@@ -616,7 +604,7 @@ def plot_contours_evaluated(row = None):
     corr_path = output_source_extraction['meta']['corr']['main']
     cn_filter = np.load(db.get_file(corr_path))
 
-    output_component_evaluation =  eval(row.loc['component_evaluation_output'])
+    output_component_evaluation = eval(row.loc['component_evaluation_output'])
     cnm_file_path = output_component_evaluation['main']
     cnm = load_CNMF(db.get_file(cnm_file_path))
     figure, axes = plt.subplots(1, 3)
@@ -631,10 +619,11 @@ def plot_contours_evaluated(row = None):
                      np.floor(np.nanmin(v[:, 0])), np.ceil(np.nanmax(v[:, 0]))]
         axes[0].plot(*v.T, c='w')
     axes[0].set_title('All components')
-    axes[0].set_ylabel('Corr=' + f'{corr_min}' + ', PNR = ' + f'{pnr_min}' + ', PCC = ' + f'{r_min}' + ', SNR =' + f'{snf_min}')
+    axes[0].set_ylabel(
+        'Corr=' + f'{corr_min}' + ', PNR = ' + f'{pnr_min}' + ', PCC = ' + f'{r_min}' + ', SNR =' + f'{snf_min}')
 
     idx = cnm.estimates.idx_components
-    coordinates = cm.utils.visualization.get_contours(cnm.estimates.A[:,idx], np.shape(cn_filter), 0.2, 'max')
+    coordinates = cm.utils.visualization.get_contours(cnm.estimates.A[:, idx], np.shape(cn_filter), 0.2, 'max')
 
     for c in coordinates:
         v = c['coordinates']
@@ -644,7 +633,7 @@ def plot_contours_evaluated(row = None):
     axes[1].set_title('Accepted components')
 
     idx_b = cnm.estimates.idx_components_bad
-    coordinates_b = cm.utils.visualization.get_contours(cnm.estimates.A[:,idx_b], np.shape(cn_filter), 0.2, 'max')
+    coordinates_b = cm.utils.visualization.get_contours(cnm.estimates.A[:, idx_b], np.shape(cn_filter), 0.2, 'max')
 
     for c in coordinates_b:
         v = c['coordinates']
@@ -654,9 +643,10 @@ def plot_contours_evaluated(row = None):
     axes[2].set_title('Rejected components')
 
     figure_path = '/home/sebastian/Documents/Melisa/calcium_imaging_analysis/data/interim/component_evaluation/trial_wise/meta/figures/contours/'
-    figure_name = figure_path + db.create_file_name(5,index) + '.png'
+    figure_name = figure_path + db.create_file_name(5, index) + '.png'
     figure.savefig(figure_name)
     return figure
+
 
 def plot_traces_multiple_evaluated(row):
     '''
@@ -666,8 +656,8 @@ def plot_traces_multiple_evaluated(row):
     :return: figure
     '''
 
-    corr_min = round(eval(row['source_extraction_parameters'])['min_corr'],1)
-    pnr_min = round(eval(row['source_extraction_parameters'])['min_pnr'],1)
+    corr_min = round(eval(row['source_extraction_parameters'])['min_corr'], 1)
+    pnr_min = round(eval(row['source_extraction_parameters'])['min_pnr'], 1)
     r_min = eval(row['component_evaluation_parameters'])['rval_thr']
     snf_min = eval(row['component_evaluation_parameters'])['min_SNR']
 
@@ -678,7 +668,7 @@ def plot_traces_multiple_evaluated(row):
     cnm = load_CNMF(db.get_file(cnm_file_path))
     C = cnm.estimates.C
 
-    output_component_evaluation =  eval(row.loc['component_evaluation_output'])
+    output_component_evaluation = eval(row.loc['component_evaluation_output'])
     cnm_file_path = output_component_evaluation['main']
     cnm_eval = load_CNMF(db.get_file(cnm_file_path))
     idx = cnm_eval.estimates.idx_components
@@ -692,26 +682,27 @@ def plot_traces_multiple_evaluated(row):
             color = 'red'
         else:
             color = 'blue'
-        ax.plot(C[i],color = color)
+        ax.plot(C[i], color=color)
     ax.set_xlabel('t [frames]')
     ax.set_yticks([])
     ax.set_ylabel('activity')
-    ax.set_title('Corr=' + f'{corr_min}' + ', PNR = ' + f'{pnr_min}' + ', PCC = ' + f'{r_min}' + ', SNR =' + f'{snf_min}')
+    ax.set_title(
+        'Corr=' + f'{corr_min}' + ', PNR = ' + f'{pnr_min}' + ', PCC = ' + f'{r_min}' + ', SNR =' + f'{snf_min}')
 
     fig.set_size_inches([10., .3 * len(C)])
 
     fig_dir = 'data/interim/component_evaluation/trial_wise/meta/figures/traces/'
-    fig_name = fig_dir + db.create_file_name(5,row.name) + '.png'
+    fig_name = fig_dir + db.create_file_name(5, row.name) + '.png'
     fig.savefig(fig_name)
 
     return
 
-def play_movie(estimates, imgs, q_max=99.75, q_min=2, gain_res=1,
-                   magnification=1, include_bck=True,
-                   frame_range=slice(None, None, None),
-                   bpx=0, thr=0., save_movie=False,
-                   movie_name='results_movie.avi'):
 
+def play_movie(estimates, imgs, q_max=99.75, q_min=2, gain_res=1,
+               magnification=1, include_bck=True,
+               frame_range=slice(None, None, None),
+               bpx=0, thr=0., save_movie=False,
+               movie_name='results_movie.avi'):
     dims = imgs.shape[1:]
     if 'movie' not in str(type(imgs)):
         imgs = cm.movie(imgs)
@@ -731,8 +722,10 @@ def play_movie(estimates, imgs, q_max=99.75, q_min=2, gain_res=1,
                           (ssub_B, ssub_B, 1)).reshape((-1, B.shape[-1]), order='F') -
                 downscale(estimates.b0.reshape(dims, order='F'),
                           (ssub_B, ssub_B)).reshape((-1, 1), order='F'))
-                    .reshape(((dims[0] - 1) // ssub_B + 1, (dims[1] - 1) // ssub_B + 1, -1), order='F'),
-                    ssub_B, 0), ssub_B, 1)[:dims[0], :dims[1]].reshape((-1, B.shape[-1]), order='F'))
+                                                             .reshape(
+                ((dims[0] - 1) // ssub_B + 1, (dims[1] - 1) // ssub_B + 1, -1), order='F'),
+                                                             ssub_B, 0), ssub_B, 1)[:dims[0], :dims[1]].reshape(
+                (-1, B.shape[-1]), order='F'))
         B = B.reshape(dims + (-1,), order='F').transpose([2, 0, 1])
     elif estimates.b is not None and estimates.f is not None:
         B = estimates.b.dot(estimates.f[:, frame_range])
@@ -749,16 +742,16 @@ def play_movie(estimates, imgs, q_max=99.75, q_min=2, gain_res=1,
     Y_res = imgs[frame_range] - Y_rec - B
 
     mov = cm.concatenate((imgs[frame_range] - (not include_bck) * B, Y_rec,
-                            Y_rec + include_bck * B, Y_res * gain_res), axis=2)
+                          Y_rec + include_bck * B, Y_res * gain_res), axis=2)
 
     if thr > 0:
         if save_movie:
             import cv2
-            #fourcc = cv2.VideoWriter_fourcc('8', 'B', 'P', 'S')
-            #fourcc = cv2.VideoWriter_fourcc(*'XVID')
+            # fourcc = cv2.VideoWriter_fourcc('8', 'B', 'P', 'S')
+            # fourcc = cv2.VideoWriter_fourcc(*'XVID')
             fourcc = cv2.VideoWriter_fourcc(*'MP4V')
             out = cv2.VideoWriter(movie_name, fourcc, 30.0,
-                                  tuple([int(magnification*s) for s in mov.shape[1:][::-1]]))
+                                  tuple([int(magnification * s) for s in mov.shape[1:][::-1]]))
         contours = []
         for a in estimates.A.T.toarray():
             a = a.reshape(dims, order='F')
@@ -795,6 +788,6 @@ def play_movie(estimates, imgs, q_max=99.75, q_min=2, gain_res=1,
         cv2.destroyAllWindows()
     else:
         mov.play(q_min=q_min, q_max=q_max, magnification=magnification,
-                     save_movie=save_movie, movie_name=movie_name)
+                 save_movie=save_movie, movie_name=movie_name)
 
     return

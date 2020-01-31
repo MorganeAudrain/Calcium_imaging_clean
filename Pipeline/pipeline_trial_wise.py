@@ -41,10 +41,6 @@ for x in myresult:
 # mouse_row = main_decoding(mouse_row)
 plot_movie_frame(mouse_row)
 
-# %% Select cropping parameters (changer a voir avec ma technique de crooping )
-parameters_cropping['segmentation'] = True
-parameters_cropping_list = cropping_segmentation(parameters_cropping)
-
 # %% Parameters
 parameters_motion_correction = {'motion_correct': True, 'pw_rigid': True, 'save_movie_rig': False,
                                 'gSig_filt': (5, 5), 'max_shifts': (25, 25), 'niter_rig': 1,
@@ -119,150 +115,31 @@ for session in [1, 2, 4]:
             cropped_file, cropping_version = main_cropping(mouse_row, parameters_cropping)
 
         # Motion correction
-        # (refer to parameter_setting_motion_correction)
-        selected_rows = db.select(states_df, 'motion_correction', mouse=mouse_number, session=session, is_rest=is_rest,
-                                  decoding_v=decoding_version,
-                                  cropping_v=cropping_version,
-                                  motion_correction_v=0)
-        for i in range(init_trial, end_trial):
-            print(i)
-            selection = selected_rows.query('(trial ==' + f'{i}' + ')')
-            for j in range(len(selection)):
-                mouse_row = selection.iloc[j]
-                mouse_row = main_motion_correction(mouse_row, parameters_motion_correction, dview)
-                states_df = db.append_to_or_merge_with_states_df(states_df, mouse_row)
-                db.save_analysis_states_database(states_df, analysis_states_database_path, backup_path)
-
-        motion_correction_version = mouse_row.name[6]
-        # alignment
-        selected_rows = db.select(states_df, 'alignment', mouse=mouse_number, session=session, is_rest=is_rest,
-                                  decoding_v=decoding_version,
-                                  cropping_v=cropping_version,
-                                  motion_correction_v=motion_correction_version,
-                                  alignment_v=0)
-
-        selected_rows = main_alignment(selected_rows, parameters_alignment, dview)
-        for i in range(len(selected_rows)):
-            new_index = db.replace_at_index1(selected_rows.iloc[i].name, 4 + 3, 1)
-            row_new = selected_rows.iloc[i].copy()
-            row_new.name = new_index
-            states_df = db.append_to_or_merge_with_states_df(states_df, row_new)
-            db.save_analysis_states_database(states_df, analysis_states_database_path, backup_path)
-        alignment_version = row_new.name[7]
-
-        # Run equalization
-        # selected_rows = db.select(states_df,'alignment',mouse = mouse_number,session=session, trial = 1, is_rest=0,
-        #                          decoding_v= decoding_version,
-        #                          cropping_v = cropping_version,
-        #                          motion_correction_v=motion_correction_version,
-        #                         alignment_v=alignment_version)
-        # states_df = main_equalizing(selected_rows, states_df, parameters_equalizer, session_wise= True)
-        # db.save_analysis_states_database(states_df, analysis_states_database_path, backup_path)
+        motion_correct_file, motion_correction_version = main_motion_correction(cropped_file,
+                                                                                parameters_motion_correction, dview)
+        # Alignment
+        aligned_file,alignment_version = main_alignment(motion_correct_file, parameters_alignment, dview)
 
         # SOURCE EXTRACTION IN INDIVIDUAL FILES
-        selected_rows = db.select(states_df, 'source_extraction', mouse=mouse_number, session=session, is_rest=is_rest,
-                                  decoding_v=decoding_version,
-                                  cropping_v=cropping_version,
-                                  motion_correction_v=motion_correction_version,
-                                  alignment_v=alignment_version,
-                                  source_extraction_v=0)
-
-        for i in range(init_trial, end_trial):
-            print(i)
-            selection = selected_rows.query('(trial ==' + f'{i}' + ')')
-            for j in range(len(selection)):
-                mouse_row = selection.iloc[j]
-                mouse_row_new = main_source_extraction(mouse_row, parameters_source_extraction, dview)
-                states_df = db.append_to_or_merge_with_states_df(states_df, mouse_row_new)
-                db.save_analysis_states_database(states_df, path=analysis_states_database_path, backup_path=backup_path)
-
-        source_extraction_version = mouse_row_new.name[8]
+        source_extracted_file, source_extraction_version = main_source_extraction(aligned_file,
+                                                                                  parameters_source_extraction, dview)
 
 # %% run separately component evaluation
 
-# evaluation
+#%% Evaluation
 decoding_version = 1
 for session in [2, 4]:
     print(session)
-    # Run decoding for group of data tha have the same cropping parameters (same mouse)
-    selection = selected_rows.query('(session ==' + f'{session}' + ')')
     for cropping_version in [1, 2, 3, 4]:
-        print(cropping_version)
-        selected_rows = db.select(states_df, 'component_evaluation', mouse=mouse_number, session=session,
-                                  is_rest=is_rest,
-                                  decoding_v=decoding_version,
-                                  cropping_v=cropping_version,
-                                  motion_correction_v=100,
-                                  alignment_v=0,
-                                  source_extraction_v=1)
         for i in range(init_trial, end_trial):
+            print(cropping_version)
             print(i)
-            selection = selected_rows.query('(trial ==' + f'{i}' + ')')
-            for j in range(len(selection)):
-                mouse_row = selection.iloc[j]
-                mouse_row_new = main_component_evaluation(mouse_row, parameters_component_evaluation)
-                states_df = db.append_to_or_merge_with_states_df(states_df, mouse_row_new)
-                db.save_analysis_states_database(states_df, path=analysis_states_database_path, backup_path=backup_path)
+            sql = "SELECT source_extraction_main FROM Analysis WHERE mouse=%s AND session= %s AND is_rest=%s AND decoding_v=%s AND cropping_v=%s AND motion_correction_v=%s AND alignment_v=%s AND source_extraction_v=%s AND alignment_v=%s AND trial=%s"
+            val = [mouse_number, session, is_rest, decoding_v, cropping_version, 100, 1, 0,i]
+            mycursor.execute(sql, val)
+            var = mycursor.fetchall()
+            for x in var:
+                mouse_row = x
+        mouse_row_new = main_component_evaluation(mouse_row, parameters_component_evaluation)
 
-##########
 
-
-decoding_version = 1
-session = 1
-cropping_version = 1
-alignment_version = 1
-
-for session in [1, 2, 4]:
-    print(session)
-    # Run decoding for group of data tha have the same cropping parameters (same mouse)
-    selection = selected_rows.query('(session ==' + f'{session}' + ')')
-    # Run cropping for the already decoded group
-    for cropping_version in [1, 2, 3, 4]:
-        selected_rows = db.select(states_df, 'motion_correction', mouse=mouse_number, session=session, is_rest=is_rest,
-                                  decoding_v=decoding_version,
-                                  cropping_v=cropping_version,
-                                  motion_correction_v=0)
-        for i in range(init_trial, end_trial):
-            print(i)
-            selection = selected_rows.query('(trial ==' + f'{i}' + ')')
-            for j in range(len(selection)):
-                mouse_row = selection.iloc[j]
-                mouse_row = main_motion_correction(mouse_row, parameters_motion_correction, dview)
-                states_df = db.append_to_or_merge_with_states_df(states_df, mouse_row)
-                db.save_analysis_states_database(states_df, analysis_states_database_path, backup_path)
-                print(mouse_row.name)
-        # Run alignment
-        alignment_version = 0
-        selected_rows = db.select(states_df, 'alignment', mouse=mouse_number, session=session,
-                                  decoding_v=decoding_version,
-                                  cropping_v=cropping_version,
-                                  motion_correction_v=1,
-                                  alignment_v=alignment_version)
-        new_selected_rows = main_alignment(selected_rows, parameters_alignment, dview)
-        for i in range(len(new_selected_rows)):
-            new_index = db.replace_at_index1(new_selected_rows.iloc[i].name, 4 + 3, 1)
-            row_new = selected_rows.iloc[i].copy()
-            row_new.name = new_index
-            new_index = db.replace_at_index1(selected_rows.iloc[i].name, 4 + 2, 200)
-            row_new.name = new_index
-            states_df = db.append_to_or_merge_with_states_df(states_df, row_new)
-            db.save_analysis_states_database(states_df, analysis_states_database_path, backup_path)
-        alignment_version = row_new.name[7]
-        # mouse_row_new = main_equalizing(selected_rows, states_df, parameters_equalizer, session_wise= True)
-        # states_df = db.append_to_or_merge_with_states_df(states_df, mouse_row_new)
-        # db.save_analysis_states_database(states_df, path=a        #SOURCE EXTRACTION IN ALIGNED (AND EQUALIZED FILES)
-        selected_rows = db.select(states_df, 'source_extraction', mouse=mouse_number, session=session, is_rest=is_rest,
-                                  decoding_v=decoding_version,
-                                  cropping_v=cropping_version,
-                                  motion_correction_v=100,
-                                  alignment_v=0,
-                                  source_extraction_v=0)
-        for i in range(init_trial, end_trial):
-            print(i)
-            selection = selected_rows.query('(trial ==' + f'{i}' + ')')
-            for j in range(len(selection)):
-                mouse_row = selection.iloc[j]
-                mouse_row_new = main_source_extraction(mouse_row, parameters_source_extraction, dview)
-                states_df = db.append_to_or_merge_with_states_df(states_df, mouse_row_new)
-                db.save_analysis_states_database(states_df, path=analysis_states_database_path, backup_path=backup_path)
-        source_extraction_version = mouse_row_new.name[8]

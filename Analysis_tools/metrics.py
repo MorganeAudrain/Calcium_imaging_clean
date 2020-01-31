@@ -21,7 +21,7 @@ import pylab as pl
 from caiman.motion_correction import MotionCorrect
 
 
-import analysis.analysis_files_manipulation as fm
+import Analysis_tools.analysis_files_manipulation as fm
 
 import scipy
 import cv2

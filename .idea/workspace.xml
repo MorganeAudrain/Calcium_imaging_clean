@@ -2,15 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25bccc4e-ed1b-4734-8005-829ad2bd59b4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/calcium_imaging_analysis-master.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/calcium_imaging_analysis-master.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Analysis_tools/corr_pnr_contours_activity.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Parameters_settings/parameters_setting.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Analysis_tools/figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/Analysis_tools/figures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Analysis_tools/metrics.py" beforeDir="false" afterPath="$PROJECT_DIR$/Analysis_tools/metrics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Analysis_tools/photobleaching.py" beforeDir="false" afterPath="$PROJECT_DIR$/Analysis_tools/photobleaching.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_trial_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_trial_wise.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/cropping.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/cropping.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/motion_correction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/motion_correction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/movie.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/source_extraction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/source_extraction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,7 +207,7 @@
       <workItem from="1580309581724" duration="16000" />
       <workItem from="1580310510290" duration="451000" />
       <workItem from="1580314397943" duration="1207000" />
-      <workItem from="1580382620910" duration="26609000" />
+      <workItem from="1580382620910" duration="30952000" />
     </task>
     <task id="LOCAL-00001" summary="upgrade">
       <created>1580144691280</created>
@@ -275,10 +274,10 @@
     </state>
     <state width="2514" height="413" key="GridCell.Tab.0.right/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1576856273027" />
     <state width="2447" height="405" key="GridCell.Tab.0.right/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1575889719270" />
-    <state x="3167" y="208" key="SettingsEditor" timestamp="1580469588717">
+    <state x="3167" y="208" key="SettingsEditor" timestamp="1580485779935">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="3167" y="208" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580469588717" />
+    <state x="3167" y="208" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580485779935" />
     <state x="3125" y="336" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580206622668" />
     <state x="969" y="560" key="com.intellij.ide.util.TipDialog" timestamp="1575889101373">
       <screen x="67" y="27" width="2493" height="1413" />
@@ -296,11 +295,6 @@
           <url>file://$PROJECT_DIR$/parameter_setting/parameter_setting_source_extraction_session_wise.py</url>
           <line>6</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Analysis_tools/figures.py</url>
-          <line>15</line>
-          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

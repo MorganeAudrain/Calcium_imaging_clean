@@ -1,61 +1,35 @@
 # -*- coding: utf-8 -*-
 # -*- coding: utf-8 -*-
 """
-@author: Sebastian,Casper,Melisa
+@author: Sebastian,Casper,Melisa,Morgane
 """
 
-
-import datetime
 import caiman as cm
 import psutil
 from caiman.source_extraction.cnmf.cnmf import load_CNMF
 import logging
 import os
 
-import src.data_base_manipulation as db
+from Database.database_connection import database
 
-def run_component_evaluation(row, parameters, set_version = None, session_wise = False, equalization = False):
+mycursor = database.cursor()
 
-    step_index = 5
-    row_local = row.copy()
-    row_local.loc['component_evaluation_parameters'] = str(parameters)
-    row_local = db.set_version_analysis('component_evaluation',row_local,session_wise)
-    index = row_local.name
+def run_component_evaluation(file, parameters, set_version = None, session_wise = False, equalization = False):
 
-    motion_correction_output = eval(row_local.loc['motion_correction_output'])
-    if session_wise:
-        motion_correction_output = eval(row_local.loc['alignment_output'])
-    if equalization:
-        motion_correction_output = eval(row_local['alignment_output'])['equalizing_output']['main']
-
-    source_extraction_output = eval(row_local.loc['source_extraction_output'])
-    source_extraction_parameters =  eval(row_local.loc['source_extraction_parameters'])
-    input_hdf5_file_path = source_extraction_output['main']
-    input_mmap_file_path = motion_correction_output['main']
-    data_dir = os.environ['DATA_DIR'] + 'data/interim/component_evaluation/session_wise/' if source_extraction_parameters['session_wise'] else os.environ['DATA_DIR'] + 'data/interim/component_evaluation/trial_wise/'
-    file_name = db.create_file_name(step_index, index)
+    sql = "SELECT source_extraction_hdf5_file,source_extraction_mmap_file,source_extraction_session_wise,source_extraction_trial_wise,mouse,session,trial,is_rest,cropping_v,decoding_v,motion_correction_v,source_extraction_v,equalization_v,alignment_v,component_evaluation_v FROM Analysis WHERE motion_correction_main=%s"
+    val = [file,]
+    mycursor.execute(sql, val)
+    var = mycursor.fetchall()
+    data=[]
+    for x in var:
+        data += x
+    input_hdf5_file_path = data[0]
+    input_mmap_file_path = data[1]
+    data_dir = os.environ['DATA_DIR'] + 'data/interim/component_evaluation/session_wise/' if data[2] else os.environ['DATA_DIR'] + 'data/interim/component_evaluation/trial_wise/'
+    file_name = f"mouse_{data[4]}_session_{data[5]}_trial_{data[6]}.{data[7]}.v{data[8]}.{data[9]}.{data[10]}.{data[11]}.{data[12]}.{data[13]}"
     output_file_path = data_dir + f'main/{file_name}.hdf5'
-    
-    if set_version == None:
-        # If the output version is not specified, determine it automatically.
-        version = index[4 + step_index] + 1
-    index = list(index)
-    index[4 + step_index] = version
-    index = tuple(index)    
+    component_evaluation_v= data[14]
 
-    # Create a dictionary with parameters
-    output = {
-            'main': output_file_path,
-            'meta':{
-                'analysis' : {
-                        'analyst' : os.environ['ANALYST'],
-                        'date' : datetime.datetime.today().strftime("%m-%d-%Y"),
-                        'time' : datetime.datetime.today().strftime("%H:%M:%S"),
-                        },
-                    'duration': {}
-                    }
-                }
-    
     # Load CNMF object
     cnm = load_CNMF(input_hdf5_file_path)
     
@@ -63,9 +37,8 @@ def run_component_evaluation(row, parameters, set_version = None, session_wise =
     Yr, dims, T = cm.load_memmap(input_mmap_file_path)
     images = Yr.T.reshape((T,) + dims, order='F') 
 
-    # Set the parmeters
+    # Set the parameters
     cnm.params.set('quality', parameters)
-
 
     # Stop the cluster if one exists
     n_processes = psutil.cpu_count()
@@ -89,10 +62,11 @@ def run_component_evaluation(row, parameters, set_version = None, session_wise =
 
     # Save CNMF object
     cnm.save(output_file_path)
-    
-    # Write necessary variables to the trial index and row
-    row_local.loc['component_evaluation_parameters'] = str(parameters)
-    row_local.loc['component_evaluation_output'] = str(output)
-    
-    
-    return row_local
+    component_evaluation_v +=1
+
+    sql2 = "UPDATE Analysis SET component_evaluation_main=%s,component_evaluation_v=%s WHERE motion_correction_main=%s  "
+    val2 = [output_file_path, component_evaluation_v]
+    mycursor.execute(sql2,val2)
+    database.commit()
+
+    return output_file_path

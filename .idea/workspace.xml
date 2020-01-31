@@ -2,16 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25bccc4e-ed1b-4734-8005-829ad2bd59b4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/calcium_imaging_analysis-master.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/calcium_imaging_analysis-master.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/database_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/Database/database_connection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Parameters_settings/parameters_setting_motion_correction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Parameters_settings/parameters_setting_motion_correction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/figures.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration.py" beforeDir="false" afterPath="$PROJECT_DIR$/configuration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/steps/alignment.py" beforeDir="false" afterPath="$PROJECT_DIR$/steps/alignment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/steps/alignment2.py" beforeDir="false" afterPath="$PROJECT_DIR$/steps/alignment2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/steps/component_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/steps/component_evaluation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/steps/equalizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/steps/equalizer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/steps/source_extraction.py" beforeDir="false" afterPath="$PROJECT_DIR$/steps/source_extraction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Database_orga.py" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Database_orga.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_trial_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_trial_wise.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/alignment2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/component_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/component_evaluation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -209,7 +207,7 @@
       <workItem from="1580309581724" duration="16000" />
       <workItem from="1580310510290" duration="451000" />
       <workItem from="1580314397943" duration="1207000" />
-      <workItem from="1580382620910" duration="3839000" />
+      <workItem from="1580382620910" duration="21867000" />
     </task>
     <task id="LOCAL-00001" summary="upgrade">
       <created>1580144691280</created>
@@ -251,10 +249,10 @@
     </state>
     <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1579691735948" />
     <state x="3315" y="170" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580144878839" />
-    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl" timestamp="1580388597882">
+    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl" timestamp="1580469580306">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580388597882" />
+    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580469580306" />
     <state x="1781" y="448" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580206521810" />
     <state width="2514" height="413" key="GridCell.Tab.0.bottom" timestamp="1576856273027">
       <screen x="2560" y="0" width="2560" height="1440" />
@@ -276,10 +274,10 @@
     </state>
     <state width="2514" height="413" key="GridCell.Tab.0.right/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1576856273027" />
     <state width="2447" height="405" key="GridCell.Tab.0.right/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1575889719270" />
-    <state x="3167" y="208" key="SettingsEditor" timestamp="1580225194311">
+    <state x="3167" y="208" key="SettingsEditor" timestamp="1580469588717">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="3167" y="208" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580225194311" />
+    <state x="3167" y="208" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580469588717" />
     <state x="3125" y="336" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580206622668" />
     <state x="969" y="560" key="com.intellij.ide.util.TipDialog" timestamp="1575889101373">
       <screen x="67" y="27" width="2493" height="1413" />
@@ -289,6 +287,17 @@
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
     <state x="962" y="451" width="700" height="530" key="recent.locations.popup/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1575626228737" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/parameter_setting/parameter_setting_source_extraction_session_wise.py</url>
+          <line>6</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/calcium_imaging_analysis_master$calcium_imaging_analysis_master.coverage" NAME="calcium_imaging_analysis-master Coverage Results" MODIFIED="1576840246354" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.." />

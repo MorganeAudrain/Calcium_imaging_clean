@@ -40,7 +40,7 @@ for x in myresult:
 plot_movie_frame(mouse_row)
 
 
-#%% Parameters for different steps
+#%% Parameters for different steps (need to change that)
 parameters_motion_correction = {'motion_correct': True, 'pw_rigid': True, 'save_movie_rig': False,
                                 'gSig_filt': (5, 5), 'max_shifts': (25, 25), 'niter_rig': 1,
                                 'strides': (48, 48),

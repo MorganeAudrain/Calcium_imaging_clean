@@ -31,7 +31,6 @@ def run_cropper(input_path):
     data=[]
     for x in myresult:
         data += x
-
     file_name = f"mouse_{data[0]}_session_{data[1]}_trial_{data[2]}.{data[3]}.v{data[5]}.{data[4]}"
     output_tif_file_path = f"data/interim/cropping/main/{file_name}.tif"
 

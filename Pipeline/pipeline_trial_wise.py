@@ -15,7 +15,7 @@ from Steps.equalizer import run_equalizer as main_equalizing
 from Steps.cropping import cropping_segmentation
 from Analysis_tools.figures import plot_movie_frame
 from Steps.motion_correction import run_motion_correction as main_motion_correction
-from Steps.alignment2 import run_alignment as main_alignment
+from Steps.alignment import run_alignment as main_alignment
 from Steps.source_extraction import run_source_extraction as main_source_extraction
 from Steps.component_evaluation import run_component_evaluation as main_component_evaluation
 from Database.database_connection import database
@@ -45,7 +45,7 @@ plot_movie_frame(mouse_row)
 parameters_cropping['segmentation'] = True
 parameters_cropping_list = cropping_segmentation(parameters_cropping)
 
-#%% Parameters
+# %% Parameters
 parameters_motion_correction = {'motion_correct': True, 'pw_rigid': True, 'save_movie_rig': False,
                                 'gSig_filt': (5, 5), 'max_shifts': (25, 25), 'niter_rig': 1,
                                 'strides': (48, 48),
@@ -99,43 +99,26 @@ parameters_component_evaluation = {'min_SNR': 4,
 
 n_processes = psutil.cpu_count()
 
-
-#%% Start a new cluster
+# %% Start a new cluster
 c, dview, n_processes = cm.cluster.setup_cluster(backend='local',
                                                  n_processes=n_processes,
                                                  single_thread=False)
 
+# %% Run for different session
 for session in [1, 2, 4]:
     print(session)
-    # Run decoding for group of data tha have the same cropping parameters (same mouse)
-    selection = selected_rows.query('(session ==' + f'{session}' + ')')
-    # for i in range(init_trial,end_trial):
-    #    print(i)
-    #    selection = selected_rows.query('(trial ==' + f'{i}' + ')')
-    #    for j in range(len(selection)):
-    #        mouse_row = selection.iloc[j]
-    #        mouse_row = main_decoding(mouse_row)
-    #        states_df = db.append_to_or_merge_with_states_df(states_df, mouse_row)
-    #        db.save_analysis_states_database(states_df, analysis_states_database_path, backup_path)
-
-    decoding_version = mouse_row.name[4]
-    # Run cropping for the already decoded group
-
     for parameters_cropping in parameters_cropping_list:
-        selected_rows = db.select(states_df, 'cropping', mouse=mouse_number, session=session, is_rest=is_rest,
-                                  decoding_v=decoding_version,
-                                  cropping_v=0)
-
         for i in range(init_trial, end_trial):
-            selection = selected_rows.query('(trial ==' + f'{i}' + ')')
-            for j in range(len(selection)):
-                mouse_row = selection.iloc[j]
-                mouse_row = main_cropping(mouse_row, parameters_cropping)
-                states_df = db.append_to_or_merge_with_states_df(states_df, mouse_row)
-                db.save_analysis_states_database(states_df, analysis_states_database_path, backup_path)
+            # Cropping
+            sql = "SELECT decoding_main FROM Analysis WHERE mouse=%s AND session= %s AND is_rest=%s AND decoding_v=%s AND trial=%s"
+            val = [mouse_number, session, is_rest, decoding_v, i]
+            mycursor.execute(sql, val)
+            var = mycursor.fetchall()
+            for x in var:
+                mouse_row = x
+            cropped_file, cropping_version = main_cropping(mouse_row, parameters_cropping)
 
-        cropping_version = mouse_row.name[5]  # set the cropping version to the one currently used
-        # Select rows to be motion corrected using current version of cropping, define motion correction parameters
+        # Motion correction
         # (refer to parameter_setting_motion_correction)
         selected_rows = db.select(states_df, 'motion_correction', mouse=mouse_number, session=session, is_rest=is_rest,
                                   decoding_v=decoding_version,

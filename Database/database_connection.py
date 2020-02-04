@@ -7,15 +7,5 @@
 Connection with the SQL database
 
 """
-import mysql.connector
-import getpass
-
-database = mysql.connector.connect(
-  host="131.174.140.253",
-  user="morgane",
-  passwd=getpass.getpass(),
-    database="Calcium_imaging",
-    use_pure=True
-)
-
-
+import sqlite3
+database = sqlite3.connect('Calcium_imaging.db')

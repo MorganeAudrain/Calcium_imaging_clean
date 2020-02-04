@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25bccc4e-ed1b-4734-8005-829ad2bd59b4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Steps/run_steps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Calcium_imaging.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Database/Database_orga.py" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Database_orga.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/create_database.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Database/database_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/Database/database_connection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_parameters_settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_parameters_settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/component_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/component_evaluation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/motion_correction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/motion_correction.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,13 +41,16 @@
   </component>
   <component name="JupyterTrust" id="b9363d2d-0aef-4b88-a288-6fb70d2edfaf" />
   <component name="ProjectId" id="1UbUrNqHDbiDKwj41RFTfUmsI3h" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -209,7 +212,8 @@
       <workItem from="1580382620910" duration="31231000" />
       <workItem from="1580490464011" duration="599000" />
       <workItem from="1580720999684" duration="2003000" />
-      <workItem from="1580723820851" duration="19862000" />
+      <workItem from="1580723820851" duration="21731000" />
+      <workItem from="1580837170547" duration="3150000" />
     </task>
     <task id="LOCAL-00001" summary="upgrade">
       <created>1580144691280</created>
@@ -232,6 +236,7 @@
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="upgrade" />
     <MESSAGE value="upgrade v2" />
     <option name="LAST_COMMIT_MESSAGE" value="upgrade v2" />
@@ -255,10 +260,10 @@
     </state>
     <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1579691735948" />
     <state x="3315" y="170" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580144878839" />
-    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl" timestamp="1580821963395">
+    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl" timestamp="1580834754367">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580821963395" />
+    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580834754367" />
     <state x="1781" y="448" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580206521810" />
     <state width="2514" height="413" key="GridCell.Tab.0.bottom" timestamp="1576856273027">
       <screen x="2560" y="0" width="2560" height="1440" />
@@ -280,10 +285,10 @@
     </state>
     <state width="2514" height="413" key="GridCell.Tab.0.right/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1576856273027" />
     <state width="2447" height="405" key="GridCell.Tab.0.right/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1575889719270" />
-    <state x="3167" y="208" key="SettingsEditor" timestamp="1580821978969">
+    <state x="3167" y="208" key="SettingsEditor" timestamp="1580834721775">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="3167" y="208" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580821978969" />
+    <state x="3167" y="208" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580834721775" />
     <state x="3125" y="336" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580206622668" />
     <state x="969" y="560" key="com.intellij.ide.util.TipDialog" timestamp="1575889101373">
       <screen x="67" y="27" width="2493" height="1413" />

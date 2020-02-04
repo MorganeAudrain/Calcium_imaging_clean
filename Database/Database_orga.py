@@ -1,27 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Fri Dec 13 11:36 2019
-
 @author: Morgane
 
 Create a new database for Calcium imaging data in SQL
 
 """
-import mysql.connector
-import getpass
-import sys
 
-# connection to SQL
-
-database = mysql.connector.connect(
-  host="131.174.140.253",
-  user="morgane",
-  passwd=getpass.getpass(),
-    database="Calcium_imaging",
-    use_pure=True
-)
+import sqlite3
+database = sqlite3.connect('Calcium_imaging.db')
 mycursor = database.cursor()
+
+
+
 
 #%% Create table
 
@@ -90,10 +81,16 @@ database.commit()
 
 print(mycursor.rowcount, "records(s) affected")
 
-#%% convert the old database into the sql one
+#%% convert the old database into the sql onefin
 
-mycursor.execute("LOAD DATA INFILE '/var/lib/mysql-files/finalanalysis.csv' INTO TABLE Analysis FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (mouse, session,trial,is_rest,input,home_path);")
+import csv
+with open('/home/morgane/Calcium_imaging.csv') as fin:
+    dr = csv.reader(fin, delimiter=',')
+    to_db = [(i['mouse'], i['session'],i['trial'],i['is_rest']) for i in dr]
+
+mycursor.execute("INSERT INTO Analysis ((mouse, session,trial,is_rest,input,home_path) VALUES (?,?,?,?,?,?);", to_db)
 database.commit()
+
 
 #%% update
 

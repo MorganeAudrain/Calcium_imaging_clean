@@ -33,7 +33,7 @@ is_rest = int(input(" is-rest: "))
 decoding_v=1
 
 #%% Select first data
-sql = "SELECT decoding_main FROM Analysis WHERE mouse = %s AND decoding_v=%s"
+sql = "SELECT decoding_main FROM Analysis WHERE mouse = ? AND decoding_v=?"
 val = (mouse_number, decoding_v)
 mycursor.execute(sql, val)
 myresult = mycursor.fetchone()

@@ -51,8 +51,8 @@ def get_corr_pnr(input_mmap_file_path, gSig=None):
 
     file_name = f"mouse_{data[0]}_session_{data[1]}_trial_{data[2]}.{data[3]}.v{data[5]}.{data[4]}"
     output_tif_file_path = f"data/interim/cropping/main/{file_name}.tif"
-    corr_npy_file_path = data_dir + f'meta/corr/{db.create_file_name(3, index)}_gSig_{gSig}.npy'
-    pnr_npy_file_path = data_dir + f'meta/pnr/{db.create_file_name(3, index)}_gSig_{gSig}.npy'
+    corr_npy_file_path = data_dir + f'meta/corr/{file_name}_gSig_{gSig}.npy'
+    pnr_npy_file_path = data_dir + f'meta/pnr/{file_name}_gSig_{gSig}.npy'
 
     with open(corr_npy_file_path, 'wb') as f:
         np.save(f, cn_filter)
@@ -61,25 +61,14 @@ def get_corr_pnr(input_mmap_file_path, gSig=None):
         np.save(f, pnr)
 
     # Define the source extraction output already
-    output = {'meta': {}}
-    # Store the paths in the meta dictionary
-    output['meta']['corr'] = {'main': corr_npy_file_path, 'meta': {}}
-    output['meta']['pnr'] = {'main': pnr_npy_file_path, 'meta': {}}
-    # Get the min, mean, max
-    output['meta']['corr']['min'] = round(cn_filter.min(), 3)
-    output['meta']['corr']['mean'] = round(cn_filter.mean(), 3)
-    output['meta']['corr']['max'] = round(cn_filter.max(), 3)
-    output['meta']['pnr']['min'] = round(pnr.min(), 2)
-    output['meta']['pnr']['mean'] = round(pnr.mean(), 2)
-    output['meta']['pnr']['max'] = round(pnr.max(), 2)
+    sql1 = "UPDATE Analysis SET corr = %s, pnr= %s, corr_min=%s,corr_mean=%s,corr_max=%s, pnr_min=%s, pnr_mean=%s, pnr_max=%s  WHERE mouse_correction_main=%s"
+    val1 = (corr_npy_file_path, pnr_npy_file_path,round(cn_filter.min(), 3),round(cn_filter.mean(), 3),round(cn_filter.max(), 3),round(pnr.min(), 2),round(pnr.mean(), 2),round(pnr.max(), 2),input_mmap_file_path)
+    mycursor.execute(sql1, val1)
 
-    # Store the output in the row
-    row.loc['source_extraction_output'] = str(output)
-    return index, row
+    return output_tif_file_path
 
 
 def get_corr_pnr_path(index, gSig_abs=None):
-    fname = db.create_file_name(2, index)
     os.chdir(os.environ['PROJECT_DIR'])
     corr_dir = 'data/interim/source_extraction/trial_wise/meta/corr'
     corr_path = None
@@ -105,10 +94,10 @@ def get_corr_pnr_path(index, gSig_abs=None):
 
 def get_quality_metrics_motion_correction(row, crispness=False, local_correlations=False, correlations=False,
                 optical_flow=False):
-    '''
+    """
     This is a wrapper function to compute (a selection of) the metrics provided
     by CaImAn for motion correction.
-    '''
+    """
     # Get the parameters, motion correction output and cropping output of this row
     index = row.name
     row_local = row.copy()
@@ -219,18 +208,6 @@ def get_metrics_auxillary(fname, swap_dim, pyr_scale=.5, levels=3,
     # Load the movie
     m = cm.load(fname)
     vmin, vmax = -1, 1
-
-    #    max_shft_x = np.int(np.ceil((np.shape(m)[1] - final_size_x) / 2))
-    #    max_shft_y = np.int(np.ceil((np.shape(m)[2] - final_size_y) / 2))
-    #    max_shft_x_1 = - ((np.shape(m)[1] - max_shft_x) - (final_size_x))
-    #    max_shft_y_1 = - ((np.shape(m)[2] - max_shft_y) - (final_size_y))
-    #    if max_shft_x_1 == 0:
-    #        max_shft_x_1 = None
-    #
-    #    if max_shft_y_1 == 0:
-    #        max_shft_y_1 = None
-    #    logging.info([max_shft_x, max_shft_x_1, max_shft_y, max_shft_y_1])
-    #    m = m[:, max_shft_x:max_shft_x_1, max_shft_y:max_shft_y_1]
 
     # Check the movie for NaN's which may cause problems
     if np.sum(np.isnan(m)) > 0:
@@ -463,21 +440,6 @@ def parameters_test_gSig(path, figname, gSig_filt_list=None):
         plt.savefig(f'data/motion_correction/png/{figname}_gSig_experiment_{gSig_size}.png')
 
     return
-
-
-# def get_fig_gSig_filt(im, gSig_filt, fig_index = None, cmap = 'gray'):
-#
-#    im_filter = high_pass_filter_space(im, gSig_filt)
-#    if fig_index == None:
-#        fig = plt.figure()
-#    else:
-#        fig = plt.figure(fig_index)
-#    ax.imshow(im_filter, cmap = cmap)
-#    fig.colorbar()
-#    ax.title(f'gSig_filt = {gSig_filt}')
-#
-#    return fig
-#
 
 def get_fig_patches(im, strides, overlaps, cmap='gray'):
     patches = (strides[0] + overlaps[0], strides[1] + overlaps[1])

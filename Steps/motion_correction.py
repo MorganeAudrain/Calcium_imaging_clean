@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-@author: Sebastian,Casper,Melisa
+@author: Sebastian,Casper,Melisa,Morgane
 """
 
 import os
@@ -9,10 +9,9 @@ import datetime
 import pickle
 import numpy as np
 import caiman as cm
-from caiman.motion_correction import MotionCorrect, high_pass_filter_space
+from caiman.motion_correction import MotionCorrect
 from caiman.source_extraction.cnmf import params as params
 
-import src.data_base_manipulation as db
 
 
 def run_motion_correction(row, parameters, dview):
@@ -56,23 +55,7 @@ def run_motion_correction(row, parameters, dview):
     data_dir = os.environ['DATA_DIR'] + 'data/interim/motion_correction/'
     file_name = db.create_file_name(step_index, index)
     output_meta_pkl_file_path = data_dir + f'meta/metrics/{file_name}.pkl'
-          
-    # Create a dictionary with the output
-    output = {
-            'meta' : { 
-                    'analysis': {
-                        'analyst': os.environ['ANALYST'],
-                        'date': datetime.datetime.today().strftime("%m-%d-%Y"),
-                        'time': datetime.datetime.today().strftime("%H:%M:%S")
-                        },
-                    'metrics': {
-                            'other': output_meta_pkl_file_path
-                            }
-                    }
-                }
 
-
-    
     # Calculate movie minimum to subtract from movie 
     min_mov = np.min(cm.load(input_tif_file_path))
     # Apply the parameters to the CaImAn algorithm

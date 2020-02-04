@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25bccc4e-ed1b-4734-8005-829ad2bd59b4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_trial_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_trial_wise.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Analysis_tools/analysis_files_manipulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Analysis_tools/analysis_files_manipulation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Analysis_tools/metrics.py" beforeDir="false" afterPath="$PROJECT_DIR$/Analysis_tools/metrics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/equalizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/equalizer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/motion_correction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/motion_correction.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,6 +205,9 @@
       <workItem from="1580310510290" duration="451000" />
       <workItem from="1580314397943" duration="1207000" />
       <workItem from="1580382620910" duration="31231000" />
+      <workItem from="1580490464011" duration="599000" />
+      <workItem from="1580720999684" duration="2003000" />
+      <workItem from="1580723820851" duration="9549000" />
     </task>
     <task id="LOCAL-00001" summary="upgrade">
       <created>1580144691280</created>

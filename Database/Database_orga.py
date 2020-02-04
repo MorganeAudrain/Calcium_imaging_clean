@@ -101,7 +101,7 @@ mycursor.execute("")
 
 #%% check if data in column
 
-mycursor.execute("SELECT motion_correction_main FROM Analysis WHERE motion_correction_v=0 ORDER BY trial,session,motion_correction_v ")
+mycursor.execute("SELECT * FROM Analysis WHERE motion_correction_v=0 ORDER BY trial,session,motion_correction_v ")
 
 myresult = mycursor.fetchall()
 data=[]

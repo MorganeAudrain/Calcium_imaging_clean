@@ -23,11 +23,13 @@ mycursor = database.cursor()
 
 
 #%% Settings
-mouse_number = 56165
-sessions = [1,2,4]
-init_trial = 1
-end_trial = 22
-is_rest = None
+print('Choose the mouse, session, how many trial and resting or non resting trial you want to analyse')
+mouse_number = int(input("mouse number : "))
+sessions = input(" sessions : ")
+init_trial= int(input("begin with trial : "))
+end_trial = int(input(" final trial to analyse: "))
+print('Choose if you want to the resting period (enter 1) or the non resting (enter 0) if you do not want to choose enter None ')
+is_rest = int(input(" is-rest: "))
 decoding_v=1
 
 #%% Select first data

@@ -14,7 +14,7 @@ from caiman.source_extraction.cnmf import params as params
 
 
 
-def run_motion_correction(row, parameters, dview):
+def run_motion_correction(cropping_file, parameters, dview):
     '''
     This is the function for motion correction. Its goal is to take in a decoded and
     cropped .tif file, perform motion correction, and save the result as a .mmap file. 
@@ -22,34 +22,17 @@ def run_motion_correction(row, parameters, dview):
     This function is only runnable on the cn76 server because it requires parralel processing. 
     
     Args:
-        row: pd.DataFrame object
-            The row corresponding to the analysis state to be motion corrected.
-        parametrs :  motion_correction_parameters
+        parameters :  motion_correction_parameters
         dview: cluster
             
     Returns:
         row: pd.DataFrame object
             The row corresponding to the motion corrected analysis state.      
     '''
-    step_index = 2
-    row_local = row.copy()
-    index = row_local.name
+
     # Forcing parameters
     if not parameters['pw_rigid']:
         parameters['save_movie_rig'] = True
-
-    # Get input file 
-    input_tif_file_path = eval(row_local.loc['cropping_output'])['main']
-    if not os.path.isfile(input_tif_file_path):
-        input_tif_file_path = db.get_expected_file_path('cropping', 'main/', index, 'tif')
-        if not os.path.isfile(input_tif_file_path):
-            logging.error('Cropping file not found. Cancelling motion correction.')
-            return row_local
-
-
-    row_local.loc['motion_correction_parameters'] = str(parameters)
-    row_local = db.set_version_analysis('motion_correction',row_local)
-    index = row_local.name
 
     # Get output file paths
     data_dir = os.environ['DATA_DIR'] + 'data/interim/motion_correction/'

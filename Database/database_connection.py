@@ -1,3 +1,12 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+
+@author: Morgane
+
+Connection with the SQL database
+
+"""
 import mysql.connector
 import getpass
 

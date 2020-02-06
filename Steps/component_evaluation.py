@@ -15,6 +15,10 @@ from Database.database_connection import database
 mycursor = database.cursor()
 
 
+parameters_component_evaluation = {'min_SNR': 5.5,
+                                   'rval_thr': 0.75,
+                                   'use_cnn': False}
+
 def run_component_evaluation(file, parameters, set_version=None, session_wise=False, equalization=False):
     sql = "SELECT source_extraction_hdf5_file,source_extraction_mmap_file,source_extraction_session_wise,source_extraction_trial_wise,mouse,session,trial,is_rest,cropping_v,decoding_v,motion_correction_v,source_extraction_v,equalization_v,alignment_v,component_evaluation_v FROM Analysis WHERE motion_correction_main=%s"
     val = [file, ]

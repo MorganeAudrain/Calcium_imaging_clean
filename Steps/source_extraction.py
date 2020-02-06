@@ -18,6 +18,20 @@ from Database.database_connection import database
 
 mycursor = database.cursor()
 
+gSig = 5
+gSiz = 4 * gSig + 1
+
+parameters_source_extraction = {'equalization': False, 'session_wise': True, 'fr': 10, 'decay_time': 0.1,
+                                'min_corr': 0.8,
+                                'min_pnr': 7, 'p': 1, 'K': None, 'gSig': (gSig, gSig),
+                                'gSiz': (gSiz, gSiz),
+                                'merge_thr': 0.7, 'rf': 60, 'stride': 30, 'tsub': 1, 'ssub': 2, 'p_tsub': 1,
+                                'p_ssub': 2, 'low_rank_background': None, 'nb': 0, 'nb_patch': 0,
+                                'ssub_B': 2,
+                                'init_iter': 2, 'ring_size_factor': 1.4, 'method_init': 'corr_pnr',
+                                'method_deconvolution': 'oasis', 'update_background_components': True,
+                                'center_psf': True, 'border_pix': 0, 'normalize_init': False,
+                                'del_duplicates': True, 'only_init': True}
 
 def run_source_extraction(input_mmap_file_path, dview, session_wise = False):
     """

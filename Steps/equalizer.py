@@ -12,7 +12,8 @@ from skimage import io
 from Database.database_connection import database
 
 mycursor = database.cursor()
-
+h_step = 10
+parameters_equalizer = {'make_template_from_trial': '1', 'equalizer': 'histogram_matching', 'histogram_step': h_step}
 
 def run_equalizer(input_tif_file_list, session_wise=False):
     """

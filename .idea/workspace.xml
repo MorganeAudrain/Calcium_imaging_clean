@@ -2,14 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25bccc4e-ed1b-4734-8005-829ad2bd59b4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Steps/run_steps_session_wise.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Steps/run_steps_trial_wise.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Calcium_imaging.db" beforeDir="false" afterPath="$PROJECT_DIR$/Calcium_imaging.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_session_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_session_wise.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_trial_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_trial_wise.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Steps/alignment.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/alignment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/cropping.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/cropping.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/decoding.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/decoding.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/component_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/component_evaluation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Steps/equalizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/equalizer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/motion_correction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/motion_correction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/run_steps.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Steps/source_extraction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/source_extraction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration.py" beforeDir="false" afterPath="$PROJECT_DIR$/configuration.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -267,7 +270,7 @@
       <workItem from="1580982914272" duration="613000" />
       <workItem from="1580984252979" duration="37000" />
       <workItem from="1580984752935" duration="12277000" />
-      <workItem from="1581007568396" duration="1458000" />
+      <workItem from="1581007568396" duration="3089000" />
     </task>
     <task id="LOCAL-00001" summary="upgrade">
       <created>1580144691280</created>

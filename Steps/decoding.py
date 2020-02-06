@@ -3,18 +3,15 @@
 @author: Sebastian,Casper,Morgane
 """
 
-
 import os
 import subprocess
 import configuration
 from Database.database_connection import database
+
 mycursor = database.cursor()
 
 
-
-
-def run_decoder(mouse, session,trial, is_rest):
-
+def run_decoder(mouse, session, trial, is_rest):
     """
 
     This is the function for the decoding step. In the decoding step
@@ -30,7 +27,7 @@ def run_decoder(mouse, session,trial, is_rest):
     """
 
     sql = "SELECT input, home_path FROM Analysis WHERE mouse =? AND session = ? AND trial = ? AND is_rest =?"
-    val = (mouse,session,trial,is_rest)
+    val = (mouse, session, trial, is_rest)
     mycursor.execute(sql, val)
     result = mycursor.fetchall()
 
@@ -38,19 +35,18 @@ def run_decoder(mouse, session,trial, is_rest):
     for row in result:
         input_raw_file += row
 
-    input_raw_file_paths = input_raw_file[1]+input_raw_file[0]+'.raw'
+    input_raw_file_paths = input_raw_file[1] + input_raw_file[0] + '.raw'
 
-    #create the correct name for the file
+    # create the correct name for the file
     file_name = f"mouse_{mouse}_session_{session}_trial_{trial}_{is_rest}"
     output_tif_file_path = f"data/interim/decoding/main/{file_name}.tif"
 
     # Decoder paths
     py_inscopix = '/home/morgane/anaconda3/envs/inscopix_reader/bin/python'
     decoder = "/home/morgane/src/inscopix_reader_linux/python/downsampler.py"
-            
+
     # Decoding
     print('Performing decoding on raw file')
-    
 
     # Convert the output tif file path to the full path such that the downsampler.py script can use them.
     output_tif_file_path_full = os.path.join(os.environ['DATA_DIR_LOCAL'], output_tif_file_path)
@@ -59,10 +55,11 @@ def run_decoder(mouse, session,trial, is_rest):
 
     input_xml_file_path = input_raw_file[1] + input_raw_file[0] + '.xml'
 
-    cmd = ' '.join([py_inscopix, decoder, '"' + input_raw_file_paths + '"', output_tif_file_path_full, '"' + input_xml_file_path + '"'])
+    cmd = ' '.join([py_inscopix, decoder, '"' + input_raw_file_paths + '"', output_tif_file_path_full,
+                    '"' + input_xml_file_path + '"'])
 
     # Run the command
-    subprocess.check_output(cmd, shell = True)
+    subprocess.check_output(cmd, shell=True)
 
     print('Decoding finished')
 
@@ -72,4 +69,3 @@ def run_decoder(mouse, session,trial, is_rest):
     database.commit()
 
     return output_tif_file_path
-

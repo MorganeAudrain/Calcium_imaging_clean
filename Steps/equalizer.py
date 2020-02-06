@@ -14,7 +14,7 @@ from Database.database_connection import database
 mycursor = database.cursor()
 
 
-def run_equalizer(input_tif_file_list, parameters, session_wise=False):
+def run_equalizer(input_tif_file_list, session_wise=False):
     """
     This function is meant to help with differences in contrast in different trials and session, to equalize general
     brightness or reduce photobleaching. It corrects the video and saves them in the corrected version. It can be run

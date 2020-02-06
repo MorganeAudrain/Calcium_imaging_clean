@@ -7,7 +7,6 @@ import datetime
 import logging
 import os
 import pickle
-import psutil
 
 import configuration
 
@@ -19,13 +18,6 @@ from caiman.source_extraction.cnmf import params as params
 from Database.database_connection import database
 
 cursor = database.cursor()
-
-cropping_file = 'data/interim/cropping/main/mouse_32363_session_1_trial_2.1.v1.1.tif'
-n_processes = psutil.cpu_count()
-
-#%% Start a new cluster
-c, dview, n_processes = cm.cluster.setup_cluster(backend='local',n_processes=n_processes,single_thread=False)
-
 
 
 def run_motion_correction(cropping_file, dview):
@@ -63,7 +55,7 @@ def run_motion_correction(cropping_file, dview):
         data[6] = 1
         file_name = f"mouse_{data[0]}_session_{data[1]}_trial_{data[2]}.{data[3]}.v{data[4]}.{data[5]}.{data[6]}"
         output_meta_pkl_file_path = f'meta/metrics/{file_name}.pkl'
-        sql1 = "UPDATE Analysis SET motion_correction_meta=?,motion_correction_v=? WHERE decoding_main=? "
+        sql1 = "UPDATE Analysis SET motion_correction_meta=?,motion_correction_v=? WHERE cropping_main=? "
         val1 = [output_meta_pkl_file_path, data[6], cropping_file]
         cursor.execute(sql1, val1)
 
@@ -71,7 +63,7 @@ def run_motion_correction(cropping_file, dview):
         data[6] += 1
         file_name = f"mouse_{data[0]}_session_{data[1]}_trial_{data[2]}.{data[3]}.v{data[4]}.{data[5]}.{data[6]}"
         output_meta_pkl_file_path = f'meta/metrics/{file_name}.pkl'
-        sql2 = "INSERT INTO Analysis (cropping_main,cropping_v) VALUES (?,?)"
+        sql2 = "INSERT INTO Analysis (motion_correction_meta,motion_correction_v) VALUES (?,?)"
         val2 = [output_meta_pkl_file_path, data[6]]
         cursor.execute(sql2, val2)
         database.commit()
@@ -83,7 +75,7 @@ def run_motion_correction(cropping_file, dview):
     output_meta_pkl_file_path = data_dir + output_meta_pkl_file_path
 
     # Calculate movie minimum to subtract from movie
-    cropping_file_full=os.environ['DATA_DIR_LOCAL'] + cropping_file
+    cropping_file_full = os.environ['DATA_DIR_LOCAL'] + cropping_file
     min_mov = np.min(cm.load(cropping_file_full))
 
     # Apply the parameters to the CaImAn algorithm

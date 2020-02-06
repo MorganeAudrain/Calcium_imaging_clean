@@ -21,16 +21,14 @@ from Database.database_connection import database
 mycursor = database.cursor()
 
 
-# %% Function
-
-def run_alignment(motion_correct_file, parameters, dview):
+def run_alignment(motion_correct_file, dview):
     """
     This is the main function for the alignment step. It applies methods
     from the CaImAn package used originally in motion correction
     to do alignment.
     """
     # Determine the output .mmap file name
-    sql = "SELECT mouse,session,alignment_v,cropping_points,trial FROM Analysis WHERE motion_correction_main=%s ORDER BY trial,session,motion_correction_v"
+    sql = "SELECT mouse,session,alignment_v,motion_correction_cropping_points_x1,motion_correction_cropping_points_x2,motion_correction_cropping_points_y1,motion_correction_cropping_points_y2,trial FROM Analysis WHERE motion_correction_main=%s ORDER BY trial,session,motion_correction_v"
     val = [motion_correct_file, ]
     mycursor.execute(sql, val)
     myresult = mycursor.fetchall()

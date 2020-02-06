@@ -18,14 +18,15 @@ from Database.database_connection import database
 
 mycursor = database.cursor()
 
-#%% MAIN
-def run_source_extraction(input_mmap_file_path, parameters, dview, session_wise = False):
+
+def run_source_extraction(input_mmap_file_path, dview, session_wise = False):
     """
     This is the function for source extraction.
     Its goal is to take in a .mmap file,
     perform source extraction on it using cnmf-e and save the cnmf object as a .pkl file.
     """
     # Determine input path
+
     if parameters['session_wise']:
         sql = "SELECT mouse,session,trial,is_rest,decoding_v,cropping_v,motion_correction_v,alignment_v,equalization_v,source_extraction_v FROM Analysis WHERE alignment_main=%s "
         val = [input_mmap_file_path, ]

@@ -7,6 +7,9 @@ import datetime
 import logging
 import os
 import pickle
+import psutil
+
+import configuration
 
 import caiman as cm
 import numpy as np
@@ -16,6 +19,13 @@ from caiman.source_extraction.cnmf import params as params
 from Database.database_connection import database
 
 cursor = database.cursor()
+
+cropping_file = 'data/interim/cropping/main/mouse_32363_session_1_trial_2.1.v1.1.tif'
+n_processes = psutil.cpu_count()
+
+#%% Start a new cluster
+c, dview, n_processes = cm.cluster.setup_cluster(backend='local',n_processes=n_processes,single_thread=False)
+
 
 
 def run_motion_correction(cropping_file, dview):
@@ -35,7 +45,7 @@ def run_motion_correction(cropping_file, dview):
     """
     # Get output file paths
 
-    data_dir = os.environ['DATA_DIR'] + 'data/interim/motion_correction/'
+    data_dir = os.environ['DATA_DIR_LOCAL'] + 'data/interim/motion_correction/'
     sql = "SELECT mouse,session,trial,is_rest,decoding_v,cropping_v,motion_correction_v,input,home_path,decoding_main FROM Analysis WHERE cropping_main=? ORDER BY motion_correction_v"
     val = [cropping_file, ]
     cursor.execute(sql, val)
@@ -69,18 +79,18 @@ def run_motion_correction(cropping_file, dview):
         val3 = [data[9], data[4], data[0], data[1], data[2], data[3], data[7], data[8], data[5], cropping_file,
                 output_meta_pkl_file_path, data[6]]
         cursor.execute(sql3, val3)
-
+    database.commit()
     output_meta_pkl_file_path = data_dir + output_meta_pkl_file_path
 
     # Calculate movie minimum to subtract from movie
-
-    min_mov = np.min(cm.load(cropping_file))
+    cropping_file_full=os.environ['DATA_DIR_LOCAL'] + cropping_file
+    min_mov = np.min(cm.load(cropping_file_full))
 
     # Apply the parameters to the CaImAn algorithm
 
-    sql = "SELECT motion_correct,pw_rigid,save_movie_rig,gSig_filt,max_shifts,niter_rig,strides,overlaps,upsample_factor_grid,num_frames_split,max_deviation_rigid,shifts_opencv,use_conda,nonneg_movie, border_nan  FROM Analysis WHERE cropping_main=? "
-    val = [cropping_file, ]
-    cursor.execute(sql, val)
+    sql5 = "SELECT motion_correct,pw_rigid,save_movie_rig,gSig_filt,max_shifts,niter_rig,strides,overlaps,upsample_factor_grid,num_frames_split,max_deviation_rigid,shifts_opencv,use_conda,nonneg_movie, border_nan  FROM Analysis WHERE cropping_main=? "
+    val5 = [cropping_file, ]
+    cursor.execute(sql5, val5)
     myresult = cursor.fetchall()
     para = []
     aux = []
@@ -106,7 +116,7 @@ def run_motion_correction(cropping_file, dview):
 
     # Create a MotionCorrect object
 
-    mc = MotionCorrect([cropping_file], dview=dview, **opts.get_group('motion'))
+    mc = MotionCorrect([cropping_file_full], dview=dview, **opts.get_group('motion'))
 
     # Perform rigid motion correction
 

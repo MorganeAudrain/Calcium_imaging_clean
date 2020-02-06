@@ -10,7 +10,7 @@ mycursor = database.cursor()
 import os
 import configuration
 
-#input_path="data/interim/decoding/main/mouse_32363_session_1_trial_2_1.tif"
+input_path="data/interim/decoding/main/mouse_32363_session_1_trial_2_1.tif"
 
 def run_cropper(input_path):
     '''

@@ -10,7 +10,7 @@ mycursor = database.cursor()
 import os
 import configuration
 
-input_path="data/interim/decoding/main/mouse_32363_session_1_trial_2_1.tif"
+#input_path="data/interim/decoding/main/mouse_32363_session_1_trial_2_1.tif"
 
 def run_cropper(input_path):
     '''
@@ -42,7 +42,7 @@ def run_cropper(input_path):
         file_name = f"mouse_{data[0]}_session_{data[1]}_trial_{data[2]}.{data[3]}.v{data[4]}.{data[5]}"
         output_tif_file_path = f"data/interim/cropping/main/{file_name}.tif"
         sql1 = "UPDATE Analysis SET cropping_main=?,cropping_v=? WHERE decoding_main=? "
-        val1 = [output_tif_file_path,data[4],input_path]
+        val1 = [output_tif_file_path,data[5],input_path]
         mycursor.execute(sql1,val1)
 
     else:

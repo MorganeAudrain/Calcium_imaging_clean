@@ -7,8 +7,10 @@ import caiman as cm
 import logging
 from Database.database_connection import database
 mycursor = database.cursor()
+import os
+import configuration
 
-
+input_path="data/interim/decoding/main/mouse_32363_session_1_trial_2_1.tif"
 
 def run_cropper(input_path):
     '''
@@ -24,34 +26,39 @@ def run_cropper(input_path):
     '''
 
     # Determine output .tif file path
-    sql="SELECT mouse,session,trial,is_rest,decoding_v,cropping_v FROM Analysis WHERE decoding_main=%s ORDER BY cropping_v"
+    sql="SELECT mouse,session,trial,is_rest,decoding_v,cropping_v,input,home_path FROM Analysis WHERE decoding_main=? ORDER BY cropping_v"
     val=[input_path,]
     mycursor.execute(sql,val)
     myresult = mycursor.fetchall()
     data=[]
     for x in myresult:
-        data += x
-    file_name = f"mouse_{data[0]}_session_{data[1]}_trial_{data[2]}.{data[3]}.v{data[5]}.{data[4]}"
-    output_tif_file_path = f"data/interim/cropping/main/{file_name}.tif"
+        aux =x
+    for y in aux:
+        data.append(y)
 
     # update the database
-    if data[4] == 0:
-        data[4]=1
-        sql1 = "UPDATE Analysis SET cropping_main=%s,cropping_v=%s WHERE decoding_main=%s "
+    if data[5] == 0:
+        data[5]=1
+        file_name = f"mouse_{data[0]}_session_{data[1]}_trial_{data[2]}.{data[3]}.v{data[4]}.{data[5]}"
+        output_tif_file_path = f"data/interim/cropping/main/{file_name}.tif"
+        sql1 = "UPDATE Analysis SET cropping_main=?,cropping_v=? WHERE decoding_main=? "
         val1 = [output_tif_file_path,data[4],input_path]
         mycursor.execute(sql1,val1)
-        database.commit()
+
     else:
-        data[4] +=1
-        sql2 = "INSERT INTO Analysis (cropping_main,cropping_v) VALUES (%s,%s)"
-        val2 = [output_tif_file_path, data[4]]
+        data[5] +=1
+        file_name = f"mouse_{data[0]}_session_{data[1]}_trial_{data[2]}.{data[3]}.v{data[4]}.{data[5]}"
+        output_tif_file_path = f"data/interim/cropping/main/{file_name}.tif"
+        sql2 = "INSERT INTO Analysis (cropping_main,cropping_v) VALUES (?,?)"
+        val2 = [output_tif_file_path, data[5]]
         mycursor.execute(sql2, val2)
         database.commit()
-        sql3="UPDATE Analysis SET decoding_main=%s,decoding_v=%s,mouse=%s,session=%s,trial=%s,is_rest=%s WHERE cropping_main=%s AND cropping_v=%s"
-        val3=[input_path,data[5],data[0],data[1],data[2],data[3],output_tif_file_path,data[4]]
+        sql3="UPDATE Analysis SET decoding_main=?,decoding_v=?,mouse=?,session=?,trial=?,is_rest=?,input=?,home_path=? WHERE cropping_main=? AND cropping_v=?"
+        val3=[input_path,data[4],data[0],data[1],data[2],data[3],data[6],data[7],output_tif_file_path,data[5]]
         mycursor.execute(sql3,val3)
-        database.commit()
-    # Spatial copping  
+
+    # Spatial cropping
+    input_path= os.path.join(os.environ['DATA_DIR_LOCAL'], input_path)
     logging.info('Loading movie')
     m = cm.load(input_path)
     logging.info('Loaded movie')
@@ -61,9 +68,9 @@ def run_cropper(input_path):
     x2 = int(input("Limit X2 : "))
     y1 = int(input("Limit Y1 : "))
     y2 = int(input("Limit Y2 : "))
-    sql = "INSERT INTO Analysis (crop_spatial,cropping_points_spatial,crop_temporal,cropping_points_temporal) VALUES (%s,%s,%s,%s) WHERE cropping_main=%s AND cropping_v=%s"
-    val = [True,[y1, y2, x1, x2],False,[],output_tif_file_path,data[4]]
-    mycursor.execute(sql, val)
+    sql4 = "UPDATE Analysis SET crop_spatial=?,cropping_points_spatial_x1=?,cropping_points_spatial_x2=?,cropping_points_spatial_y1=?,cropping_points_spatial_y2=?,crop_temporal=?,cropping_points_temporal=? WHERE cropping_main=? AND cropping_v=? "
+    val4 = [True,x1,x2,y1,y2,False,None,output_tif_file_path,data[5]]
+    mycursor.execute(sql4, val4)
     database.commit()
 
     [x_,_x,y_,_y] = [y1, y2, x1, x2]
@@ -71,11 +78,11 @@ def run_cropper(input_path):
     logging.info('Performing spatial cropping')
     m = m[:,x_:_x,y_:_y]
     logging.info(' Spatial cropping finished')
-
+    output_tif_file_path_full = os.path.join(os.environ['DATA_DIR_LOCAL'], output_tif_file_path)
     # Save the movie
-    m.save(output_tif_file_path)
+    m.save(output_tif_file_path_full)
 
-    return output_tif_file_path,data[4]
+    return output_tif_file_path,data[5]
 
 
 
@@ -109,4 +116,5 @@ def cropping_segmentation(parameters_cropping):
         cropping_parameters_list.append(parameters_cropping)
 
     return cropping_parameters_list
+
 

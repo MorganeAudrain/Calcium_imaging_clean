@@ -73,7 +73,7 @@ for x in mycursor:
 
 #%% update the table Experimental
 
-sql= "UPDATE Analysis SET motion_correction_v=0 "
+sql= "UPDATE Analysis SET cropping_v=0 "
 
 mycursor.execute(sql)
 
@@ -81,15 +81,7 @@ database.commit()
 
 print(mycursor.rowcount, "records(s) affected")
 
-#%% convert the old database into the sql onefin
-
-import csv
-with open('/home/morgane/Calcium_imaging.csv') as fin:
-    dr = csv.reader(fin, delimiter=',')
-    to_db = [(i['mouse'], i['session'],i['trial'],i['is_rest']) for i in dr]
-
-mycursor.execute("INSERT INTO Analysis ((mouse, session,trial,is_rest,input,home_path) VALUES (?,?,?,?,?,?);", to_db)
-database.commit()
+#%% convert the old database into the sql one
 
 
 #%% update
@@ -98,7 +90,7 @@ mycursor.execute("")
 
 #%% check if data in column
 
-mycursor.execute("SELECT * FROM Analysis WHERE motion_correction_v=0 ORDER BY trial,session,motion_correction_v ")
+mycursor.execute("SELECT  FROM Analysis WHERE motion_correction_v=0 ORDER BY trial,session,motion_correction_v ")
 
 myresult = mycursor.fetchall()
 data=[]
@@ -106,3 +98,7 @@ for x in myresult:
   data +=x
 
 
+#%%Delete row
+mycursor.execute("DELETE FROM Analysis WHERE home_path= NULL ")
+database.commit()
+print(mycursor.rowcount, "records(s) affected")

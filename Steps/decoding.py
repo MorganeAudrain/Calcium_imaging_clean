@@ -29,8 +29,8 @@ def run_decoder(mouse, session,trial, is_rest):
 
     """
 
-    sql = "SELECT input, home_path FROM Analysis WHERE mouse = %s AND session = %s AND trial = %s AND is_rest = %s"
-    val = (mouse, session, trial, is_rest)
+    sql = "SELECT input, home_path FROM Analysis WHERE mouse =? AND session = ? AND trial = ? AND is_rest =?"
+    val = (mouse,session,trial,is_rest)
     mycursor.execute(sql, val)
     result = mycursor.fetchall()
 
@@ -53,7 +53,7 @@ def run_decoder(mouse, session,trial, is_rest):
     
 
     # Convert the output tif file path to the full path such that the downsampler.py script can use them.
-    output_tif_file_path_full = os.path.join(os.environ['PROJECT_DIR'], output_tif_file_path)
+    output_tif_file_path_full = os.path.join(os.environ['DATA_DIR_LOCAL'], output_tif_file_path)
 
     # Make a command usable by the decoder script (downsampler.py, see the script for more info)
 
@@ -66,9 +66,10 @@ def run_decoder(mouse, session,trial, is_rest):
 
     print('Decoding finished')
 
-    sql1 = "UPDATE Analysis SET decoding_v = %s, decoding_main= %s WHERE mouse = %s AND session = %s AND trial = %s AND is_rest = %s"
+    sql1 = "UPDATE Analysis SET decoding_v = ?, decoding_main= ? WHERE mouse = ? AND session = ? AND trial = ? AND is_rest = ?"
     val1 = (1, output_tif_file_path, mouse, session, trial, is_rest)
     mycursor.execute(sql1, val1)
+    database.commit()
 
     return output_tif_file_path
 

@@ -1,11 +1,11 @@
 import os
 
 #%% ENVIRONMENT VARIABLES
-os.environ['PROJECT_DIR_LOCAL'] = '/home/morgane/Calcium_imaging-master'
+os.environ['PROJECT_DIR_LOCAL'] = 'home/morgane/scratch/morgane/calcium_imaging_analysis/'
 os.environ['PROJECT_DIR_SERVER'] = 'Calcium_imaging/'
-os.environ['DATA_DIR_LOCAL'] = '/home/morgane/cn43/morgane/calcium_imaging_analysis/'
+os.environ['DATA_DIR_LOCAL'] = '/home/morgane/scratch/morgane/calcium_imaging_analysis/'
 
-os.environ['DATA_DIR_SERVER'] ='/home/morgane/cn43/morgane/calcium_imaging_analysis/data'
+os.environ['DATA_DIR_SERVER'] ='/home/morgane/scratch/morgane/calcium_imaging_analysis/data'
 
 os.environ['CAIMAN_ENV_SERVER'] = '/memdyn/maudrain/caiman/bin/python'
 

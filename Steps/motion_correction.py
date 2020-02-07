@@ -133,7 +133,7 @@ def run_motion_correction(cropping_file, dview):
     val = [dt, output_meta_pkl_file_path, data[6]]
     cursor.execute(sql, val)
 
-    if parameters['save_movie_rig']:
+    if parameters['save_movie_rig'] == True:
         # Load the movie saved by CaImAn, which is in the wrong
         # directory and is not yet cropped
 
@@ -165,13 +165,14 @@ def run_motion_correction(cropping_file, dview):
         sql = "UPDATE Analysis SET motion_correction_rig_role=? WHERE motion_correction_meta=? AND motion_correction_v=? "
         val = [fname_tot_rig, output_meta_pkl_file_path, data[6]]
         cursor.execute(sql, val)
+        database.commit()
 
         # Remove the remaining non-cropped movie
 
         os.remove(mc.fname_tot_rig[0])
 
     # If specified in the parameters, apply piecewise-rigid motion correction
-    if parameters['pw_rigid']:
+    if parameters['pw_rigid'] == 1:
         logging.info(f' Performing piecewise-rigid motion correction')
         t0 = datetime.datetime.today()
         # Perform non-rigid (piecewise rigid) motion correction. Use the rigid result as a template.
@@ -220,8 +221,9 @@ def run_motion_correction(cropping_file, dview):
         sql = "UPDATE Analysis SET motion_correction_main=?, motion_correction_cropping_points_x1=?,motion_correction_cropping_points_x2=?,motion_correction_cropping_points_y1=?,motion_correction_cropping_points_y2=?,duration_pw_rigid=? WHERE motion_correction_meta=? AND motion_correction_v=? "
         val = [fname_tot_els, x_, _x, y_, _y, dt, output_meta_pkl_file_path, data[6]]
         cursor.execute(sql, val)
+        database.commit()
 
-    database.commit()
+
 
     # Write meta results dictionary to the pkl file
 
@@ -229,7 +231,7 @@ def run_motion_correction(cropping_file, dview):
     pickle.dump(meta_pkl_dict, pkl_file)
     pkl_file.close()
 
-    return output_meta_pkl_file_path, data[6]
+    return fname_tot_els, data[6]
 
 
 def get_crop_from_rigid_shifts(shifts_rig):

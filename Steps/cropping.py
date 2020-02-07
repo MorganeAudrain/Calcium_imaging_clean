@@ -74,6 +74,8 @@ def run_cropper(input_path):
     val4 = [True, x1, x2, y1, y2, False, None, output_tif_file_path, data[5]]
     mycursor.execute(sql4, val4)
     database.commit()
+    parameters_cropping = {'crop_spatial': True, 'cropping_points_spatial': [y1, y2, x1, x2],
+                           'crop_temporal': False, 'cropping_points_temporal': []}
 
     [x_, _x, y_, _y] = [y1, y2, x1, x2]
 
@@ -84,13 +86,13 @@ def run_cropper(input_path):
     # Save the movie
     m.save(output_tif_file_path_full)
 
-    return output_tif_file_path, data[5]
+    return output_tif_file_path, data[5], parameters_cropping
 
 
 def cropping_segmentation(parameters_cropping):
     """
     This function takes the cropping interval and segment the image in 4 different regions.
-    The pipeline should lated run in all the different regions.
+    The pipeline should lately run in all the different regions.
     Returns:
     """
     cropping_parameters_list = []

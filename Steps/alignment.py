@@ -2,7 +2,6 @@
 """
 @author: Sebastian,Casper,Melisa,Morgane
 """
-# %% Importation
 
 import logging
 import caiman as cm
@@ -33,7 +32,7 @@ def run_alignment(motion_correct_file, dview):
     to do alignment.
     """
     # Determine the output .mmap file name
-    sql = "SELECT mouse,session,alignment_v,motion_correction_cropping_points_x1,motion_correction_cropping_points_x2,motion_correction_cropping_points_y1,motion_correction_cropping_points_y2,trial FROM Analysis WHERE motion_correction_main=%s ORDER BY trial,session,motion_correction_v"
+    sql = "SELECT mouse,session,alignment_v,motion_correction_cropping_points_x1,motion_correction_cropping_points_x2,motion_correction_cropping_points_y1,motion_correction_cropping_points_y2,trial FROM Analysis WHERE motion_correction_main=%s "
     val = [motion_correct_file, ]
     mycursor.execute(sql, val)
     myresult = mycursor.fetchall()

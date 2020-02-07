@@ -3,7 +3,13 @@
 """
 @author: Melisa,Morgane
 """
+
+#%% Importation and parameters
+
 from Steps.run_steps_trial_wise import run_steps
+import psutil
+import caiman as cm
+
 
 print('Choose the mouse, session, how many trial and resting or non resting trial you want to analyse')
 mouse_number = int(input("mouse number : "))
@@ -17,7 +23,12 @@ is_rest = int(input(" is-rest: "))
 print('Choose which steps you want to run: 0 -> decoding, 1 -> cropping, 2 -> motion_correction, 3 -> alignment, 4 -> equalization, 5 -> source_extraction, 6 -> component_evaluation, all ->  every steps ')
 n_steps = input(' steps :')
 
+#%% start a cluster
+
+n_processes = psutil.cpu_count()
+c, dview, n_processes = cm.cluster.setup_cluster(backend='local', n_processes=n_processes, single_thread=False)
+
+#%% Run steps that you want
+
 run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, is_rest)
-
-
 

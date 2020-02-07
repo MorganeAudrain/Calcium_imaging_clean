@@ -3,8 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="25bccc4e-ed1b-4734-8005-829ad2bd59b4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/component_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/component_evaluation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/run_steps_trial_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/run_steps_trial_wise.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Analysis_tools/photobleaching.py" beforeDir="false" afterPath="$PROJECT_DIR$/Analysis_tools/photobleaching.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Calcium_imaging.db" beforeDir="false" afterPath="$PROJECT_DIR$/Calcium_imaging.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_session_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_session_wise.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_trial_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_trial_wise.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/motion_correction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/motion_correction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/run_steps_session_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/run_steps_session_wise.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -263,7 +268,8 @@
       <workItem from="1580984252979" duration="37000" />
       <workItem from="1580984752935" duration="12277000" />
       <workItem from="1581007568396" duration="3606000" />
-      <workItem from="1581065707647" duration="973000" />
+      <workItem from="1581065707647" duration="8899000" />
+      <workItem from="1581081235092" duration="4228000" />
     </task>
     <task id="LOCAL-00001" summary="upgrade">
       <created>1580144691280</created>
@@ -367,10 +373,10 @@
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
     <state x="3593" y="546" width="484" height="336" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581067694219" />
-    <state x="4304" y="269" width="566" height="720" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1581067841112">
+    <state x="4304" y="269" width="566" height="720" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1581069815716">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="4304" y="269" width="566" height="720" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581067841112" />
+    <state x="4304" y="269" width="566" height="720" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581069815716" />
     <state x="1821" y="305" width="552" height="720" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580994519473" />
     <state x="969" y="560" key="com.intellij.ide.util.TipDialog" timestamp="1575889101373">
       <screen x="67" y="27" width="2493" height="1413" />
@@ -380,10 +386,10 @@
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
     <state x="962" y="451" width="700" height="530" key="recent.locations.popup/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1575626228737" />
-    <state x="3504" y="365" width="670" height="676" key="search.everywhere.popup" timestamp="1580905734155">
+    <state x="3504" y="365" width="672" height="676" key="search.everywhere.popup" timestamp="1581068681943">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="3504" y="365" width="670" height="676" key="search.everywhere.popup/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580905734155" />
+    <state x="3504" y="365" width="672" height="676" key="search.everywhere.popup/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581068681943" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

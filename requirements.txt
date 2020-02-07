@@ -1,3 +1,4 @@
+matplotlib
 psutil
 mysql-connector-python
 # local package

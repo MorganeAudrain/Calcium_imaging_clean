@@ -223,8 +223,6 @@ def run_motion_correction(cropping_file, dview):
         cursor.execute(sql, val)
         database.commit()
 
-
-
     # Write meta results dictionary to the pkl file
 
     pkl_file = open(output_meta_pkl_file_path, 'wb')

@@ -51,8 +51,8 @@ def run_component_evaluation(file, set_version=None, session_wise=False, equaliz
         data[10] = 1
         file_name = f"mouse_{data[0]}_session_{data[1]}_trial_{data[2]}.{data[3]}.v{data[4]}.{data[5]}.{data[6]}.{data[7]}.{data[8]}.{data[9]}.{data[10]}"
         output_meta_pkl_file_path = f'meta/metrics/{file_name}.pkl'
-        sql1 = "UPDATE Analysis SET motion_correction_meta=?,motion_correction_v=? WHERE cropping_main=? "
-        val1 = [output_meta_pkl_file_path, data[6], cropping_file]
+        sql1 = "UPDATE Analysis SET component_evaluation_main=?,component_evaluation_v=? WHERE ? "
+        val1 = [output_meta_pkl_file_path, data[6], file]
         mycursor.execute(sql1, val1)
 
     else:

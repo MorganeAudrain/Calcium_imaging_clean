@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25bccc4e-ed1b-4734-8005-829ad2bd59b4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Steps/registering.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Analysis_tools/photobleaching.py" beforeDir="false" afterPath="$PROJECT_DIR$/Analysis_tools/photobleaching.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Calcium_imaging.db" beforeDir="false" afterPath="$PROJECT_DIR$/Calcium_imaging.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_session_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_session_wise.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_trial_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_trial_wise.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/component_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/component_evaluation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Steps/motion_correction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/motion_correction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Steps/run_steps_session_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/run_steps_session_wise.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -269,7 +267,8 @@
       <workItem from="1580984752935" duration="12277000" />
       <workItem from="1581007568396" duration="3606000" />
       <workItem from="1581065707647" duration="8899000" />
-      <workItem from="1581081235092" duration="4228000" />
+      <workItem from="1581081235092" duration="5093000" />
+      <workItem from="1581325088792" duration="3757000" />
     </task>
     <task id="LOCAL-00001" summary="upgrade">
       <created>1580144691280</created>

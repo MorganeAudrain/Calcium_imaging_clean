@@ -19,7 +19,7 @@ end_trial = int(input(" final trial to analyse: "))
 print('Choose if you want to the resting period (enter 1) or the non resting (enter 0)')
 is_rest = int(input(" is-rest: "))
 
-print('Choose which steps you want to run: 0 -> decoding, 1 -> cropping, 2 -> motion correction, 3 -> alignment, 4 -> equalization, 5 -> source extraction, 6 -> component evaluation, all ->  every steps ')
+print('Choose which steps you want to run: 0 -> decoding, 1 -> cropping, 2 -> motion correction, 3 -> alignment, 4 -> equalization, 5 -> source extraction, 6 -> component evaluation, 7 -> registration, all ->  every steps ')
 n_steps = input(' steps :')
 
 #%% start a cluster

@@ -14,6 +14,7 @@ from Steps.motion_correction import run_motion_correction as main_motion_correct
 from Steps.alignment import run_alignment as main_alignment
 from Steps.source_extraction import run_source_extraction as main_source_extraction
 from Steps.component_evaluation import run_component_evaluation as main_component_evaluation
+from Steps.registering import run_registration as main_registration
 from Database.database_connection import database
 
 mycursor = database.cursor()
@@ -160,6 +161,24 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, is_rest,dv
                 mycursor.execute(sql, val)
                 var = mycursor.fetchall()
 
+    # Registration
+    if n_steps == '7':
+        print(
+            "You can choose the component evaluation version that you want to motion correct if you don't want to choose one particular enter None and the default value will be the latest version of cropping")
+        component_evaluation_v = input(" source extraction version : ")
+
+        for session in sessions:
+            for i in range(init_trial, end_trial):
+                if cropping_v == 'None':
+                    sql = "SELECT cropping_v FROM Analysis WHERE mouse=%s AND session= %s AND is_rest=%s AND decoding_v=%s AND trial=%s ORDER BY cropping_v"
+                    val = [mouse_number, session, is_rest, decoding_v, i]
+
+                else:
+                    cropping_v = int(cropping_v)
+                sql = "SELECT decoding_main FROM Analysis WHERE mouse=%s AND session= %s AND is_rest=%s AND decoding_v=%s AND cropping_v=%s AND trial=%s"
+                val = [mouse_number, session, is_rest, decoding_v, 1, i]
+                mycursor.execute(sql, val)
+                var = mycursor.fetchall()
     # Every steps
     if n_steps == 'all':
         for session in sessions:
@@ -183,4 +202,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, is_rest,dv
                 source_extracted_file, source_extraction_version = main_source_extraction(equalized_file, dview)
 
                 # Component evaluation
-                main_component_evaluation(source_extracted_file, session_wise=True)
+                component_evaluated_file=main_component_evaluation(source_extracted_file, session_wise=True)
+
+                # Registration
+                main_registration(component_evaluated_file)

@@ -5,11 +5,12 @@
 
 import caiman as cm
 import logging
+import os
+import configuration
 from Database.database_connection import database
 
 mycursor = database.cursor()
-import os
-import configuration
+
 
 
 def run_cropper(input_path):

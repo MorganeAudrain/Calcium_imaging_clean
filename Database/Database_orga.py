@@ -89,8 +89,10 @@ print(mycursor.rowcount, "records(s) affected")
 mycursor.execute("")
 
 #%% check if data in column
+sql="SELECT * FROM Analysis WHERE decoding_main=?  OR cropping_main= ?"
+val=['data/interim/decoding/main/mouse_32363_session_1_trial_2_1.tif','data/interim/decoding/main/mouse_32363_session_1_trial_2_1.tif']
+mycursor.execute(sql,val)
 
-mycursor.execute("SELECT  FROM Analysis WHERE motion_correction_v=0 ORDER BY trial,session,motion_correction_v ")
 
 myresult = mycursor.fetchall()
 data=[]

@@ -7,7 +7,7 @@ Created on Tue Feb  4 14:47:00 2020
 """
 
 import os
-import logging
+
 import datetime
 import numpy as np
 import pickle
@@ -178,13 +178,6 @@ def run_registration(input_file):
     timeline.append(['End',total_time])
     C_matrix = np.zeros((spatial_union.shape[1], total_time))
 
-    #new_assignments = np.zeros_like(assignments)
-    ##rename the assignments to the correct trial number
-    #for cell in range(assignments.shape[0]):
-    #    for trial in range(len(evaluated_trials)):
-    #        positions =np.where(assignments[cell]==trial)[0]
-    #        new_assignments[cell][positions]= np.ones_like(positions) * evaluated_trials[trial]
-
     new_assignments = np.zeros((spatial_union.shape[1],len(timeline)))
     for i in range(spatial_union.shape[1]):
         for j in range(assignments.shape[1]):
@@ -210,21 +203,10 @@ def run_registration(input_file):
             print(trial)
             if math.isnan(assignments[i, j]) == False:
                 C_matrix[i][timeline[trial][1]:timeline[trial][1]+C_dims_new[j][1]] =  (C_list[j])[int(assignments[i, j]), :]
-                #C_matrix[i][timeline[trial][1]:timeline[trial+1][1]] = (C_list[j])[int(assignments[i, j]), :]
 
-    #for i in range(new_assignments.shape[0]):
-    #    for j in range(new_assignments.shape[1]):
-    #        if new_assignments[i,j] != 0 and j in evaluated_trials:
-    #            list_value = evaluated_trials.index(j)
-    #            C_matrix[i][timeline[j][1]:timeline[j+1][1]] = (C_list[list_value])[int(new_assignments[i, j]), :]
-
-
-    cnm_registration = estimates(A = spatial_union,C = C_matrix)
+    cnm_registration = estimates(A=spatial_union, C=C_matrix)
     with open(output_file_path, 'wb') as output_file:
         pickle.dump(cnm_registration, output_file, pickle.HIGHEST_PROTOCOL)
 
-    for idx, row in df.iterrows():
-        df.loc[idx, 'registration_output'] = str(output)
-        df.loc[idx, 'registration_parameters'] = str(parameters)
 
-    return df
+    return

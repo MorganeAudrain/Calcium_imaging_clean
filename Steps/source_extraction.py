@@ -16,8 +16,6 @@ from Database.database_connection import database
 
 cursor = database.cursor()
 
-gSig = 5
-gSiz = 4 * gSig + 1
 
 def run_source_extraction(input_file, dview):
     """
@@ -26,7 +24,7 @@ def run_source_extraction(input_file, dview):
     perform source extraction on it using cnmf-e and save the cnmf object as a .pkl file.
     """
 
-    sql = "SELECT equalization,source_extraction_session_wise,fr,decay_time,min_corr,min_pnr,p,K,gSig,gSiz,merge_thr,rf,stride,tsub,ssub,p_tsub,p_ssub,low_rank_background,nb,nb_patch,ssub_B,init_iter,ring_size_factor,method_init,method_deconvolution,update_background_components,center_psf,border_pix,normalize_init,del_duplicates,only_init  FROM Analysis WHERE motion_correction_main =?  OR alignment_main = ? OR equalization_main =?"
+    sql = "SELECT equalization,source_extraction_session_wise,fr,decay_time,min_corr,min_pnr,p,K,gSig,merge_thr,rf,stride,tsub,ssub,p_tsub,p_ssub,low_rank_background,nb,nb_patch,ssub_B,init_iter,ring_size_factor,method_init,method_deconvolution,update_background_components,center_psf,border_pix,normalize_init,del_duplicates,only_init  FROM Analysis WHERE motion_correction_main =?  OR alignment_main = ? OR equalization_main =?"
     val = [input_file, input_file, input_file]
     cursor.execute(sql, val)
     result = cursor.fetchall()

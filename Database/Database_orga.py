@@ -73,7 +73,7 @@ for x in mycursor:
 
 #%% update the table Experimental
 
-sql= "UPDATE Analysis SET source_extraction_v=0 "
+sql= "UPDATE Analysis SET component_evaluation_v=0 "
 
 mycursor.execute(sql)
 

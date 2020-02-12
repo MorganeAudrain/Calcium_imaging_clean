@@ -9,15 +9,14 @@ import psutil
 from caiman.source_extraction.cnmf.cnmf import load_CNMF
 import logging
 import os
-
+import configuration
 from Database.database_connection import database
 
 mycursor = database.cursor()
 
-
 def run_component_evaluation(input_file, session_wise=False, equalization=False):
 
-    sql = "SELECT source_extraction_session_wise,min_SNR,alignment_main,equalization_main,motion_correction_meta,source_extraction_hdf5_file,source_extraction_mmap_file,rval_thr,use_cnn FROM Analysis WHERE source_extraction_main"
+    sql = "SELECT source_extraction_session_wise,min_SNR,alignment_main,equalization_main,motion_correction_meta,source_extraction_hdf5_file,source_extraction_mmap_file,rval_thr,use_cnn FROM Analysis WHERE source_extraction_main=?"
     val = [input_file, ]
     mycursor.execute(sql, val)
     myresult = mycursor.fetchall()
@@ -38,10 +37,10 @@ def run_component_evaluation(input_file, session_wise=False, equalization=False)
     parameters = {'min_SNR': data[1],'rval_thr': data[7],'use_cnn': data[8]}
 
     input_hdf5_file_path = data[5]
-    data_dir = os.environ['DATA_DIR'] + 'data/interim/component_evaluation/session_wise/' if \
-    data[0] else os.environ['DATA_DIR'] + 'data/interim/component_evaluation/trial_wise/'
+    data_dir = os.environ['DATA_DIR_LOCAL'] + 'data/interim/component_evaluation/session_wise/' if \
+    data[0] else os.environ['DATA_DIR_LOCAL'] + 'data/interim/component_evaluation/trial_wise/'
 
-    sql = "SELECT mouse,session,trial,is_rest,decoding_v,cropping_v,motion_correction_v,alignment_v,equalization_v,source_extraction_v,component_evaluation_v,input,home_path,decoding_main FROM Analysis WHERE cropping_main=? ORDER BY motion_correction_v"
+    sql = "SELECT mouse,session,trial,is_rest,decoding_v,cropping_v,motion_correction_v,alignment_v,equalization_v,source_extraction_v,component_evaluation_v,input,home_path,decoding_main FROM Analysis WHERE source_extraction_main=?"
     val = [input_file, ]
     mycursor.execute(sql, val)
     result = mycursor.fetchall()
@@ -74,7 +73,7 @@ def run_component_evaluation(input_file, session_wise=False, equalization=False)
     output_file_path_full= data_dir + output_file_path
 
     # Load CNMF object
-    cnm = load_CNMF(input_hdf5_file_path)
+    cnm = load_CNMF(output_file_path_full)
 
     # Load the original movie
     Yr, dims, T = cm.load_memmap(input_mmap_file_path)

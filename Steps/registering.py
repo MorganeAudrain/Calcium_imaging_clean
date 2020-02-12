@@ -46,7 +46,7 @@ def run_registration(input_file):
     Default method is registration with no modeling of distributions of centroids and spatial correlation.
 
     """
-    sql = "SELECT mouse,session,trial,is_rest,decoding_v,cropping_v,motion_correction_v,alignment_v,source_extraction_v,equalization_v,component_evaluation_v,registration_v FROM Analysis WHERE ?"
+    sql = "SELECT mouse,session,trial,is_rest,decoding_v,cropping_v,motion_correction_v,alignment_v,source_extraction_v,equalization_v,component_evaluation_v,registration_v FROM Analysis WHERE component_evaluation_main=?"
     val = [input_file, ]
     cursor.execute(sql, val)
     result = cursor.fetchall()
@@ -62,23 +62,18 @@ def run_registration(input_file):
     if data[11] == 0:
         data[11] = 1
         file_name = f"mouse_{data[0]}_session_{data[1]}_trial_{data[2]}.{data[3]}.v{data[4]}.{data[5]}.{data[6]}.{data[7]}.{data[9]}.{data[8]}.{data[10]}.{data[11]}"
-        output_meta_pkl_file_path = f'meta/metrics/{file_name}.pkl'
         sql1 = "UPDATE Analysis SET motion_correction_meta=?,motion_correction_v=? WHERE cropping_main=? "
-        val1 = [output_meta_pkl_file_path, data[6], cropping_file]
+        val1 = [file_name, data[11], input_file]
         cursor.execute(sql1, val1)
 
     else:
         data[6] += 1
         file_name = f"mouse_{data[0]}_session_{data[1]}_trial_{data[2]}.{data[3]}.v{data[4]}.{data[5]}.{data[6]}"
-        output_meta_pkl_file_path = f'meta/metrics/{file_name}.pkl'
         sql2 = "INSERT INTO Analysis (motion_correction_meta,motion_correction_v) VALUES (?,?)"
-        val2 = [output_meta_pkl_file_path, data[6]]
+        val2 = [file_name, data[11]]
         cursor.execute(sql2, val2)
         database.commit()
-        sql3 = "UPDATE Analysis SET decoding_main=?,decoding_v=?,mouse=?,session=?,trial=?,is_rest=?,input=?,home_path=?,cropping_v=?,cropping_main=? WHERE motion_correction_meta=? AND motion_correction_v=?"
-        val3 = [data[9], data[4], data[0], data[1], data[2], data[3], data[7], data[8], data[5], cropping_file,
-                output_meta_pkl_file_path, data[6]]
-        cursor.execute(sql3, val3)
+
     database.commit()
 
 

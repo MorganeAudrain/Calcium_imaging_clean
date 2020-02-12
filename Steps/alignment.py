@@ -27,10 +27,7 @@ def run_alignment(motion_corrected, dview):
     to do alignment.
 
     Args:
-        df: pd.DataFrame
-            A dataframe containing the analysis states you want to have aligned.
-        parameters: dict
-            The alignment parameters.
+        motion_corrected: input file
         dview: object
             The dview object
 
@@ -75,30 +72,21 @@ def run_alignment(motion_corrected, dview):
     database.commit()
 
     # Get necessary parameters
-    motion_correction_parameters_list = []
-    motion_correction_output_list = []
-    input_mmap_file_list = []
-    trial_index_list = []
-    x_ = []
-    _x = []
-    y_ = []
-    _y = []
-    for idx, row in df.iterrows():
-        motion_correction_parameters_list.append(eval(row.loc['motion_correction_parameters']))
-        motion_correction_output = eval(row.loc['motion_correction_output'])
-        motion_correction_output_list.append(motion_correction_output)
-        input_mmap_file_list.append(motion_correction_output['main'])
-        trial_index_list.append(db.get_trial_name(idx[2], idx[3]))
-        [x1,x2,y1,y2] = motion_correction_output['meta']['cropping_points']
-        x_.append(x1)
-        _x.append(x2)
-        y_.append(y1)
-        _y.append(y2)
+    sql = "SELECT motion_correction_cropping_points_x1, motion_correction_cropping_points_x2, motion_correction_cropping_points_y1, motion_correction_cropping_points_y2 FROM Analysis WHERE motion_correction_main=? "
+    val = [motion_corrected, ]
+    mycursor.execute(sql, val)
+    result = mycursor.fetchall()
+    para = []
+    inter = []
+    for x in result:
+        inter = x
+    for y in inter:
+        para.append(y)
 
-    new_x1 = max(x_)
-    new_x2 = max(_x)
-    new_y1 = max(y_)
-    new_y2 = max(_y)
+    new_x1 = max(para[0])
+    new_x2 = max(para[1])
+    new_y1 = max(para[2])
+    new_y2 = max(para[3])
     m_list = []
     for i in range(len(input_mmap_file_list)):
         m = cm.load(input_mmap_file_list[i])
@@ -110,12 +98,10 @@ def run_alignment(motion_corrected, dview):
     # Concatenate them using the concat function
     m_concat = cm.concatenate(m_list, axis=0)
     data_dir = os.environ['DATA_DIR'] + 'data/interim/alignment/main/'
-    file_name = db.create_file_name(step_index, index)
     fname= m_concat.save(data_dir + file_name + '.mmap', order='C')
 
     # MOTION CORRECTING EACH INDIVIDUAL MOVIE WITH RESPECT TO A TEMPLATE MADE OF THE FIRST MOVIE
-    logging.info(f'{alignment_index} Performing motion correction on all movies with respect to a template made of \
-    the first movie.')
+    logging.info('Performing motion correction on all movies with respect to a template made of the first movie.')
     t0 = datetime.datetime.today()
 
     # Create a template of the first movie
@@ -147,13 +133,11 @@ def run_alignment(motion_corrected, dview):
     movie= cm.load(mc.fname_tot_rig[0])
     # Crop all movies to those border pixels
     movie.crop(x_, _x, y_, _y, 0, 0)
-    output['meta']['cropping_points'] = [x_, _x, y_, _y]
 
-    #save motion corrected and cropped movie
-    output_mmap_file_path_tot = movie.save(data_dir + file_name  + '.mmap', order='C')
-    logging.info(f'{index} Cropped and saved rigid movie as {output_mmap_file_path_tot}')
-    # Save the path in teh output dictionary
-    output['main'] = output_mmap_file_path_tot
+    # save motion corrected and cropped movie
+    output_mmap_file_path_tot = movie.save(data_dir + file_name + '.mmap', order='C')
+    logging.info(f' Cropped and saved rigid movie as {output_mmap_file_path_tot}')
+
     # Remove the remaining non-cropped movie
     os.remove(mc.fname_tot_rig[0])
 
@@ -167,16 +151,11 @@ def run_alignment(motion_corrected, dview):
         timeline_pkl_file_path = os.environ['DATA_DIR'] + f'data/interim/alignment/meta/timeline/{file_name}.pkl'
         with open(timeline_pkl_file_path,'wb') as f:
             pickle.dump(timeline,f)
-    output['meta']['timeline'] = timeline_pkl_file_path
+
     timepoints.append(movie.shape[0])
 
     dt = int((datetime.datetime.today() - t0).seconds / 60)  # timedelta in minutes
-    output['meta']['duration']['concatenation'] = dt
-    logging.info(f'{alignment_index} Performed concatenation. dt = {dt} min.')
-
-    for idx, row in df.iterrows():
-        df.loc[idx, 'alignment_output'] = str(output)
-        df.loc[idx, 'alignment_parameters'] = str(parameters)
+    logging.info(f'Performed concatenation. dt = {dt} min.')
 
     ## modify all motion correction file to the aligned version
     data_dir = os.environ['DATA_DIR'] + 'data/interim/motion_correction/main/'
@@ -184,12 +163,10 @@ def run_alignment(motion_corrected, dview):
         row = df.iloc[i].copy()
         motion_correction_output_list.append(motion_correction_output)
         aligned_movie = movie[timepoints[i]:timepoints[i+1]]
-        file_name = db.create_file_name(2, selected_rows.iloc[i].name)
         motion_correction_output_aligned = aligned_movie.save(data_dir + file_name + '_els' + '.mmap',  order='C')
         new_output= {'main' : motion_correction_output_aligned }
         new_dict = eval(row['motion_correction_output'])
         new_dict.update(new_output)
         row['motion_correction_output'] = str(new_dict)
-        df = db.append_to_or_merge_with_states_df(df, row)
 
-    return df
+    return

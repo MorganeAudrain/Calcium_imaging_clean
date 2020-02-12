@@ -22,8 +22,8 @@ def run_equalizer(input_file, session_wise=False):
     with the already aligned videos or trial by trial. for trial by trial, a template is required.
     """
     # Take all the parameters needed for equalization
-    sql5 = "SELECT make_template_from_trial,gSig_filt,max_shifts,niter_rig,strides,overlaps,upsample_factor_grid,num_frames_split,max_deviation_rigid,shifts_opencv,use_conda,nonneg_movie, border_nan  FROM Analysis WHERE alignment_main=? "
-    val5 = [input_file, ]
+    sql5 = "SELECT make_template_from_trial,gSig_filt,max_shifts,niter_rig,strides,overlaps,upsample_factor_grid,num_frames_split,max_deviation_rigid,shifts_opencv,use_conda,nonneg_movie, border_nan  FROM Analysis WHERE alignment_main=? OR motion_correction_main =? "
+    val5 = [input_file,input_file ]
     cursor.execute(sql5, val5)
     myresult = cursor.fetchall()
     para = []
@@ -42,8 +42,8 @@ def run_equalizer(input_file, session_wise=False):
     # determine the output file
     output_tif_file_path = os.environ['DATA_DIR'] + f'data/interim/equalizer/main/'
     #determine the file name
-    sql = "SELECT mouse,session,trial,is_rest,decoding_v,cropping_v,motion_correction_v,alignment_v,equalization_v,input,home_path,decoding_main FROM Analysis WHERE alignment_main =?"
-    val = [input_file, ]
+    sql = "SELECT mouse,session,trial,is_rest,decoding_v,cropping_v,motion_correction_v,alignment_v,equalization_v,input,home_path,decoding_main FROM Analysis WHERE alignment_main =? Or motion_correction_main =?"
+    val = [input_file,input_file ]
     cursor.execute(sql, val)
     result = cursor.fetchall()
     data = []

@@ -16,7 +16,7 @@ mycursor = database.cursor()
 
 def run_component_evaluation(input_file, session_wise=False, equalization=False):
 
-    sql = "SELECT source_extraction_session_wise,min_SNR,alignment_main,equalization_main,motion_correction_meta,source_extraction_hdf5_file,source_extraction_mmap_file,rval_thr,use_cnn FROM Analysis WHERE source_extraction_main=?"
+    sql = "SELECT source_extraction_session_wise,min_SNR,alignment_main,equalization_main,motion_correction_meta,rval_thr,use_cnn FROM Analysis WHERE source_extraction_main=?"
     val = [input_file, ]
     mycursor.execute(sql, val)
     myresult = mycursor.fetchall()
@@ -36,7 +36,6 @@ def run_component_evaluation(input_file, session_wise=False, equalization=False)
 
     parameters = {'min_SNR': data[1],'rval_thr': data[7],'use_cnn': data[8]}
 
-    input_hdf5_file_path = data[5]
     data_dir = os.environ['DATA_DIR_LOCAL'] + 'data/interim/component_evaluation/session_wise/' if \
     data[0] else os.environ['DATA_DIR_LOCAL'] + 'data/interim/component_evaluation/trial_wise/'
 

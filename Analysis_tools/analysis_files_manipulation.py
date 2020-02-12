@@ -68,7 +68,7 @@ def get_corr_pnr(input_mmap_file_path, gSig=None):
     return output_tif_file_path
 
 
-def get_corr_pnr_path(index, gSig_abs=None):
+def get_corr_pnr_path(gSig_abs=None):
     os.chdir(os.environ['PROJECT_DIR'])
     corr_dir = 'data/interim/source_extraction/trial_wise/meta/corr'
     corr_path = None

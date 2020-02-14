@@ -11,7 +11,7 @@ from Steps.decoding import run_decoder as main_decoding
 from Steps.cropping import run_cropper as main_cropping
 from Steps.equalizer import run_equalizer as main_equalizing
 from Steps.motion_correction import run_motion_correction as main_motion_correction
-from Steps.alignment import run_alignment as main_alignment
+#from Steps.alignment import run_alignment as main_alignment
 from Steps.source_extraction import run_source_extraction as main_source_extraction
 from Steps.component_evaluation import run_component_evaluation as main_component_evaluation
 from Steps.registering import run_registration as main_registration
@@ -20,7 +20,7 @@ from Database.database_connection import database
 mycursor = database.cursor()
 
 
-def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, is_rest,dview):
+def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, is_rest, dview):
     """
     Function link with pipeline session wise for run every steps, or choose which steps you want to run
     Args:
@@ -40,7 +40,6 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, is_rest,dv
 
     # Cropping
     if n_steps == '1':
-
         print("You can choose the decoding version that you want to crop if you don't want to choose one particular enter None and the default value will be 1")
         decoding_v = input(" decoding version : ")
         if decoding_v == 'None':
@@ -65,8 +64,8 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, is_rest,dv
         for session in sessions:
             for i in range(init_trial, end_trial):
                 if cropping_v == 'None':
-                    sql = "SELECT cropping_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND decoding_v=? AND trial=? ORDER BY cropping_v"
-                    val = [mouse_number, session, is_rest, decoding_v, i]
+                    sql = "SELECT cropping_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND cropping_v=? AND trial=? ORDER BY cropping_v"
+                    val = [mouse_number, session, is_rest, cropping_v, i]
                     mycursor.execute(sql,val)
                     var = mycursor.fetchall()
                     cropping_v=[]
@@ -75,10 +74,13 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, is_rest,dv
                     cropping_v=cropping_v[0]
                 else:
                     cropping_v = int(cropping_v)
-                sql = "SELECT cropping_main FROM Analysis WHERE mouse=%s AND session= %s AND is_rest=%s AND decoding_v=%s AND cropping_v=%s AND trial=%s"
-                val = [mouse_number, session, is_rest, decoding_v, cropping_v, i]
+                sql = "SELECT cropping_main FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND cropping_v=? AND cropping_v=? AND trial=?"
+                val = [mouse_number, session, is_rest, cropping_v, cropping_v, i]
                 mycursor.execute(sql, val)
                 var = mycursor.fetchall()
+                for x in var:
+                    mouse_row = x
+                main_motion_correction(mouse_row[0],dview)
 
     # Alignment
     if n_steps == '3':

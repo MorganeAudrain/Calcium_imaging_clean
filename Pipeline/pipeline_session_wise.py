@@ -22,12 +22,12 @@ is_rest = int(input(" is-rest: "))
 print('Choose which steps you want to run: 0 -> decoding, 1 -> cropping, 2 -> motion correction, 3 -> alignment, 4 -> equalization, 5 -> source extraction, 6 -> component evaluation, 7 -> registration, all ->  every steps ')
 n_steps = input(' steps :')
 
-#%% start a cluster
+# start a cluster
 
 n_processes = psutil.cpu_count()
 c, dview, n_processes = cm.cluster.setup_cluster(backend='local', n_processes=n_processes, single_thread=False)
 
-#%% Run steps that you want
+# Run steps that you want
 
 run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, is_rest,dview)
 

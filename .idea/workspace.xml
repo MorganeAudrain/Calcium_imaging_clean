@@ -4,7 +4,10 @@
     <list default="true" id="25bccc4e-ed1b-4734-8005-829ad2bd59b4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Calcium_imaging.db" beforeDir="false" afterPath="$PROJECT_DIR$/Calcium_imaging.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/component_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/component_evaluation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_session_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_session_wise.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/alignment.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/alignment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/run_steps_session_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/run_steps_session_wise.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/run_steps_trial_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/run_steps_trial_wise.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -267,7 +270,9 @@
       <workItem from="1581081235092" duration="5093000" />
       <workItem from="1581325088792" duration="25375000" />
       <workItem from="1581444066262" duration="8112000" />
-      <workItem from="1581519675524" duration="2979000" />
+      <workItem from="1581519675524" duration="4608000" />
+      <workItem from="1581588510698" duration="2432000" />
+      <workItem from="1581671549932" duration="747000" />
     </task>
     <task id="LOCAL-00001" summary="upgrade">
       <created>1580144691280</created>
@@ -325,7 +330,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581526473418</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="upgrade v12">
+      <created>1581527065833</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1581527065833</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -341,7 +353,8 @@
     <MESSAGE value="upgrade v9" />
     <MESSAGE value="upgrade v10" />
     <MESSAGE value="upgrade v11" />
-    <option name="LAST_COMMIT_MESSAGE" value="upgrade v11" />
+    <MESSAGE value="upgrade v12" />
+    <option name="LAST_COMMIT_MESSAGE" value="upgrade v12" />
   </component>
   <component name="WindowStateProjectService">
     <state x="908" y="394" width="800" height="677" key="#SQL_Dialects" timestamp="1580899735739">
@@ -361,10 +374,10 @@
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
     <state x="1046" y="481" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1575889458681" />
-    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2" timestamp="1581526473327">
+    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2" timestamp="1581527065774">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581526473327" />
+    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581527065774" />
     <state x="3315" y="170" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580144878839" />
     <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl" timestamp="1580898603399">
       <screen x="2560" y="0" width="2560" height="1440" />
@@ -396,10 +409,10 @@
     </state>
     <state width="271" height="510" key="HiddenNamespacesPopup/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580906509966" />
     <state width="263" height="500" key="HiddenNamespacesPopup/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580896970633" />
-    <state x="3167" y="208" key="SettingsEditor" timestamp="1580898212493">
+    <state x="3167" y="208" key="SettingsEditor" timestamp="1581589174534">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="3167" y="208" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580898212493" />
+    <state x="3167" y="208" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581589174534" />
     <state x="3125" y="336" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580895479456" />
     <state x="3569" y="453" width="540" height="524" key="StructurePopup" timestamp="1580914520933">
       <screen x="2560" y="0" width="2560" height="1440" />
@@ -436,10 +449,10 @@
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
     <state x="962" y="451" width="700" height="530" key="recent.locations.popup/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1575626228737" />
-    <state x="3504" y="365" width="672" height="676" key="search.everywhere.popup" timestamp="1581068681943">
+    <state x="3504" y="365" width="672" height="676" key="search.everywhere.popup" timestamp="1581592551629">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="3504" y="365" width="672" height="676" key="search.everywhere.popup/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581068681943" />
+    <state x="3504" y="365" width="672" height="676" key="search.everywhere.popup/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581592551629" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

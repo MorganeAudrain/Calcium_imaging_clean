@@ -12,8 +12,7 @@ from Database.database_connection import database
 mycursor = database.cursor()
 
 
-
-def run_cropper(input_path):
+def run_cropper(input_path, parameters):
     """
     This function takes in a decoded analysis state and crops it according to
     specified cropping points.
@@ -27,7 +26,7 @@ def run_cropper(input_path):
     """
 
     # Determine output .tif file path
-    sql = "SELECT mouse,session,trial,is_rest,decoding_v,cropping_v,input,home_path FROM Analysis WHERE decoding_main=? ORDER BY cropping_v"
+    sql = "SELECT mouse,session,trial,is_rest,decoding_v,cropping_v,input,home_path FROM Analysis WHERE decoding_main=?"
     val = [input_path, ]
     mycursor.execute(sql, val)
     myresult = mycursor.fetchall()
@@ -66,19 +65,7 @@ def run_cropper(input_path):
     m = cm.load(input_path)
     logging.info('Loaded movie')
 
-    # Choose crop parameters
-    x1 = int(input("Limit X1 : "))
-    x2 = int(input("Limit X2 : "))
-    y1 = int(input("Limit Y1 : "))
-    y2 = int(input("Limit Y2 : "))
-    sql4 = "UPDATE Analysis SET crop_spatial=?,cropping_points_spatial_x1=?,cropping_points_spatial_x2=?,cropping_points_spatial_y1=?,cropping_points_spatial_y2=?,crop_temporal=?,cropping_points_temporal=? WHERE cropping_main=? AND cropping_v=? "
-    val4 = [True, x1, x2, y1, y2, False, None, output_tif_file_path, data[5]]
-    mycursor.execute(sql4, val4)
-    database.commit()
-    parameters_cropping = {'crop_spatial': True, 'cropping_points_spatial': [y1, y2, x1, x2],
-                           'crop_temporal': False, 'cropping_points_temporal': []}
-
-    [x_, _x, y_, _y] = [y1, y2, x1, x2]
+    [x_, _x, y_, _y] = parameters['cropping_points_spatial']
 
     logging.info('Performing spatial cropping')
     m = m[:, x_:_x, y_:_y]
@@ -87,7 +74,25 @@ def run_cropper(input_path):
     # Save the movie
     m.save(output_tif_file_path_full)
 
-    return output_tif_file_path, data[5], parameters_cropping
+    return output_tif_file_path, data[5]
+
+
+def cropping_interval(mouse):
+    """
+    This function ask the user for cropping parameters
+    """
+    # Choose crop parameters
+    x1 = int(input("Limit X1 : "))
+    x2 = int(input("Limit X2 : "))
+    y1 = int(input("Limit Y1 : "))
+    y2 = int(input("Limit Y2 : "))
+    sql = "UPDATE Analysis SET crop_spatial=?,cropping_points_spatial_x1=?,cropping_points_spatial_x2=?,cropping_points_spatial_y1=?,cropping_points_spatial_y2=?,crop_temporal=?,cropping_points_temporal=? WHERE mouse = ?"
+    val = [True, x1, x2, y1, y2, False, None, mouse]
+    mycursor.execute(sql, val)
+    database.commit()
+    parameters_cropping = {'crop_spatial': True, 'cropping_points_spatial': [y1, y2, x1, x2],
+                           'crop_temporal': False, 'cropping_points_temporal': []}
+    return parameters_cropping
 
 
 def cropping_segmentation(parameters_cropping):

@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25bccc4e-ed1b-4734-8005-829ad2bd59b4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/tools/name.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Calcium_imaging.db" beforeDir="false" afterPath="$PROJECT_DIR$/Calcium_imaging.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Database_orga.py" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Database_orga.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_session_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_session_wise.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/alignment.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/alignment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/cropping.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/cropping.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/motion_correction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/motion_correction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Steps/run_steps_session_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/run_steps_session_wise.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/run_steps_trial_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/run_steps_trial_wise.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +87,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Calcium_imaging_Experimental.csv" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../neural_analysis" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager" selected="Python.decoding">
@@ -273,6 +275,12 @@
       <workItem from="1581519675524" duration="4608000" />
       <workItem from="1581588510698" duration="2432000" />
       <workItem from="1581671549932" duration="747000" />
+      <workItem from="1581672895603" duration="59000" />
+      <workItem from="1581674301418" duration="1017000" />
+      <workItem from="1581930818644" duration="603000" />
+      <workItem from="1581943006156" duration="3852000" />
+      <workItem from="1581947608292" duration="25000" />
+      <workItem from="1581948099127" duration="20996000" />
     </task>
     <task id="LOCAL-00001" summary="upgrade">
       <created>1580144691280</created>
@@ -374,16 +382,16 @@
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
     <state x="1046" y="481" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1575889458681" />
-    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2" timestamp="1581527065774">
+    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2" timestamp="1581672367721">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581527065774" />
+    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581672367721" />
     <state x="3315" y="170" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580144878839" />
-    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl" timestamp="1580898603399">
+    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl" timestamp="1581956325742">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580898603399" />
-    <state x="1781" y="448" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580897296315" />
+    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581956325742" />
+    <state x="1781" y="448" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1581674424984" />
     <state width="1692" height="397" key="GridCell.Tab.0.bottom" timestamp="1580895728256">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
@@ -423,19 +431,19 @@
     </state>
     <state x="3734" y="604" width="367" height="230" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580898526813" />
     <state x="1210" y="620" width="367" height="230" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580897066939" />
-    <state x="3411" y="370" width="824" height="684" key="com.intellij.database.dbimport.ImportDialog" timestamp="1580898650871">
-      <screen x="2560" y="0" width="2560" height="1440" />
+    <state x="896" y="390" width="824" height="684" key="com.intellij.database.dbimport.ImportDialog" timestamp="1581674556344">
+      <screen x="67" y="27" width="2493" height="1413" />
     </state>
     <state x="3411" y="370" width="824" height="684" key="com.intellij.database.dbimport.ImportDialog/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580898650871" />
-    <state x="896" y="390" width="824" height="684" key="com.intellij.database.dbimport.ImportDialog/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580897305727" />
+    <state x="896" y="390" width="824" height="684" key="com.intellij.database.dbimport.ImportDialog/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1581674556344" />
     <state x="3593" y="546" width="484" height="344" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog" timestamp="1581441454783">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
     <state x="3593" y="546" width="484" height="344" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581441454783" />
-    <state x="4304" y="269" width="566" height="720" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1581526952247">
+    <state x="4304" y="269" width="566" height="720" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1581946586970">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="4304" y="269" width="566" height="720" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581526952247" />
+    <state x="4304" y="269" width="566" height="720" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581946586970" />
     <state x="1821" y="305" width="552" height="720" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580994519473" />
     <state x="969" y="560" key="com.intellij.ide.util.TipDialog" timestamp="1575889101373">
       <screen x="67" y="27" width="2493" height="1413" />

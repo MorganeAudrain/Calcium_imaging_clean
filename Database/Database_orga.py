@@ -73,7 +73,7 @@ for x in mycursor:
 
 #%% update the table Experimental
 
-sql= "UPDATE Analysis SET component_evaluation_v=0 "
+sql= "UPDATE Analysis SET motion_correction_meta=0 "
 
 mycursor.execute(sql)
 
@@ -89,9 +89,9 @@ print(mycursor.rowcount, "records(s) affected")
 mycursor.execute("")
 
 #%% check if data in column
-sql="SELECT * FROM Analysis WHERE decoding_main=?  OR cropping_main= ?"
+sql="SELECT pw_rigid FROM Analysis"
 val=['data/interim/decoding/main/mouse_32363_session_1_trial_2_1.tif','data/interim/decoding/main/mouse_32363_session_1_trial_2_1.tif']
-mycursor.execute(sql,val)
+mycursor.execute(sql)
 
 
 myresult = mycursor.fetchall()

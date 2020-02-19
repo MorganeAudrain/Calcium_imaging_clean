@@ -15,6 +15,7 @@ from Steps.motion_correction import run_motion_correction as main_motion_correct
 from Steps.source_extraction import run_source_extraction as main_source_extraction
 from Steps.component_evaluation import run_component_evaluation as main_component_evaluation
 from Steps.registering import run_registration as main_registration
+from Steps.cropping import cropping_interval
 from Database.database_connection import database
 
 mycursor = database.cursor()
@@ -36,7 +37,8 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, is_rest, d
     if n_steps == '0':
         for session in sessions:
             for trial in range(init_trial, end_trial):
-                main_decoding(mouse_number, session, trial, is_rest)
+                for is_rest in is_rest:
+                    main_decoding(mouse_number, session, trial, is_rest)
 
     # Cropping
     if n_steps == '1':
@@ -46,15 +48,18 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, is_rest, d
             decoding_v=1
         else:
             decoding_v=int(decoding_v)
+        print('Choose the cropping section for this mouse')
+        parameters_cropping = cropping_interval(mouse_number)
         for session in sessions:
             for i in range(init_trial, end_trial):
-                sql = "SELECT decoding_main FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND trial=? AND decoding_v= ?"
-                val = [mouse_number, session, is_rest, i, decoding_v]
-                mycursor.execute(sql, val)
-                var = mycursor.fetchall()
-                for x in var:
-                    mouse_row = x
-                main_cropping(mouse_row)
+                for is_rest in is_rest:
+                    sql = "SELECT decoding_main FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND trial=? AND decoding_v= ?"
+                    val = [mouse_number, session, is_rest, i, decoding_v]
+                    mycursor.execute(sql, val)
+                    var = mycursor.fetchall()
+                    for x in var:
+                        mouse_row = x
+                    main_cropping(mouse_row[0],parameters_cropping)
 
     # Motion correction
     if n_steps == '2':
@@ -63,24 +68,25 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, is_rest, d
 
         for session in sessions:
             for i in range(init_trial, end_trial):
-                if cropping_v == 'None':
-                    sql = "SELECT cropping_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND cropping_v=? AND trial=? ORDER BY cropping_v"
-                    val = [mouse_number, session, is_rest, cropping_v, i]
-                    mycursor.execute(sql,val)
+                for is_rest in range(0, 1):
+                    if cropping_v == 'None':
+                        sql = "SELECT cropping_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND cropping_v=? AND trial=? ORDER BY cropping_v"
+                        val = [mouse_number, session, is_rest, cropping_v, i]
+                        mycursor.execute(sql,val)
+                        var = mycursor.fetchall()
+                        cropping_v=[]
+                        for x in var:
+                            cropping_v = x
+                        cropping_v=cropping_v[0]
+                    else:
+                        cropping_v = int(cropping_v)
+                    sql = "SELECT cropping_main FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND cropping_v=? AND cropping_v=? AND trial=?"
+                    val = [mouse_number, session, is_rest, cropping_v, cropping_v, i]
+                    mycursor.execute(sql, val)
                     var = mycursor.fetchall()
-                    cropping_v=[]
                     for x in var:
-                        cropping_v = x
-                    cropping_v=cropping_v[0]
-                else:
-                    cropping_v = int(cropping_v)
-                sql = "SELECT cropping_main FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND cropping_v=? AND cropping_v=? AND trial=?"
-                val = [mouse_number, session, is_rest, cropping_v, cropping_v, i]
-                mycursor.execute(sql, val)
-                var = mycursor.fetchall()
-                for x in var:
-                    mouse_row = x
-                main_motion_correction(mouse_row[0],dview)
+                        mouse_row = x
+                    main_motion_correction(mouse_row[0],dview)
 
     # Alignment
     if n_steps == '3':
@@ -90,16 +96,17 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, is_rest, d
 
         for session in sessions:
             for i in range(init_trial, end_trial):
-                if cropping_v == 'None':
-                    sql = "SELECT cropping_v FROM Analysis WHERE mouse=%s AND session= %s AND is_rest=%s AND decoding_v=%s AND trial=%s ORDER BY cropping_v"
-                    val = [mouse_number, session, is_rest, decoding_v, i]
+                for is_rest in is_rest:
+                    if cropping_v == 'None':
+                        sql = "SELECT cropping_v FROM Analysis WHERE mouse=%s AND session= %s AND is_rest=%s AND decoding_v=%s AND trial=%s ORDER BY cropping_v"
+                        val = [mouse_number, session, is_rest, decoding_v, i]
 
-                else:
-                    cropping_v = int(cropping_v)
-                sql = "SELECT decoding_main FROM Analysis WHERE mouse=%s AND session= %s AND is_rest=%s AND decoding_v=%s AND cropping_v=%s AND trial=%s"
-                val = [mouse_number, session, is_rest, decoding_v, 1, i]
-                mycursor.execute(sql, val)
-                var = mycursor.fetchall()
+                    else:
+                        cropping_v = int(cropping_v)
+                    sql = "SELECT decoding_main FROM Analysis WHERE mouse=%s AND session= %s AND is_rest=%s AND decoding_v=%s AND cropping_v=%s AND trial=%s"
+                    val = [mouse_number, session, is_rest, decoding_v, 1, i]
+                    mycursor.execute(sql, val)
+                    var = mycursor.fetchall()
 
     # Equalization
     if n_steps == '4':

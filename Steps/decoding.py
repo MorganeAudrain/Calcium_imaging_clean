@@ -38,7 +38,7 @@ def run_decoder(mouse, session, trial, is_rest):
     input_raw_file_paths = input_raw_file[1] + input_raw_file[0] + '.raw'
 
     # create the correct name for the file
-    file_name = f"mouse_{mouse}_session_{session}_trial_{trial}_{is_rest}"
+    file_name = f"mouse_{mouse}_session_{session}_trial_{trial}_{is_rest}.v1"
     output_tif_file_path = f"data/interim/decoding/main/{file_name}.tif"
 
     # Decoder paths

@@ -21,7 +21,7 @@ from Database.database_connection import database
 mycursor = database.cursor()
 
 
-def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, is_rest, dview):
+def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
     """
     Function link with pipeline session wise for run every steps, or choose which steps you want to run
     Args:
@@ -37,7 +37,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, is_rest, d
     if n_steps == '0':
         for session in sessions:
             for trial in range(init_trial, end_trial):
-                for is_rest in is_rest:
+                for is_rest in [0,1]:
                     main_decoding(mouse_number, session, trial, is_rest)
 
     # Cropping
@@ -68,7 +68,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, is_rest, d
 
         for session in sessions:
             for i in range(init_trial, end_trial):
-                for is_rest in range(0, 1):
+                for is_rest in [0, 1]:
                     if cropping_v == 'None':
                         sql = "SELECT cropping_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND cropping_v=? AND trial=? ORDER BY cropping_v"
                         val = [mouse_number, session, is_rest, cropping_v, i]

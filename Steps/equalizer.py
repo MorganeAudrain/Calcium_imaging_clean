@@ -22,7 +22,7 @@ def run_equalizer(input_file, session_wise=False):
     with the already aligned videos or trial by trial. for trial by trial, a template is required.
     """
     # Take all the parameters needed for equalization
-    sql5 = "SELECT make_template_from_trial,gSig_filt,max_shifts,niter_rig,strides,overlaps,upsample_factor_grid,num_frames_split,max_deviation_rigid,shifts_opencv,use_conda,nonneg_movie, border_nan  FROM Analysis WHERE alignment_main=? OR motion_correction_main =? "
+    sql5 = "SELECT make_template_from_trial,equalizer,histogram_step FROM Analysis WHERE alignment_main=? OR motion_correction_main =? "
     val5 = [input_file,input_file ]
     cursor.execute(sql5, val5)
     myresult = cursor.fetchall()
@@ -32,12 +32,9 @@ def run_equalizer(input_file, session_wise=False):
         aux = x
     for y in aux:
         para.append(y)
-    parameters = {'make_template_from_trial': para[0], 'gSig_filt': (para[1], para[1]), 'max_shifts': (para[2], para[2]),
-                            'niter_rig': para[3],
-                            'strides': (para[4], para[4]), 'overlaps': (para[5], para[5]), 'upsample_factor_grid': para[6],
-                            'num_frames_split': para[7],
-                            'max_deviation_rigid': para[8], 'shifts_opencv': para[9], 'use_cuda': para[10], 'nonneg_movie': para[11],
-                            'border_nan': para[12]}
+    parameters_equalizer = {'make_template_from_trial': para[0], 'equalizer': para[1],
+                            'histogram_step': para[2]}
+
 
     # determine the output file
     output_tif_file_path = os.environ['DATA_DIR'] + f'data/interim/equalizer/main/'

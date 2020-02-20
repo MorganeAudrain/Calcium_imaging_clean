@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-@author: Sebastian,Casper,Melisa
+@author: Sebastian,Casper,Melisa, Morgane
 """
 
 import logging
@@ -19,63 +19,50 @@ import math
 import scipy
 import scipy.stats
 
-import src.data_base_manipulation as db
-import src.paths as paths
-from random import randint
+from Database.database_connection import database
 
-step_index = 3
+cursor = database.cursor()
 
 
-def run_alignmnet(selected_rows, parameters, dview):
-    '''
+def run_alignment(file, dview):
+    """
     This is the main function for the alignment step. It applies methods
     from the CaImAn package used originally in motion correction
     to do alignment.
 
-    Args:
-        df: pd.DataFrame
-            A dataframe containing the analysis states you want to have aligned.
-        parameters: dict
-            The alignment parameters.
-        dview: object
-            The dview object
+    """
 
-    Returns:
-        df: pd.DataFrame
-            A dataframe containing the aligned analysis states.
-    '''
+    sql = "SELECT mouse,session,trial,is_rest,decoding_v,cropping_v,motion_correction_v,alignment_v ,input,home_path,decoding_main,alignment_v FROM Analysis WHERE motion_correction_main"
+    val = [file, ]
+    cursor.execute(sql, val)
+    result = cursor.fetchall()
+    data = []
+    inter = []
+    for x in result:
+        inter = x
+    for y in inter:
+        data.append(y)
 
-    # Sort the dataframe correctly
-    df = selected_rows.copy()
-    df = df.sort_values(by=paths.multi_index_structure)
+    # Update the database
 
-    # Determine the mouse and session of the dataset
-    index = df.iloc[0].name
-    mouse, session, *r = index
-    # alignment_v = index[len(paths.data_structure) + step_index]
-    alignment_v = len(df)
-    alignment_index = (mouse, session, alignment_v)
+    if data[7] == 0:
+        data[7] = 1
+        file_name = f"mouse_{data[0]}_session_{data[1]}_trial_{data[2]}.{data[3]}.v{data[4]}.{data[5]}.{data[6]}"
+        sql1 = "UPDATE Analysis SET alignment_main=?,alignment_v=? WHERE cropping_main=? "
+        val1 = [file_name, data[7], file]
+        cursor.execute(sql1, val1)
+
+    else:
+        data[7] += 1
+        file_name = f"mouse_{data[0]}_session_{data[1]}_trial_{data[2]}.{data[3]}.v{data[4]}.{data[5]}.{data[6]}"
+        sql2 = "INSERT INTO Analysis (motion_correction_meta,motion_correction_v) VALUES (?,?)"
+        val2 = [file_name, data[7]]
+        cursor.execute(sql2, val2)
+
+    database.commit()
 
     # Determine the output .mmap file name
-    file_name = f'mouse_{mouse}_session_{session}_v{alignment_v}'
     output_mmap_file_path = os.environ['DATA_DIR'] + f'data/interim/alignment/main/{file_name}.mmap'
-
-    try:
-        df.reset_index()[['session','trial', 'is_rest']].set_index(['session','trial', 'is_rest'], verify_integrity=True)
-    except ValueError:
-        logging.error('You passed multiple of the same trial in the dataframe df')
-        return df
-
-    output = {
-        'meta': {
-            'analysis': {
-                'analyst': os.environ['ANALYST'],
-                'date': datetime.datetime.today().strftime("%m-%d-%Y"),
-                'time': datetime.datetime.today().strftime("%H:%M:%S")
-            },
-            'duration': {}
-        }
-    }
 
     # Get necessary parameters
     motion_correction_parameters_list = []
@@ -86,6 +73,12 @@ def run_alignmnet(selected_rows, parameters, dview):
     _x = []
     y_ = []
     _y = []
+    sql = "SELECT  FROM Analysis WHERE motion_correction_main"
+    val = [file, ]
+    cursor.execute(sql, val)
+    result = cursor.fetchall()
+    for x in result:
+
     for idx, row in df.iterrows():
         motion_correction_parameters_list.append(eval(row.loc['motion_correction_parameters']))
         motion_correction_output = eval(row.loc['motion_correction_output'])
@@ -115,12 +108,6 @@ def run_alignmnet(selected_rows, parameters, dview):
     data_dir = os.environ['DATA_DIR'] + 'data/interim/alignment/main/'
     file_name = db.create_file_name(step_index, index)
     fname= m_concat.save(data_dir + file_name + '.mmap', order='C')
-
-    #meta_pkl_dict['pw_rigid']['cropping_points'] = [x_, _x, y_, _y]
-    #output['meta']['cropping_points'] = [x_, _x, y_, _y]
-    # Save the movie
-    #fname_tot_els  = m_els.save(data_dir + 'main/' + file_name + '_els' + '.mmap',  order='C')
-    #logging.info(f'{index} Cropped and saved rigid movie as {fname_tot_els}')
 
     # MOTION CORRECTING EACH INDIVIDUAL MOVIE WITH RESPECT TO A TEMPLATE MADE OF THE FIRST MOVIE
     logging.info(f'{alignment_index} Performing motion correction on all movies with respect to a template made of \
@@ -200,9 +187,5 @@ def run_alignmnet(selected_rows, parameters, dview):
         new_dict.update(new_output)
         row['motion_correction_output'] = str(new_dict)
         df = db.append_to_or_merge_with_states_df(df, row)
-
-    #    # Delete the motion corrected movies
-    #    for fname in mc.fname_tot_rig:
-    #        os.remove(fname)
 
     return df

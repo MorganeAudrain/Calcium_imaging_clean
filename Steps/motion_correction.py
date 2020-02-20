@@ -164,6 +164,11 @@ def run_motion_correction(cropping_file, dview):
 
         os.remove(mc.fname_tot_rig[0])
 
+        sql = "UPDATE Analysis SET motion_correction_rig_role=? WHERE motion_correction_meta=? AND motion_correction_v=? "
+        val = [fname_tot_rig, output_meta_pkl_file_path, data[6]]
+        cursor.execute(sql, val)
+        database.commit()
+
     # If specified in the parameters, apply piecewise-rigid motion correction
     if parameters['pw_rigid'] == 1:
         logging.info(f' Performing piecewise-rigid motion correction')
@@ -209,13 +214,13 @@ def run_motion_correction(cropping_file, dview):
 
         os.remove(mc.fname_tot_els[0])
 
+        sql = "UPDATE Analysis SET  motion_correction_main=?, motion_correction_cropping_points_x1=?,motion_correction_cropping_points_x2=?,motion_correction_cropping_points_y1=?,motion_correction_cropping_points_y2=?,duration_pw_rigid=? WHERE motion_correction_meta=? AND motion_correction_v=? "
+        val = [fname_tot_els, x_, _x, y_, _y, dt, output_meta_pkl_file_path, data[6]]
+        cursor.execute(sql, val)
+        database.commit()
 
     # Write meta results dictionary to the pkl file
 
-    sql = "UPDATE Analysis SET motion_correction_rig_role=?, motion_correction_main=?, motion_correction_cropping_points_x1=?,motion_correction_cropping_points_x2=?,motion_correction_cropping_points_y1=?,motion_correction_cropping_points_y2=?,duration_pw_rigid=? WHERE motion_correction_meta=? AND motion_correction_v=? "
-    val = [fname_tot_rig, fname_tot_els, x_, _x, y_, _y, dt, output_meta_pkl_file_path, data[6]]
-    cursor.execute(sql, val)
-    database.commit()
 
     pkl_file = open(output_meta_pkl_file_path, 'wb')
     pickle.dump(meta_pkl_dict, pkl_file)

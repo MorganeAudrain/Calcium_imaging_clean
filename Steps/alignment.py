@@ -19,7 +19,7 @@ from Database.database_connection import database
 cursor = database.cursor()
 
 
-def run_alignment(mouse,sessions, dview):
+def run_alignment(mouse, sessions, dview):
     """
     This is the main function for the alignment step. It applies methods
     from the CaImAn package used originally in motion correction
@@ -27,24 +27,12 @@ def run_alignment(mouse,sessions, dview):
 
     """
     for session in sessions:
-        sql = "SELECT motion_correction_meta  FROM Analysis WHERE mouse = ? AND session=?"
-        val = [mouse, session]
-        cursor.execute(sql, val)
-        result = cursor.fetchall()
-        data = []
-        inter = []
-        for x in result:
-            inter += x
-        for y in inter:
-            data.append(y)
-
         # Update the database
 
         file_name = f"mouse_{mouse}_session_{session}_alignment"
         sql1 = "UPDATE Analysis SET alignment_main=? WHERE mouse = ? AND session=? "
         val1 = [file_name, mouse, session]
         cursor.execute(sql1, val1)
-
 
         # Determine the output .mmap file name
         output_mmap_file_path = os.environ['DATA_DIR_LOCAL'] + f'data/interim/alignment/main/{file_name}.mmap'
@@ -59,22 +47,49 @@ def run_alignment(mouse,sessions, dview):
         for y in inter:
             input_mmap_file_list.append(y)
 
-        sql = "SELECT motion_correction_cropping_points_x1,motion_correction_cropping_points_x2,motion_correction_cropping_points_y1,motion_correction_cropping_points_y2 FROM Analysis WHERE mouse = ? AND session=? AND trial=?"
-        val = [mouse, session, i]
+        sql = "SELECT motion_correction_cropping_points_x1 FROM Analysis WHERE mouse = ? AND session=? "
+        val = [mouse, session]
         cursor.execute(sql, val)
         result = cursor.fetchall()
         x_ = []
+        inter = []
+        for i in result:
+            inter += i
+        for j in range(0,len(inter)):
+            x_.append(inter[j])
+
+        sql = "SELECT motion_correction_cropping_points_x2 FROM Analysis WHERE mouse = ? AND session=? "
+        val = [mouse, session]
+        cursor.execute(sql, val)
+        result = cursor.fetchall()
         _x = []
-        y_ = []
+        inter = []
+        for i in result:
+            inter += i
+        for j in range(0,len(inter)):
+            _x.append(inter[j])
+
+        sql = "SELECT motion_correction_cropping_points_y1 FROM Analysis WHERE mouse = ? AND session=? "
+        val = [mouse, session]
+        cursor.execute(sql, val)
+        result = cursor.fetchall()
         _y = []
         inter = []
         for i in result:
             inter += i
-        for j in inter:
-            x_.append(j)
-            _x.append([j+1])
-            y_.append([j+2])
-            _y.append([j+3])
+        for j in range(0,len(inter)):
+            _y.append(inter[j])
+
+        sql = "SELECT motion_correction_cropping_points_y2 FROM Analysis WHERE mouse = ? AND session=? "
+        val = [mouse, session]
+        cursor.execute(sql, val)
+        result = cursor.fetchall()
+        y_ = []
+        inter = []
+        for i in result:
+            inter += i
+        for j in range(0,len(inter)):
+            y_.append(inter[j])
 
         new_x1 = max(x_)
         new_x2 = max(_x)
@@ -88,19 +103,34 @@ def run_alignment(mouse,sessions, dview):
 
         # Concatenate them using the concat function
         m_concat = cm.concatenate(m_list, axis=0)
-        data_dir = os.environ['DATA_DIR'] + 'data/interim/alignment/main/'
-        file_name = db.create_file_name(step_index, index)
-        fname= m_concat.save(data_dir + file_name + '.mmap', order='C')
+        fname = m_concat.save(output_mmap_file_path, order='C')
 
         # MOTION CORRECTING EACH INDIVIDUAL MOVIE WITH RESPECT TO A TEMPLATE MADE OF THE FIRST MOVIE
-        logging.info(f'{alignment_index} Performing motion correction on all movies with respect to a template made of \
-        the first movie.')
+        logging.info('Performing motion correction on all movies with respect to a template made of the first movie.')
         t0 = datetime.datetime.today()
-
+        # parameters alignment
+        sql5 = "SELECT make_template_from_trial,gSig_filt,max_shifts,niter_rig,strides,overlaps,upsample_factor_grid,num_frames_split,max_deviation_rigid,shifts_opencv,use_conda,nonneg_movie, border_nan  FROM Analysis WHERE alignment_main=? "
+        val5 = [file_name, ]
+        cursor.execute(sql5, val5)
+        myresult = cursor.fetchall()
+        para = []
+        aux = []
+        for x in myresult:
+            aux = x
+        for y in aux:
+            para.append(y)
+        parameters = {'make_template_from_trial': para[0], 'gSig_filt': (para[1], para[1]),
+                      'max_shifts': (para[2], para[2]),
+                      'niter_rig': para[3],
+                      'strides': (para[4], para[4]), 'overlaps': (para[5], para[5]), 'upsample_factor_grid': para[6],
+                      'num_frames_split': para[7],
+                      'max_deviation_rigid': para[8], 'shifts_opencv': para[9], 'use_cuda': para[10],
+                      'nonneg_movie': para[11],
+                      'border_nan': para[12]}
         # Create a template of the first movie
-        template_index = trial_index_list.index(parameters['make_template_from_trial'])
-        m0 = cm.load(input_mmap_file_list[template_index ])
-        [x1, x2, y1, y2] = motion_correction_output_list[template_index]['meta']['cropping_points']
+        template_index = parameters['make_template_from_trial']
+        m0 = cm.load(input_mmap_file_list[template_index])
+        [x1, x2, y1, y2] = [x_,_x,y_,_y]
         m0 = m0.crop(new_x1 - x1, new_x2 - x2, new_y1 - y1, new_y2 - y2, 0, 0)
         m0_filt = cm.movie(
             np.array([high_pass_filter_space(m_, parameters['gSig_filt']) for m_ in m0]))
@@ -123,52 +153,60 @@ def run_alignment(mouse,sessions, dview):
         _y = math.ceil(abs(np.array(mc.shifts_rig)[:, 0].min()) if np.array(mc.shifts_rig)[:, 0].min() < 0 else 0)
 
         # Load the motion corrected movie into memory
-        movie= cm.load(mc.fname_tot_rig[0])
+        movie = cm.load(mc.fname_tot_rig[0])
         # Crop all movies to those border pixels
         movie.crop(x_, _x, y_, _y, 0, 0)
-        output['meta']['cropping_points'] = [x_, _x, y_, _y]
+        sql1 = "UPDATE Analysis SET alignment_x1=?, alignment_x2 =?, alignment_y1=?, alignment_y2=? WHERE mouse = ? AND session=? "
+        val1 = [x_,_x,y_,_y, mouse, session]
+        cursor.execute(sql1, val1)
 
-        #save motion corrected and cropped movie
-        output_mmap_file_path_tot = movie.save(data_dir + file_name  + '.mmap', order='C')
-        logging.info(f'{index} Cropped and saved rigid movie as {output_mmap_file_path_tot}')
-        # Save the path in teh output dictionary
-        output['main'] = output_mmap_file_path_tot
+
+        # save motion corrected and cropped movie
+        output_mmap_file_path_tot = movie.save(data_dir + file_name + '.mmap', order='C')
+        logging.info(f' Cropped and saved rigid movie as {output_mmap_file_path_tot}')
         # Remove the remaining non-cropped movie
         os.remove(mc.fname_tot_rig[0])
 
         # Create a timeline and store it
+        sql = "SELECT trial FROM Analysis WHERE mouse = ? AND session=? "
+        val = [mouse, session]
+        cursor.execute(sql, val)
+        result = cursor.fetchall()
+        trial_index_list = []
+        inter = []
+        for i in result:
+            inter += i
+        for j in range(0,len(inter)):
+            trial_index_list.append(inter[j])
+
         timeline = [[trial_index_list[0], 0]]
         timepoints = [0]
         for i in range(1, len(m_list)):
             m = m_list[i]
             timeline.append([trial_index_list[i], timeline[i - 1][1] + m.shape[0]])
-            timepoints.append(timepoints[i-1]+ m.shape[0])
+            timepoints.append(timepoints[i - 1] + m.shape[0])
             timeline_pkl_file_path = os.environ['DATA_DIR'] + f'data/interim/alignment/meta/timeline/{file_name}.pkl'
-            with open(timeline_pkl_file_path,'wb') as f:
-                pickle.dump(timeline,f)
-        output['meta']['timeline'] = timeline_pkl_file_path
+            with open(timeline_pkl_file_path, 'wb') as f:
+                pickle.dump(timeline, f)
+        sql1 = "UPDATE Analysis SET alignment_timeline=? WHERE mouse = ? AND session=? "
+        val1 = [timeline_pkl_file_path, mouse, session]
+        cursor.execute(sql1, val1)
         timepoints.append(movie.shape[0])
 
         dt = int((datetime.datetime.today() - t0).seconds / 60)  # timedelta in minutes
-        output['meta']['duration']['concatenation'] = dt
-        logging.info(f'{alignment_index} Performed concatenation. dt = {dt} min.')
-
-        for idx, row in df.iterrows():
-            df.loc[idx, 'alignment_output'] = str(output)
-            df.loc[idx, 'alignment_parameters'] = str(parameters)
+        sql1 = "UPDATE Analysis SET alignment_duration_concatenation=? WHERE mouse = ? AND session=? "
+        val1 = [dt, mouse, session]
+        cursor.execute(sql1, val1)
+        logging.info(f' Performed concatenation. dt = {dt} min.')
 
         ## modify all motion correction file to the aligned version
         data_dir = os.environ['DATA_DIR'] + 'data/interim/motion_correction/main/'
         for i in range(len(input_mmap_file_list)):
-            row = df.iloc[i].copy()
-            motion_correction_output_list.append(motion_correction_output)
-            aligned_movie = movie[timepoints[i]:timepoints[i+1]]
-            file_name = db.create_file_name(2, selected_rows.iloc[i].name)
-            motion_correction_output_aligned = aligned_movie.save(data_dir + file_name + '_els' + '.mmap',  order='C')
-            new_output= {'main' : motion_correction_output_aligned }
-            new_dict = eval(row['motion_correction_output'])
-            new_dict.update(new_output)
-            row['motion_correction_output'] = str(new_dict)
-            df = db.append_to_or_merge_with_states_df(df, row)
+            aligned_movie = movie[timepoints[i]:timepoints[i + 1]]
+            motion_correction_output_aligned = aligned_movie.save(data_dir + file_name + '_els' + '.mmap', order='C')
+            sql1 = "UPDATE Analysis SET motion_correct_align=? WHERE motion_correction_meta=? "
+            val1 = [motion_correction_output_aligned, input_mmap_file_list[i]]
+            cursor.execute(sql1, val1)
 
-    return df
+    database.commit()
+    return

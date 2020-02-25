@@ -90,7 +90,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
 
     # Alignment
     if n_steps == '3':
-        main_alignment(mouse_number, session, init_trial, end_trial, dview)
+        main_alignment(mouse_number, sessions, dview)
 
     # Equalization
     if n_steps == '4':

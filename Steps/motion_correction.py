@@ -72,7 +72,7 @@ def run_motion_correction(cropping_file, dview):
                 output_meta_pkl_file_path, data[6]]
         cursor.execute(sql3, val3)
     database.commit()
-    output_meta_pkl_file_path = data_dir + output_meta_pkl_file_path
+    output_meta_pkl_file_path_full = data_dir + output_meta_pkl_file_path
 
     # Calculate movie minimum to subtract from movie
     cropping_file_full = os.environ['DATA_DIR_LOCAL'] + cropping_file
@@ -222,7 +222,7 @@ def run_motion_correction(cropping_file, dview):
     # Write meta results dictionary to the pkl file
 
 
-    pkl_file = open(output_meta_pkl_file_path, 'wb')
+    pkl_file = open(output_meta_pkl_file_path_full, 'wb')
     pickle.dump(meta_pkl_dict, pkl_file)
     pkl_file.close()
 

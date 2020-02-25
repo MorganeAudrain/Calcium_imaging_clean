@@ -133,7 +133,7 @@ def run_motion_correction(cropping_file, dview):
     val = [dt, output_meta_pkl_file_path, data[6]]
     cursor.execute(sql, val)
 
-    if parameters['save_movie_rig']==1:
+    if parameters['save_movie_rig'] == 1:
         # Load the movie saved by CaImAn, which is in the wrong
         # directory and is not yet cropped
 

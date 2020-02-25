@@ -11,7 +11,7 @@ from Steps.decoding import run_decoder as main_decoding
 from Steps.cropping import run_cropper as main_cropping
 from Steps.equalizer import run_equalizer as main_equalizing
 from Steps.motion_correction import run_motion_correction as main_motion_correction
-#from Steps.alignment import run_alignment as main_alignment
+from Steps.alignment import run_alignment as main_alignment
 from Steps.source_extraction import run_source_extraction as main_source_extraction
 from Steps.component_evaluation import run_component_evaluation as main_component_evaluation
 from Steps.registering import run_registration as main_registration
@@ -90,30 +90,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
 
     # Alignment
     if n_steps == '3':
-        print(
-            "You can choose the motion correction version that you want to align if you don't want to choose one particular enter None and the default value will be the latest version of cropping")
-        motion_correction_v = input(" motion correction version : ")
-        for session in sessions:
-            for i in range(init_trial, end_trial):
-                for is_rest in [0, 1]:
-                    if motion_correction_v == 'None':
-                        sql = "SELECT motion_correction_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND cropping_v=? AND trial=? ORDER BY cropping_v"
-                        val = [mouse_number, session, is_rest, cropping_v, i]
-                        mycursor.execute(sql,val)
-                        var = mycursor.fetchall()
-                        cropping_v=[]
-                        for x in var:
-                            motion_correction_v = x
-                        motion_correction_v=motion_correction_v[0]
-                    else:
-                        motion_correction_v = int(motion_correction_v)
-                    sql = "SELECT motion_correction_main FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND motion_correction_v=? AND  trial=?"
-                    val = [mouse_number, session, is_rest, motion_correction_v, i]
-                    mycursor.execute(sql, val)
-                    var = mycursor.fetchall()
-                    for x in var:
-                        mouse_row = x
-                    #main_alignment(mouse_row[0], dview)
+        main_alignment(mouse_number, session, init_trial, end_trial, dview)
 
     # Equalization
     if n_steps == '4':

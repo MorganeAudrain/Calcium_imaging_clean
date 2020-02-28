@@ -20,9 +20,6 @@ def run_cropper(input_path, parameters):
     Args:
         input_path the path of the decoding file
 
-    Returns
-        row: pd.DataFrame object
-            The row corresponding to the cropped analysis state.
     """
 
     # Determine output .tif file path

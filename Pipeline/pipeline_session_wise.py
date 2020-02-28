@@ -10,14 +10,12 @@ import psutil
 import caiman as cm
 
 
-print('Choose the mouse, session, how many trial and resting or non resting trial you want to analyse')
+print('Choose the mouse, session, how many trial you want to analyse')
 mouse_number = int(input("mouse number : "))
 sessions = input(" sessions : ")
 print('Number of trial from Steps.run_steps_session_wise import run_steps that you want to analyse, if you want to analyse only one trial enter the same number for the first trial and the final one')
 init_trial = int(input("begin with trial : "))
 end_trial = int(input(" final trial to analyse: "))
-#print('Choose if you want to the resting period (enter 1) or the non resting (enter 0) or both all')
-#is_rest = input(" is_rest: ")
 
 print('Choose which steps you want to run: 0 -> decoding, 1 -> cropping, 2 -> motion correction, 3 -> alignment, 4 -> equalization, 5 -> source extraction, 6 -> component evaluation, 7 -> registration, all ->  every steps ')
 n_steps = input(' steps :')

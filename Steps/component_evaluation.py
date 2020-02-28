@@ -16,7 +16,7 @@ mycursor = database.cursor()
 
 def run_component_evaluation(input_file, session_wise=False, equalization=False):
 
-    sql = "SELECT source_extraction_session_wise,min_SNR,alignment_main,equalization_main,motion_correction_meta,rval_thr,use_cnn FROM Analysis WHERE source_extraction_main=?"
+    sql = "SELECT source_extraction_session_wise,min_SNR,alignment_main,equalization_main,motion_correction_main,rval_thr,use_cnn FROM Analysis WHERE source_extraction_main=?"
     val = [input_file, ]
     mycursor.execute(sql, val)
     myresult = mycursor.fetchall()
@@ -34,7 +34,7 @@ def run_component_evaluation(input_file, session_wise=False, equalization=False)
     else:
         input_mmap_file_path = data[4]
 
-    parameters = {'min_SNR': data[1],'rval_thr': data[7],'use_cnn': data[8]}
+    parameters = {'min_SNR': data[1],'rval_thr': data[5],'use_cnn': data[6]}
 
     data_dir = os.environ['DATA_DIR_LOCAL'] + 'data/interim/component_evaluation/session_wise/' if \
     data[0] else os.environ['DATA_DIR_LOCAL'] + 'data/interim/component_evaluation/trial_wise/'
@@ -72,7 +72,7 @@ def run_component_evaluation(input_file, session_wise=False, equalization=False)
     output_file_path_full= data_dir + output_file_path
 
     # Load CNMF object
-    cnm = load_CNMF(output_file_path_full)
+    cnm = load_CNMF(input_mmap_file_path)
 
     # Load the original movie
     Yr, dims, T = cm.load_memmap(input_mmap_file_path)

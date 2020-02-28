@@ -36,7 +36,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
     # Decoding
     if n_steps == '0':
         for session in sessions:
-            for trial in range(init_trial, end_trial):
+            for trial in range(init_trial, (end_trial+1)):
                 for is_rest in [0, 1]:
                     main_decoding(mouse_number, session, trial, is_rest)
 
@@ -51,7 +51,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
         print('Choose the cropping section for this mouse')
         parameters_cropping = cropping_interval(mouse_number)
         for session in sessions:
-            for i in range(init_trial, end_trial):
+            for i in range(init_trial, (end_trial+1)):
                 for is_rest in [0, 1]:
                     sql = "SELECT decoding_main FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND trial=? AND decoding_v= ?"
                     val = [mouse_number, session, is_rest, i, decoding_v]
@@ -67,7 +67,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
         cropping_v = input(" cropping version : ")
 
         for session in sessions:
-            for i in range(init_trial, end_trial):
+            for i in range(init_trial, (end_trial+1)):
                 for is_rest in [0, 1]:
                     if cropping_v == 'None':
                         sql = "SELECT cropping_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND cropping_v=? AND trial=? ORDER BY cropping_v"
@@ -105,7 +105,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
 
 
         for session in sessions:
-            for i in range(init_trial, end_trial):
+            for i in range(init_trial, (end_trial+1)):
                 for is_rest in [0, 1]:
                     if motion_correction_v == 'None':
                         sql = "SELECT motion_correction_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND trial=? ORDER BY motion_correction_v"
@@ -157,7 +157,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
             "You can choose the equalization version that you want to motion correct if you don't want to choose one particular enter None and the default value will be the latest version of cropping")
         equalization_v = input(" equalization version : ")
         for session in sessions:
-            for i in range(init_trial, end_trial):
+            for i in range(init_trial, (end_trial+1)):
                 for is_rest in [0, 1]:
                     if motion_correction_v == 'None':
                         sql = "SELECT motion_correction_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND trial=? ORDER BY motion_correction_v"

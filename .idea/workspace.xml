@@ -2,16 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25bccc4e-ed1b-4734-8005-829ad2bd59b4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/calcium_analysis_checked_videos.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Analysis_tools/analysis_files_manipulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Analysis_tools/analysis_files_manipulation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Calcium_imaging.db" beforeDir="false" afterPath="$PROJECT_DIR$/Calcium_imaging.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/Database_orga.py" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Database_orga.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/alignment.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/alignment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/equalizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/equalizer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pipeline/pipeline_session_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pipeline/pipeline_session_wise.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/component_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/component_evaluation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/cropping.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/cropping.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Steps/run_steps_session_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/run_steps_session_wise.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/source_extraction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/source_extraction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/name.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/name.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -293,6 +290,8 @@
       <workItem from="1582636794813" duration="5903000" />
       <workItem from="1582709958964" duration="15933000" />
       <workItem from="1582811903535" duration="92000" />
+      <workItem from="1582880886539" duration="6577000" />
+      <workItem from="1582894794648" duration="1815000" />
     </task>
     <task id="LOCAL-00001" summary="upgrade">
       <created>1580144691280</created>
@@ -392,7 +391,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582643181029</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="update v20">
+      <created>1582881618715</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1582881618715</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -414,7 +420,8 @@
     <MESSAGE value="upgrade v15" />
     <MESSAGE value="upgrade v16" />
     <MESSAGE value="alignment function" />
-    <option name="LAST_COMMIT_MESSAGE" value="alignment function" />
+    <MESSAGE value="update v20" />
+    <option name="LAST_COMMIT_MESSAGE" value="update v20" />
   </component>
   <component name="WindowStateProjectService">
     <state x="908" y="394" width="800" height="677" key="#SQL_Dialects" timestamp="1580899735739">
@@ -434,10 +441,10 @@
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
     <state x="1046" y="481" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1575889458681" />
-    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2" timestamp="1582643180895">
+    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2" timestamp="1582881618584">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1582643180895" />
+    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1582881618584" />
     <state x="3315" y="170" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1582621804624" />
     <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl" timestamp="1582811975308">
       <screen x="2560" y="0" width="2560" height="1440" />

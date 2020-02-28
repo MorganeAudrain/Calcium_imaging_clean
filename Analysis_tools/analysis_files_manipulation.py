@@ -19,7 +19,7 @@ def get_corr_pnr(input_mmap_file_path, gSig=None):
 
     data_dir = 'data/interim/source_extraction/trial_wise/'
     if type(gSig) == type(None):
-        sql = "SELECT gSig FROM Analysis WHERE motion_correctioni_main=%s "
+        sql = "SELECT gSig FROM Analysis WHERE motion_correction_main=%s "
         val = [input_mmap_file_path, ]
         mycursor.execute(sql, val)
         myresult = mycursor.fetchall()
@@ -73,7 +73,6 @@ def get_corr_pnr_path(gSig_abs=None):
     corr_dir = 'data/interim/source_extraction/trial_wise/meta/corr'
     corr_path = None
     for path in os.listdir(corr_dir):
-        if fname in path:
             if gSig_abs == None:
                 corr_path = os.path.join(corr_dir, path)
             else:
@@ -82,7 +81,6 @@ def get_corr_pnr_path(gSig_abs=None):
     pnr_dir = 'data/interim/source_extraction/trial_wise/meta/pnr'
     pnr_path = None
     for path in os.listdir(pnr_dir):
-        if fname in path:
             if gSig_abs == None:
                 pnr_path = os.path.join(pnr_dir, path)
             else:

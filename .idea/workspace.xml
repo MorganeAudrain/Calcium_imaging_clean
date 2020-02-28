@@ -2,11 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25bccc4e-ed1b-4734-8005-829ad2bd59b4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/calcium_analysis_checked_videos.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Analysis_tools/analysis_files_manipulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Analysis_tools/analysis_files_manipulation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Calcium_imaging.db" beforeDir="false" afterPath="$PROJECT_DIR$/Calcium_imaging.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Database_orga.py" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Database_orga.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Steps/alignment.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/alignment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/motion_correction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/motion_correction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/equalizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/equalizer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Steps/run_steps_session_wise.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/run_steps_session_wise.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/source_extraction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/source_extraction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/name.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/name.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +89,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../dataman" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Downloads/sleep_deprivation_box-master" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager" selected="Python.decoding">
@@ -285,7 +290,9 @@
       <workItem from="1582217666335" duration="4000" />
       <workItem from="1582284263000" duration="612000" />
       <workItem from="1582540282096" duration="12530000" />
-      <workItem from="1582636794813" duration="4652000" />
+      <workItem from="1582636794813" duration="5903000" />
+      <workItem from="1582709958964" duration="15933000" />
+      <workItem from="1582811903535" duration="92000" />
     </task>
     <task id="LOCAL-00001" summary="upgrade">
       <created>1580144691280</created>
@@ -378,7 +385,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582621804726</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="alignment function">
+      <created>1582643181028</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1582643181029</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -399,7 +413,8 @@
     <MESSAGE value="upgrade v14" />
     <MESSAGE value="upgrade v15" />
     <MESSAGE value="upgrade v16" />
-    <option name="LAST_COMMIT_MESSAGE" value="upgrade v16" />
+    <MESSAGE value="alignment function" />
+    <option name="LAST_COMMIT_MESSAGE" value="alignment function" />
   </component>
   <component name="WindowStateProjectService">
     <state x="908" y="394" width="800" height="677" key="#SQL_Dialects" timestamp="1580899735739">
@@ -419,15 +434,15 @@
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
     <state x="1046" y="481" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1575889458681" />
-    <state x="3315" y="170" width="860" height="807" key="CommitChangelistDialog2" timestamp="1582621804624">
+    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2" timestamp="1582643180895">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1582204680985" />
+    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1582643180895" />
     <state x="3315" y="170" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1582621804624" />
-    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl" timestamp="1582636817814">
+    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl" timestamp="1582811975308">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1582636817814" />
+    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1582811975308" />
     <state x="1781" y="448" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1581674424984" />
     <state width="1692" height="397" key="GridCell.Tab.0.bottom" timestamp="1580895728256">
       <screen x="67" y="27" width="2493" height="1413" />

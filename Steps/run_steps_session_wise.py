@@ -90,6 +90,10 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
 
     # Alignment
     if n_steps == '3':
+        print(
+            "You can choose the motion correction version and the cropping version that you want to equalize, for this step you should always choose an version")
+        motion_correction_v = input(" motion correction version : ")
+        cropping_v=int(input("cropping version:"))
         main_alignment(mouse_number, sessions, dview)
 
     # Equalization
@@ -190,7 +194,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
                         equalization_v = int(equalization_v)
                     if alignment_v == 0:
                         if equalization_v ==0:
-                            sql = "SELECT motion_correction_meta FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND motion_correction_v=?  AND trial=?"
+                            sql = "SELECT motion_correction_main FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND motion_correction_v=?  AND trial=?"
                             val = [mouse_number, session, is_rest, motion_correction_v, i]
                             mycursor.execute(sql, val)
                             var = mycursor.fetchall()

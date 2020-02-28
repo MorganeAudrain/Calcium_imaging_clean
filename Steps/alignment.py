@@ -30,13 +30,13 @@ def run_alignment(mouse, sessions, dview):
         # Update the database
 
         file_name = f"mouse_{mouse}_session_{session}_alignment"
-        sql1 = "UPDATE Analysis SET alignment_main=? WHERE mouse = ? AND session=? "
+        sql1 = "UPDATE Analysis SET alignment_main=? WHERE mouse = ? AND session=? AND trial < 21"
         val1 = [file_name, mouse, session]
         cursor.execute(sql1, val1)
 
         # Determine the output .mmap file name
         output_mmap_file_path = os.environ['DATA_DIR_LOCAL'] + f'data/interim/alignment/main/{file_name}.mmap'
-        sql = "SELECT motion_correction_meta  FROM Analysis WHERE mouse = ? AND session=?"
+        sql = "SELECT motion_correction_main  FROM Analysis WHERE mouse = ? AND session=? AND trial < 21"
         val = [mouse, session]
         cursor.execute(sql, val)
         result = cursor.fetchall()
@@ -47,7 +47,7 @@ def run_alignment(mouse, sessions, dview):
         for y in inter:
             input_mmap_file_list.append(y)
 
-        sql = "SELECT motion_correction_cropping_points_x1 FROM Analysis WHERE mouse = ? AND session=? "
+        sql = "SELECT motion_correction_cropping_points_x1 FROM Analysis WHERE mouse = ? AND session=? AND trial < 21"
         val = [mouse, session]
         cursor.execute(sql, val)
         result = cursor.fetchall()
@@ -58,7 +58,7 @@ def run_alignment(mouse, sessions, dview):
         for j in range(0,len(inter)):
             x_.append(inter[j])
 
-        sql = "SELECT motion_correction_cropping_points_x2 FROM Analysis WHERE mouse = ? AND session=? "
+        sql = "SELECT motion_correction_cropping_points_x2 FROM Analysis WHERE mouse = ? AND session=?AND trial < 21 "
         val = [mouse, session]
         cursor.execute(sql, val)
         result = cursor.fetchall()
@@ -69,7 +69,7 @@ def run_alignment(mouse, sessions, dview):
         for j in range(0,len(inter)):
             _x.append(inter[j])
 
-        sql = "SELECT motion_correction_cropping_points_y1 FROM Analysis WHERE mouse = ? AND session=? "
+        sql = "SELECT motion_correction_cropping_points_y1 FROM Analysis WHERE mouse = ? AND session=? AND trial < 21 "
         val = [mouse, session]
         cursor.execute(sql, val)
         result = cursor.fetchall()
@@ -80,7 +80,7 @@ def run_alignment(mouse, sessions, dview):
         for j in range(0,len(inter)):
             _y.append(inter[j])
 
-        sql = "SELECT motion_correction_cropping_points_y2 FROM Analysis WHERE mouse = ? AND session=? "
+        sql = "SELECT motion_correction_cropping_points_y2 FROM Analysis WHERE mouse = ? AND session=? AND trial < 21"
         val = [mouse, session]
         cursor.execute(sql, val)
         result = cursor.fetchall()
@@ -98,7 +98,7 @@ def run_alignment(mouse, sessions, dview):
         m_list = []
         for i in range(len(input_mmap_file_list)):
             m = cm.load(input_mmap_file_list[i])
-            m = m.crop(new_x1 - x1, new_x2 - x2, new_y1 - y1, new_y2 - y2, 0, 0)
+            m = m.crop(new_x1 - x_[i], new_x2 - _x[i], new_y1 - y_[i], new_y2 - _y[i], 0, 0)
             m_list.append(m)
 
         # Concatenate them using the concat function
@@ -129,9 +129,10 @@ def run_alignment(mouse, sessions, dview):
                       'border_nan': para[12]}
         # Create a template of the first movie
         template_index = parameters['make_template_from_trial']
-        m0 = cm.load(input_mmap_file_list[template_index])
+        m0 = cm.load(input_mmap_file_list[1])
         [x1, x2, y1, y2] = [x_,_x,y_,_y]
-        m0 = m0.crop(new_x1 - x1, new_x2 - x2, new_y1 - y1, new_y2 - y2, 0, 0)
+        for i in range(len(input_mmap_file_list)):
+            m0 = m0.crop(new_x1 - x_[i], new_x2 - _x[i], new_y1 - y_[i], new_y2 - _y[i], 0, 0)
         m0_filt = cm.movie(
             np.array([high_pass_filter_space(m_, parameters['gSig_filt']) for m_ in m0]))
         template0 = cm.motion_correction.bin_median(

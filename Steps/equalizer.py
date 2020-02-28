@@ -32,7 +32,7 @@ def run_equalizer(input_file, session_wise=False):
         aux = x
     for y in aux:
         para.append(y)
-    parameters_equalizer = {'make_template_from_trial': para[0], 'equalizer': para[1],
+    parameters = {'make_template_from_trial': para[0], 'equalizer': para[1],
                             'histogram_step': para[2]}
 
 

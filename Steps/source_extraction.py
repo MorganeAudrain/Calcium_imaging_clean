@@ -24,7 +24,7 @@ def run_source_extraction(input_file, dview):
     perform source extraction on it using cnmf-e and save the cnmf object as a .pkl file.
     """
 
-    sql = "SELECT equalization,source_extraction_session_wise,fr,decay_time,min_corr,min_pnr,p,K,gSig,merge_thr,rf,stride,tsub,ssub,p_tsub,p_ssub,low_rank_background,nb,nb_patch,ssub_B,init_iter,ring_size_factor,method_init,method_deconvolution,update_background_components,center_psf,border_pix,normalize_init,del_duplicates,only_init  FROM Analysis WHERE motion_correction_meta =?  OR alignment_main = ? OR equalization_main =?"
+    sql = "SELECT equalization,source_extraction_session_wise,fr,decay_time,min_corr,min_pnr,p,K,gSig,merge_thr,rf,stride,tsub,ssub,p_tsub,p_ssub,low_rank_background,nb,nb_patch,ssub_B,init_iter,ring_size_factor,method_init,method_deconvolution,update_background_components,center_psf,border_pix,normalize_init,del_duplicates,only_init  FROM Analysis WHERE motion_correction_main =?  OR alignment_main = ? OR equalization_main =?"
     val = [input_file, input_file, input_file]
     cursor.execute(sql, val)
     result = cursor.fetchall()
@@ -54,7 +54,7 @@ def run_source_extraction(input_file, dview):
     else:
         data_dir = os.environ['DATA_DIR_LOCAL'] + 'data/interim/source_extraction/trial_wise/'
 
-    sql1 = "SELECT mouse,session,trial,is_rest,decoding_v,cropping_v,motion_correction_v,alignment_v,equalization_v,source_extraction_v,input,home_path,decoding_main FROM Analysis WHERE  motion_correction_meta =?  OR alignment_main = ? OR equalization_main =?"
+    sql1 = "SELECT mouse,session,trial,is_rest,decoding_v,cropping_v,motion_correction_v,alignment_v,equalization_v,source_extraction_v,input,home_path,decoding_main FROM Analysis WHERE  motion_correction_main =?  OR alignment_main = ? OR equalization_main =?"
     val1 = [input_file, input_file, input_file]
     cursor.execute(sql1, val1)
     result = cursor.fetchall()
@@ -87,13 +87,12 @@ def run_source_extraction(input_file, dview):
     database.commit()
 
     # Load memmory mappable input file
-    input_file= os.environ['DATA_DIR_LOCAL'] + 'data/interim/motion_correction/' + input_file
     if os.path.isfile(input_file):
         Yr, dims, T = cm.load_memmap(input_file)
         images = Yr.T.reshape((T,) + dims, order='F')
     else:
         logging.warning(f' .mmap file does not exist. Cancelling')
-        return
+
 
     # SOURCE EXTRACTION
     # Check if the summary images are already there

@@ -3,7 +3,6 @@
 import caiman as cm
 from caiman.source_extraction import cnmf
 from caiman.source_extraction.cnmf import params as params
-import Analysis_tools.analysis_files_manipulation as fm
 import datetime
 import caiman.base.rois
 import logging
@@ -96,7 +95,7 @@ def run_source_extraction(input_file, dview):
 
     # SOURCE EXTRACTION
     # Check if the summary images are already there
-    corr_npy_file_path, pnr_npy_file_path = fm.get_corr_pnr_path(gSig_abs=parameters['gSig'][0])
+    corr_npy_file_path, pnr_npy_file_path = get_corr_pnr_path(gSig_abs=parameters['gSig'][0])
 
     if corr_npy_file_path != None and os.path.isfile(corr_npy_file_path):
         # Already computed summary images
@@ -161,3 +160,26 @@ def run_source_extraction(input_file, dview):
     cursor.execute(sql1, val1)
 
     return output_file_path, data[9]
+
+
+def get_corr_pnr_path(gSig_abs=None):
+    os.chdir(os.environ['DATA_DIR_LOCAL'])
+    corr_dir = 'data/interim/source_extraction/trial_wise/meta/corr'
+    corr_path = None
+    for path in os.listdir(corr_dir):
+            if gSig_abs == None:
+                corr_path = os.path.join(corr_dir, path)
+            else:
+                if path[-5] == str(gSig_abs):
+                    corr_path = os.path.join(corr_dir, path)
+    pnr_dir = 'data/interim/source_extraction/trial_wise/meta/pnr'
+    pnr_path = None
+    for path in os.listdir(pnr_dir):
+            if gSig_abs == None:
+                pnr_path = os.path.join(pnr_dir, path)
+            else:
+                if path[-5] == str(gSig_abs):
+                    pnr_path = os.path.join(pnr_dir, path)
+
+    return corr_path, pnr_path
+

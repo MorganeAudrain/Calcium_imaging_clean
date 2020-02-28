@@ -5,7 +5,7 @@
 """
 #%% Importation and parameters
 
-from Steps.run_steps_session_wise import run_steps
+from Steps.run_steps import run_steps
 import psutil
 import caiman as cm
 

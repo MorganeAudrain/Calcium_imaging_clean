@@ -88,7 +88,7 @@ def cropping_interval(mouse):
     mycursor.execute(sql, val)
     database.commit()
     parameters_cropping = {'crop_spatial': True, 'cropping_points_spatial': [y1, y2, x1, x2],
-                           'crop_temporal': False, 'cropping_points_temporal': []}
+                           'crop_temporal': False, 'cropping_points_temporal': [], 'segmentation': True}
     return parameters_cropping
 
 

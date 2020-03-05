@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25bccc4e-ed1b-4734-8005-829ad2bd59b4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/behavioral_path.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/calcium_imaging_analysis-master.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/calcium_imaging_analysis-master.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Calcium_imaging.db" beforeDir="false" afterPath="$PROJECT_DIR$/Calcium_imaging.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Calcium_imaging.db-journal" beforeDir="false" afterPath="$PROJECT_DIR$/Calcium_imaging.db-journal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/cropping.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/cropping.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calcium_analysis_checked_videos.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/calcium_analysis_checked_videos.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/name.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/name.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +86,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Downloads/sleep_deprivation_box-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Downloads/Fwd%3a_%5bGroup-csicsvari%5d_Automatic_clustering_-_working_version_and_%28hopefully%29_easy_to_use" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="PyConsoleOptionsProvider">
@@ -299,6 +302,13 @@
       <workItem from="1582896868368" duration="238000" />
       <workItem from="1582897131142" duration="553000" />
       <workItem from="1582897835324" duration="1448000" />
+      <workItem from="1583144031326" duration="704000" />
+      <workItem from="1583145068424" duration="8000" />
+      <workItem from="1583150971048" duration="7335000" />
+      <workItem from="1583255656056" duration="64000" />
+      <workItem from="1583329293258" duration="780000" />
+      <workItem from="1583331086707" duration="83000" />
+      <workItem from="1583335937736" duration="1149000" />
     </task>
     <task id="LOCAL-00001" summary="upgrade">
       <created>1580144691280</created>
@@ -419,7 +429,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582897047742</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="update v23">
+      <created>1583144123367</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1583144123367</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -444,7 +461,8 @@
     <MESSAGE value="update v20" />
     <MESSAGE value="update v21" />
     <MESSAGE value="update v22" />
-    <option name="LAST_COMMIT_MESSAGE" value="update v22" />
+    <MESSAGE value="update v23" />
+    <option name="LAST_COMMIT_MESSAGE" value="update v23" />
   </component>
   <component name="WindowStateProjectService">
     <state x="908" y="394" width="800" height="677" key="#SQL_Dialects" timestamp="1580899735739">
@@ -464,15 +482,15 @@
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
     <state x="1046" y="481" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1575889458681" />
-    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2" timestamp="1582897047678">
+    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2" timestamp="1583144123256">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1582897047678" />
+    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1583144123256" />
     <state x="3315" y="170" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1582621804624" />
-    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl" timestamp="1582811975308">
+    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl" timestamp="1583329471007">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1582811975308" />
+    <state x="2893" y="394" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1583329471007" />
     <state x="1781" y="448" width="424" height="484" key="FileChooserDialogImpl/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1581674424984" />
     <state width="1692" height="397" key="GridCell.Tab.0.bottom" timestamp="1580895728256">
       <screen x="67" y="27" width="2493" height="1413" />
@@ -499,10 +517,10 @@
     </state>
     <state width="271" height="510" key="HiddenNamespacesPopup/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580906509966" />
     <state width="263" height="500" key="HiddenNamespacesPopup/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580896970633" />
-    <state x="3167" y="208" key="SettingsEditor" timestamp="1581589174534">
+    <state x="3167" y="208" key="SettingsEditor" timestamp="1583153556383">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="3167" y="208" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581589174534" />
+    <state x="3167" y="208" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1583153556383" />
     <state x="3125" y="336" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580895479456" />
     <state x="3569" y="453" width="540" height="524" key="StructurePopup" timestamp="1580914520933">
       <screen x="2560" y="0" width="2560" height="1440" />

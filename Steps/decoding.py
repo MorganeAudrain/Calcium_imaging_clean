@@ -11,7 +11,7 @@ from Database.database_connection import database
 mycursor = database.cursor()
 
 
-def run_decoder(mouse, session, trial, is_rest):
+def run_decoder(mouse, session, trial):
     """
 
     This is the function for the decoding step. In the decoding step
@@ -26,8 +26,8 @@ def run_decoder(mouse, session, trial, is_rest):
 
     """
 
-    sql = "SELECT input, home_path FROM Analysis WHERE mouse =? AND session = ? AND trial = ? AND is_rest =?"
-    val = (mouse, session, trial, is_rest)
+    sql = "SELECT input, home_path, is_rest FROM Analysis WHERE mouse =? AND session = ? AND trial = ?"
+    val = (mouse, session, trial)
     mycursor.execute(sql, val)
     result = mycursor.fetchall()
 
@@ -38,7 +38,7 @@ def run_decoder(mouse, session, trial, is_rest):
     input_raw_file_paths = input_raw_file[1] + input_raw_file[0] + '.raw'
 
     # create the correct name for the file
-    file_name = f"mouse_{mouse}_session_{session}_trial_{trial}_{is_rest}.v1"
+    file_name = f"mouse_{mouse}_session_{session}_trial_{trial}_{input_raw_file[2]}.v1"
     output_tif_file_path = f"data/interim/decoding/main/{file_name}.tif"
 
     # Decoder paths
@@ -64,7 +64,7 @@ def run_decoder(mouse, session, trial, is_rest):
     print('Decoding finished')
 
     sql1 = "UPDATE Analysis SET decoding_v = ?, decoding_main= ? WHERE mouse = ? AND session = ? AND trial = ? AND is_rest = ?"
-    val1 = (1, output_tif_file_path, mouse, session, trial, is_rest)
+    val1 = (1, output_tif_file_path, mouse, session, trial, input_raw_file[2])
     mycursor.execute(sql1, val1)
     database.commit()
 

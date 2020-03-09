@@ -327,7 +327,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
                     motion_correct_file, motion_correction_version = main_motion_correction(cropped_file, dview)
 
                     # Alignment
-                    aligned_file, alignment_version = main_alignment(motion_correct_file, dview)
+                    aligned_file, alignment_version = main_alignment(mouse_number,sessions, motion_correction_version, cropping_version, dview)
 
                     # Equalization
                     equalized_file, equalization_version = main_equalizing(aligned_file, session_wise=True)

@@ -38,8 +38,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
     if n_steps == '0':
         for session in sessions:
             for trial in range(init_trial, (end_trial+1)):
-                for is_rest in [0, 1]:
-                    main_decoding(mouse_number, session, trial, is_rest)
+                    main_decoding(mouse_number, session, trial)
 
     # Cropping
     if n_steps == '1':
@@ -73,8 +72,8 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
             for i in range(init_trial, (end_trial+1)):
                 for is_rest in [0, 1]:
                     if cropping_v == 'None':
-                        sql = "SELECT cropping_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND cropping_v=? AND trial=? ORDER BY cropping_v"
-                        val = [mouse_number, session, is_rest, cropping_v, i]
+                        sql = "SELECT cropping_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND trial=? ORDER BY cropping_v"
+                        val = [mouse_number, session, is_rest, i]
                         mycursor.execute(sql,val)
                         var = mycursor.fetchall()
                         cropping_v=[]
@@ -83,8 +82,8 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
                         cropping_v=cropping_v[0]
                     else:
                         cropping_v = int(cropping_v)
-                    sql = "SELECT cropping_main FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND cropping_v=? AND cropping_v=? AND trial=?"
-                    val = [mouse_number, session, is_rest, cropping_v, cropping_v, i]
+                    sql = "SELECT cropping_main FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND cropping_v=? AND trial=?"
+                    val = [mouse_number, session, is_rest, cropping_v, i]
                     mycursor.execute(sql, val)
                     var = mycursor.fetchall()
                     for x in var:
@@ -101,7 +100,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
             for i in range(init_trial, (end_trial+1)):
                 for is_rest in [0, 1]:
                     if cropping_v == 'None':
-                        sql = "SELECT cropping_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND cropping_v=? AND trial=? ORDER BY cropping_v"
+                        sql = "SELECT cropping_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND trial=? ORDER BY cropping_v"
                         val = [mouse_number, session, is_rest, cropping_v, i]
                         mycursor.execute(sql,val)
                         var = mycursor.fetchall()
@@ -263,48 +262,66 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
         source_extraction_v = input(" source extraction version : ")
 
         for session in sessions:
-            for i in range(init_trial, end_trial):
+            for i in range(init_trial, (end_trial+1)):
                 for is_rest in [0, 1]:
-                    if cropping_v == 'None':
-                        sql = "SELECT cropping_v FROM Analysis WHERE mouse=%s AND session= %s AND is_rest=%s AND decoding_v=%s AND trial=%s ORDER BY cropping_v"
-                        val = [mouse_number, session, is_rest, decoding_v, i]
-
+                    if source_extraction_v == 'None':
+                        sql = "SELECT source_extraction_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND trial=? ORDER BY source_extraction_v"
+                        val = [mouse_number, session, is_rest, i]
+                        mycursor.execute(sql, val)
+                        var = mycursor.fetchall()
+                        source_extraction = []
+                        for x in var:
+                            source_extraction= x
+                        source_extraction_v = source_extraction[0]
                     else:
-                        cropping_v = int(cropping_v)
-                    sql = "SELECT decoding_main FROM Analysis WHERE mouse=%s AND session= %s AND is_rest=%s AND decoding_v=%s AND cropping_v=%s AND trial=%s"
-                    val = [mouse_number, session, is_rest, decoding_v, 1, i]
+                        source_extraction_v = int(source_extraction_v)
+                    sql = "SELECT source_extraction_main FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND source_extraction_v=? AND trial=?"
+                    val = [mouse_number, session, is_rest, source_extraction_v, i]
                     mycursor.execute(sql, val)
                     var = mycursor.fetchall()
+                    for x in var:
+                        mouse_row = x
+                    main_component_evaluation(mouse_row[0])
 
     # Registration
     if n_steps == '7':
         print(
             "You can choose the component evaluation version that you want to motion correct if you don't want to choose one particular enter None and the default value will be the latest version of cropping")
         component_evaluation_v = input(" source extraction version : ")
-
         for session in sessions:
-            for i in range(init_trial, end_trial):
+            for i in range(init_trial, (end_trial+1)):
                 for is_rest in [0, 1]:
-                    if cropping_v == 'None':
-                        sql = "SELECT cropping_v FROM Analysis WHERE mouse=%s AND session= %s AND is_rest=%s AND decoding_v=%s AND trial=%s ORDER BY cropping_v"
-                        val = [mouse_number, session, is_rest, decoding_v, i]
-
+                    if component_evaluation_v == 'None':
+                        sql = "SELECT component_evaluation_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND trial=? ORDER BY component_evaluation_v"
+                        val = [mouse_number, session, is_rest, i]
+                        mycursor.execute(sql, val)
+                        var = mycursor.fetchall()
+                        component_evaluation = []
+                        for x in var:
+                            component_evaluation= x
+                        component_evaluation_v = component_evaluation[0]
                     else:
-                        cropping_v = int(cropping_v)
-                    sql = "SELECT decoding_main FROM Analysis WHERE mouse=%s AND session= %s AND is_rest=%s AND decoding_v=%s AND cropping_v=%s AND trial=%s"
-                    val = [mouse_number, session, is_rest, decoding_v, 1, i]
+                        component_evaluation_v = int(component_evaluation_v)
+                    sql = "SELECT component_evaluation_main FROM Analysis WHERE mouse=? AND session= ? AND is_rest=?  AND component_evaluation_v=? AND trial=?"
+                    val = [mouse_number, session, is_rest, component_evaluation_v, i]
                     mycursor.execute(sql, val)
                     var = mycursor.fetchall()
+                    for x in var:
+                        mouse_row = x
+                    main_registration(mouse_row[0])
     # Every steps
     if n_steps == 'all':
         for session in sessions:
-            for trial in range(init_trial, end_trial):
+            for trial in range(init_trial, (end_trial+1)):
                 for is_rest in [0, 1]:
                     # Decoding
-                    decoded_file = main_decoding(mouse_number, session, trial, is_rest)
+                    decoded_file = main_decoding(mouse_number, session, trial)
 
                     # Cropping
-                    cropped_file, cropping_version = main_cropping(decoded_file)
+                    parameters_cropping = cropping_interval(mouse_number)
+                    parameters_cropping_list = cropping_segmentation(parameters_cropping)
+                    for parameters_cropping_re in parameters_cropping_list:
+                        cropped_file, cropping_version = main_cropping(decoded_file,parameters_cropping_re)
 
                     # Motion correction
                     motion_correct_file, motion_correction_version = main_motion_correction(cropped_file, dview)

@@ -19,7 +19,7 @@ from Database.database_connection import database
 cursor = database.cursor()
 
 
-def run_alignment(mouse, sessions, dview):
+def run_alignment(mouse, sessions,motion_correction_v, cropping_v, dview):
     """
     This is the main function for the alignment step. It applies methods
     from the CaImAn package used originally in motion correction
@@ -30,14 +30,14 @@ def run_alignment(mouse, sessions, dview):
         # Update the database
 
         file_name = f"mouse_{mouse}_session_{session}_alignment"
-        sql1 = "UPDATE Analysis SET alignment_main=? WHERE mouse = ? AND session=? AND trial < 21"
-        val1 = [file_name, mouse, session]
+        sql1 = "UPDATE Analysis SET alignment_main=? WHERE mouse = ? AND session=? AND motion_correction_v =? AND cropping_v=? "
+        val1 = [file_name, mouse, session,motion_correction_v,cropping_v]
         cursor.execute(sql1, val1)
 
         # Determine the output .mmap file name
         output_mmap_file_path = os.environ['DATA_DIR_LOCAL'] + f'data/interim/alignment/main/{file_name}.mmap'
-        sql = "SELECT motion_correction_main  FROM Analysis WHERE mouse = ? AND session=? AND trial < 21"
-        val = [mouse, session]
+        sql = "SELECT motion_correction_main  FROM Analysis WHERE mouse = ? AND session=? AND motion_correction_v =? AND cropping_v=? "
+        val = [mouse, session,motion_correction_v,cropping_v]
         cursor.execute(sql, val)
         result = cursor.fetchall()
         input_mmap_file_list = []
@@ -47,8 +47,8 @@ def run_alignment(mouse, sessions, dview):
         for y in inter:
             input_mmap_file_list.append(y)
 
-        sql = "SELECT motion_correction_cropping_points_x1 FROM Analysis WHERE mouse = ? AND session=? AND trial < 21"
-        val = [mouse, session]
+        sql = "SELECT motion_correction_cropping_points_x1 FROM Analysis WHERE mouse = ? AND session=?AND motion_correction_v =? AND cropping_v=? "
+        val = [mouse, session,motion_correction_v,cropping_v]
         cursor.execute(sql, val)
         result = cursor.fetchall()
         x_ = []
@@ -58,8 +58,8 @@ def run_alignment(mouse, sessions, dview):
         for j in range(0,len(inter)):
             x_.append(inter[j])
 
-        sql = "SELECT motion_correction_cropping_points_x2 FROM Analysis WHERE mouse = ? AND session=?AND trial < 21 "
-        val = [mouse, session]
+        sql = "SELECT motion_correction_cropping_points_x2 FROM Analysis WHERE mouse = ? AND session=? AND motion_correction_v =? AND cropping_v=? "
+        val = [mouse, session,motion_correction_v,cropping_v]
         cursor.execute(sql, val)
         result = cursor.fetchall()
         _x = []
@@ -69,8 +69,8 @@ def run_alignment(mouse, sessions, dview):
         for j in range(0,len(inter)):
             _x.append(inter[j])
 
-        sql = "SELECT motion_correction_cropping_points_y1 FROM Analysis WHERE mouse = ? AND session=? AND trial < 21 "
-        val = [mouse, session]
+        sql = "SELECT motion_correction_cropping_points_y1 FROM Analysis WHERE mouse = ? AND session=? AND motion_correction_v =? AND cropping_v=?"
+        val = [mouse, session,motion_correction_v,cropping_v]
         cursor.execute(sql, val)
         result = cursor.fetchall()
         _y = []
@@ -80,8 +80,8 @@ def run_alignment(mouse, sessions, dview):
         for j in range(0,len(inter)):
             _y.append(inter[j])
 
-        sql = "SELECT motion_correction_cropping_points_y2 FROM Analysis WHERE mouse = ? AND session=? AND trial < 21"
-        val = [mouse, session]
+        sql = "SELECT motion_correction_cropping_points_y2 FROM Analysis WHERE mouse = ? AND session=? AND motion_correction_v =? AND cropping_v=?"
+        val = [mouse, session,motion_correction_v,cropping_v]
         cursor.execute(sql, val)
         result = cursor.fetchall()
         y_ = []
@@ -157,8 +157,8 @@ def run_alignment(mouse, sessions, dview):
         movie = cm.load(mc.fname_tot_rig[0])
         # Crop all movies to those border pixels
         movie.crop(x_, _x, y_, _y, 0, 0)
-        sql1 = "UPDATE Analysis SET alignment_x1=?, alignment_x2 =?, alignment_y1=?, alignment_y2=? WHERE mouse = ? AND session=? "
-        val1 = [x_,_x,y_,_y, mouse, session]
+        sql1 = "UPDATE Analysis SET alignment_x1=?, alignment_x2 =?, alignment_y1=?, alignment_y2=? WHERE mouse = ? AND session=? AND motion_correction_v =? AND cropping_v=?"
+        val1 = [x_,_x,y_,_y, mouse, session, motion_correction_v,cropping_v]
         cursor.execute(sql1, val1)
 
 
@@ -169,8 +169,8 @@ def run_alignment(mouse, sessions, dview):
         os.remove(mc.fname_tot_rig[0])
 
         # Create a timeline and store it
-        sql = "SELECT trial FROM Analysis WHERE mouse = ? AND session=? "
-        val = [mouse, session]
+        sql = "SELECT trial FROM Analysis WHERE mouse = ? AND session=? AND motion_correction_v =? AND cropping_v=?"
+        val = [mouse, session,motion_correction_v,cropping_v]
         cursor.execute(sql, val)
         result = cursor.fetchall()
         trial_index_list = []
@@ -189,14 +189,14 @@ def run_alignment(mouse, sessions, dview):
             timeline_pkl_file_path = os.environ['DATA_DIR'] + f'data/interim/alignment/meta/timeline/{file_name}.pkl'
             with open(timeline_pkl_file_path, 'wb') as f:
                 pickle.dump(timeline, f)
-        sql1 = "UPDATE Analysis SET alignment_timeline=? WHERE mouse = ? AND session=? "
-        val1 = [timeline_pkl_file_path, mouse, session]
+        sql1 = "UPDATE Analysis SET alignment_timeline=? WHERE mouse = ? AND session=?AND motion_correction_v =? AND cropping_v=? "
+        val1 = [timeline_pkl_file_path, mouse, session,motion_correction_v,cropping_v]
         cursor.execute(sql1, val1)
         timepoints.append(movie.shape[0])
 
         dt = int((datetime.datetime.today() - t0).seconds / 60)  # timedelta in minutes
-        sql1 = "UPDATE Analysis SET alignment_duration_concatenation=? WHERE mouse = ? AND session=? "
-        val1 = [dt, mouse, session]
+        sql1 = "UPDATE Analysis SET alignment_duration_concatenation=? WHERE mouse = ? AND session=?AND motion_correction_v =? AND cropping_v=? "
+        val1 = [dt, mouse, session,motion_correction_v,cropping_v]
         cursor.execute(sql1, val1)
         logging.info(f' Performed concatenation. dt = {dt} min.')
 
@@ -205,8 +205,8 @@ def run_alignment(mouse, sessions, dview):
         for i in range(len(input_mmap_file_list)):
             aligned_movie = movie[timepoints[i]:timepoints[i + 1]]
             motion_correction_output_aligned = aligned_movie.save(data_dir + file_name + '_els' + '.mmap', order='C')
-            sql1 = "UPDATE Analysis SET motion_correct_align=? WHERE motion_correction_meta=? "
-            val1 = [motion_correction_output_aligned, input_mmap_file_list[i]]
+            sql1 = "UPDATE Analysis SET motion_correct_align=? WHERE motion_correction_meta=? AND motion_correction_v"
+            val1 = [motion_correction_output_aligned, input_mmap_file_list[i],motion_correction_v]
             cursor.execute(sql1, val1)
 
     database.commit()

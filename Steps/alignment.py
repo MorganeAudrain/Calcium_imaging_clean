@@ -163,7 +163,7 @@ def run_alignment(mouse, sessions,motion_correction_v, cropping_v, dview):
 
 
         # save motion corrected and cropped movie
-        output_mmap_file_path_tot = movie.save(data_dir + file_name + '.mmap', order='C')
+        output_mmap_file_path_tot = movie.save(os.environ['DATA_DIR_LOCAL'] + f'data/interim/alignment/main/{file_name}.mmap', order='C')
         logging.info(f' Cropped and saved rigid movie as {output_mmap_file_path_tot}')
         # Remove the remaining non-cropped movie
         os.remove(mc.fname_tot_rig[0])

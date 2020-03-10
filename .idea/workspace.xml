@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25bccc4e-ed1b-4734-8005-829ad2bd59b4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tools/behavioral.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/calcium_imaging_analysis-master.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/calcium_imaging_analysis-master.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/Database_orga.py" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Database_orga.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steps/run_steps.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/run_steps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Calcium_imaging.db" beforeDir="false" afterPath="$PROJECT_DIR$/Calcium_imaging.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Calcium_imaging.db-journal" beforeDir="false" afterPath="$PROJECT_DIR$/Calcium_imaging.db-journal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps/alignment.py" beforeDir="false" afterPath="$PROJECT_DIR$/Steps/alignment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/name.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/name.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -337,7 +341,7 @@
       <workItem from="1583749410260" duration="243000" />
       <workItem from="1583764523204" duration="682000" />
       <workItem from="1583766160828" duration="155000" />
-      <workItem from="1583768752459" duration="7664000" />
+      <workItem from="1583768752459" duration="15928000" />
     </task>
     <task id="LOCAL-00001" summary="upgrade">
       <created>1580144691280</created>
@@ -486,7 +490,14 @@
       <option name="project" value="LOCAL" />
       <updated>1583772210231</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="correction error">
+      <created>1583778398915</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1583778398915</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -515,7 +526,8 @@
     <MESSAGE value="run_steps" />
     <MESSAGE value="correction" />
     <MESSAGE value="all option" />
-    <option name="LAST_COMMIT_MESSAGE" value="all option" />
+    <MESSAGE value="correction error" />
+    <option name="LAST_COMMIT_MESSAGE" value="correction error" />
   </component>
   <component name="WindowStateProjectService">
     <state x="908" y="394" width="800" height="677" key="#SQL_Dialects" timestamp="1580899735739">
@@ -527,18 +539,18 @@
     </state>
     <state x="3283" y="370" width="800" height="677" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1583777285119" />
     <state x="1562" y="385" width="800" height="668" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580897275499" />
-    <state x="3536" y="524" width="734" height="390" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1580827824269">
+    <state x="3536" y="524" width="734" height="390" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1583848924992">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="3536" y="524" width="734" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580827824269" />
+    <state x="3536" y="524" width="734" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1583848924992" />
     <state x="1046" y="481" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1575889458681">
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
     <state x="1046" y="481" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1575889458681" />
-    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2" timestamp="1583772210169">
+    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2" timestamp="1583778398849">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1583772210169" />
+    <state x="3405" y="315" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1583778398849" />
     <state x="3315" y="170" width="860" height="807" key="CommitChangelistDialog2/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1582621804624" />
     <state x="2893" y="394" width="501" height="484" key="FileChooserDialogImpl" timestamp="1583777410905">
       <screen x="2560" y="0" width="2560" height="1440" />
@@ -570,10 +582,10 @@
     </state>
     <state width="271" height="510" key="HiddenNamespacesPopup/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1580906509966" />
     <state width="263" height="500" key="HiddenNamespacesPopup/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1580896970633" />
-    <state x="3125" y="336" key="SettingsEditor" timestamp="1583768800984">
+    <state x="3167" y="208" key="SettingsEditor" timestamp="1583848501984">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="3167" y="208" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1583153556383" />
+    <state x="3167" y="208" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1583848501984" />
     <state x="3125" y="336" key="SettingsEditor/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1583768800984" />
     <state x="3569" y="453" width="540" height="524" key="StructurePopup" timestamp="1580914520933">
       <screen x="2560" y="0" width="2560" height="1440" />
@@ -614,10 +626,10 @@
       <screen x="67" y="27" width="2493" height="1413" />
     </state>
     <state x="962" y="451" width="700" height="530" key="recent.locations.popup/67.27.2493.1413/2560.0.2560.1440@67.27.2493.1413" timestamp="1575626228737" />
-    <state x="3504" y="365" width="672" height="676" key="search.everywhere.popup" timestamp="1581592551629">
+    <state x="3504" y="365" width="672" height="676" key="search.everywhere.popup" timestamp="1583832351994">
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
-    <state x="3504" y="365" width="672" height="676" key="search.everywhere.popup/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1581592551629" />
+    <state x="3504" y="365" width="672" height="676" key="search.everywhere.popup/67.27.2493.1413/2560.0.2560.1440@2560.0.2560.1440" timestamp="1583832351994" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

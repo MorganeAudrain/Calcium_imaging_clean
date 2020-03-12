@@ -53,7 +53,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
         parameters_cropping_list = cropping_segmentation(parameters_cropping)
         for session in sessions:
             for i in range(init_trial, (end_trial+1)):
-                for is_rest in [0, 1]:
+                for is_rest in range(0,2):
                     for parameters_cropping in parameters_cropping_list:
                         sql = "SELECT decoding_main FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND trial=? AND decoding_v= ?"
                         val = [mouse_number, session, is_rest, i, decoding_v]
@@ -70,7 +70,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
 
         for session in sessions:
             for i in range(init_trial, (end_trial+1)):
-                for is_rest in [0, 1]:
+                for is_rest in range(0,2):
                     if cropping_v == 'None':
                         sql = "SELECT cropping_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND trial=? ORDER BY cropping_v"
                         val = [mouse_number, session, is_rest, i]
@@ -98,7 +98,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
         cropping_v=input("cropping version:")
         for session in sessions:
             for i in range(init_trial, (end_trial+1)):
-                for is_rest in [0, 1]:
+                for is_rest in range(0,2):
                     if cropping_v == 'None':
                         sql = "SELECT cropping_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND trial=? ORDER BY cropping_v"
                         val = [mouse_number, session, is_rest, cropping_v, i]
@@ -133,7 +133,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
 
         for session in sessions:
             for i in range(init_trial, (end_trial+1)):
-                for is_rest in [0, 1]:
+                for is_rest in range(0,2):
                     if motion_correction_v == 'None':
                         sql = "SELECT motion_correction_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND trial=? ORDER BY motion_correction_v"
                         val = [mouse_number, session, is_rest, i]
@@ -185,7 +185,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
         equalization_v = input(" equalization version : ")
         for session in sessions:
             for i in range(init_trial, (end_trial+1)):
-                for is_rest in [0, 1]:
+                for is_rest in range(0,2):
                     if motion_correction_v == 'None':
                         sql = "SELECT motion_correction_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND trial=? ORDER BY motion_correction_v"
                         val = [mouse_number, session, is_rest, i]
@@ -263,7 +263,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
 
         for session in sessions:
             for i in range(init_trial, (end_trial+1)):
-                for is_rest in [0, 1]:
+                for is_rest in range(0,2):
                     if source_extraction_v == 'None':
                         sql = "SELECT source_extraction_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND trial=? ORDER BY source_extraction_v"
                         val = [mouse_number, session, is_rest, i]
@@ -290,7 +290,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
         component_evaluation_v = input(" source extraction version : ")
         for session in sessions:
             for i in range(init_trial, (end_trial+1)):
-                for is_rest in [0, 1]:
+                for is_rest in range(0,2):
                     if component_evaluation_v == 'None':
                         sql = "SELECT component_evaluation_v FROM Analysis WHERE mouse=? AND session= ? AND is_rest=? AND trial=? ORDER BY component_evaluation_v"
                         val = [mouse_number, session, is_rest, i]
@@ -313,7 +313,7 @@ def run_steps(n_steps, mouse_number, sessions, init_trial, end_trial, dview):
     if n_steps == 'all':
         for session in sessions:
             for trial in range(init_trial, (end_trial+1)):
-                for is_rest in [0, 1]:
+                for is_rest in range(0, 2):
                     # Decoding
                     decoded_file = main_decoding(mouse_number, session, trial)
 
